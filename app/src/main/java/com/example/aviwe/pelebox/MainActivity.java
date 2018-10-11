@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends Activity implements TextWatcher,CompoundButton.OnCheckedChangeListener
 {
+    //Declaration
     private EditText password,user_email;
     private Button btnLogin;
     private TextView requestPassword;
