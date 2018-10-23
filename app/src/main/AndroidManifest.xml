@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aviwe.pelebox">
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,13 +12,12 @@
     <application
         android:name=".logoutSessions.PeleboxActivity"
         android:allowBackup="true"
+        android:gravity="center"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:gravity="center"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">
@@ -29,8 +29,8 @@
         </activity>
         <activity
             android:name=".MediPackClientActivity"
-            android:label=" Parcel Information"
             android:icon="@drawable/logo"
+            android:label=" Parcel Information"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PatientInformationActivity"
@@ -110,18 +110,34 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".FilterActivity"></activity>
-
-        <activity android:name=".forgotPassword.RequestPasswordActivity"
+        <activity android:name=".FilterActivity" />
+        <activity
+            android:name=".forgotPassword.RequestPasswordActivity"
             android:label="Password Reset"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
-
+        <activity
+            android:name=".report.SevenDaysNonCollectionReport"
+            android:label="7 Days Over Due Parcels"
+            android:parentActivityName=".MediPackClientActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".report.TwentyFourHoursNonCollectionReport"
+            android:label="24Hours Over Due Parcels"
+            android:parentActivityName=".MediPackClientActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

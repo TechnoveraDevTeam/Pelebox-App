@@ -35,6 +35,8 @@ import com.example.aviwe.pelebox.pojos.MediPackClient;
 import com.example.aviwe.pelebox.report.CollectedParcelActivity;
 import com.example.aviwe.pelebox.report.ScanoutExpiredActivity;
 import com.example.aviwe.pelebox.report.ScanoutReadyCollectionActivity;
+import com.example.aviwe.pelebox.report.SevenDaysNonCollectionReport;
+import com.example.aviwe.pelebox.report.TwentyFourHoursNonCollectionReport;
 import com.example.aviwe.pelebox.search_parcel.SearchPatientActivity;
 
 import java.text.ParseException;
@@ -311,7 +313,7 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         }
         else if (id == R.id.expired_collection)
         {
-            Intent i = new Intent(MediPackClientActivity.this, ScanoutExpiredActivity.class);
+            Intent i = new Intent(MediPackClientActivity.this, TwentyFourHoursNonCollectionReport.class);
             startActivity(i);
         }
         else if(id == R.id.nav_logout)
@@ -337,7 +339,13 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         }
         else if(id == R.id.scannedout_collection)
         {
+//
             Intent i = new Intent(MediPackClientActivity.this, CollectedParcelActivity.class);
+            startActivity(i);
+        }
+        else if(id == R.id.sevenDays_expired_collection)
+        {
+            Intent i = new Intent(MediPackClientActivity.this, SevenDaysNonCollectionReport.class);
             startActivity(i);
         }
 

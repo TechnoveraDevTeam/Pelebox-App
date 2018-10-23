@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PeleBoxRepo-master.iml" filepath="$PROJECT_DIR$/PeleBoxRepo-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pelebox-App.iml" filepath="$PROJECT_DIR$/Pelebox-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
