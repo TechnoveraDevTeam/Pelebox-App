@@ -316,15 +316,19 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         }
         else if(id == R.id.nav_logout)
         {
-          if (MainActivity.loginType.equalsIgnoreCase("local"))
-          {
-              Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
-              startActivity(intent);
-          }
-          else
-          {
-              LogOUT(MainActivity.newtoken, String.valueOf(correctUserId));
-          }
+            Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
+            startActivity(intent);
+//          if (MainActivity.loginType.equalsIgnoreCase("local"))
+////          {
+////              Toast.makeText(MediPackClientActivity.this, "logout with local", Toast.LENGTH_SHORT).show();
+////              Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
+////              startActivity(intent);
+////          }
+////          else
+////          {
+////              Toast.makeText(MediPackClientActivity.this, " TOKEN FROM MAIN " + MainActivity.newtoken, Toast.LENGTH_SHORT).show();
+////              LogOUT(MainActivity.newtoken,String.valueOf(MainActivity.userloginid));
+////          }
         }
         else if(id == R.id.nav_searchparcel)
         {
