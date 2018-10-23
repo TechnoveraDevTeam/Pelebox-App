@@ -873,6 +873,94 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<MediPackClient> getTwentyfourHoursNonCollectedParcels()
+    {
+        ArrayList<MediPackClient> mediPacks = new ArrayList<MediPackClient>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT " + COLUMN_MEDIPACK_ID + ", " + COLUMN_FIRSTNAME + ", " +  COLUMN_LASTNAME + ", " + COLUMN_CELLPHONE  + ", " + COLUMN_BARCODE + ", " + COLUMN_RSA  + ", "
+                + COLUMN_DUE_DATE_TIME + " from " + TABLE_MED + " Where "
+                + COLUMN_DUE_DATE_TIME + " <  datetime('now' , '-24 hours') and " + COLUMN_DUE_DATE_TIME + " > datetime('now', '-7 days') and " + COLUMN_MEDIPACKSTATUSID + " = 2 ";
+
+//        String selectQuery =  "SELECT *   FROM " + TABLE_MED + " WHERE " +" ( " + COLUMN_MEDIPACKSTATUSID + " = " + '2' + " OR " +
+//                COLUMN_MEDIPACKSTATUSID + " = " + '3' + " ) "+ "AND " + COLUMN_DIRTY_FLAG + " > " + '1';
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                MediPackClient packs = new MediPackClient();
+                packs.setMediPackId(cursor.getInt(0));
+                packs.setPatientFisrtName((cursor.getString(1)));
+                packs.setPatientLastName(cursor.getString(2));
+                packs.setPatientCellphone(cursor.getString(3));
+                packs.setMediPackBarcode(cursor.getString(4));
+                packs.setPatientRSA(cursor.getString(5));
+//                packs.setManifestNumber(cursor.getString(6));
+//                packs.setDeviceId(cursor.getInt(7));
+//                packs.setInUserId(cursor.getInt(8));
+//                packs.setOutUserId(cursor.getInt(9));
+                packs.setMediPackDueDateTime(cursor.getString(6));
+//                packs.setScannedInDateTime(cursor.getString(11));
+//                packs.setScannedOutDateTime(cursor.getString(12));
+//                packs.setMediPackStatusId(cursor.getInt(13));
+//                packs.setDirtyFlag(cursor.getInt(14));
+                // Adding contact to list
+                mediPacks.add(packs);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return mediPacks;
+
+    }
+
+    public ArrayList<MediPackClient> getSevenDaysNonCollectedParcels()
+    {
+        ArrayList<MediPackClient> mediPacks = new ArrayList<MediPackClient>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT " + COLUMN_MEDIPACK_ID + ", " + COLUMN_FIRSTNAME + ", " +  COLUMN_LASTNAME + ", " + COLUMN_CELLPHONE  + ", " + COLUMN_BARCODE + ", " + COLUMN_RSA  + ", "
+                + COLUMN_DUE_DATE_TIME + " from " + TABLE_MED + " Where "
+                + COLUMN_DUE_DATE_TIME + " <  datetime('now' , '-7 days') and " + COLUMN_MEDIPACKSTATUSID + " = 2 ";
+
+// MediPackClient.MediPackDueDateTime <  datetime('now' , '-7 days')
+//
+// String selectQuery =  "SELECT *   FROM " + TABLE_MED + " WHERE " +" ( " + COLUMN_MEDIPACKSTATUSID + " = " + '2' + " OR " +
+//                COLUMN_MEDIPACKSTATUSID + " = " + '3' + " ) "+ "AND " + COLUMN_DIRTY_FLAG + " > " + '1';
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                MediPackClient packs = new MediPackClient();
+                packs.setMediPackId(cursor.getInt(0));
+                packs.setPatientFisrtName((cursor.getString(1)));
+                packs.setPatientLastName(cursor.getString(2));
+                packs.setPatientCellphone(cursor.getString(3));
+                packs.setMediPackBarcode(cursor.getString(4));
+                packs.setPatientRSA(cursor.getString(5));
+//                packs.setManifestNumber(cursor.getString(6));
+//                packs.setDeviceId(cursor.getInt(7));
+//                packs.setInUserId(cursor.getInt(8));
+//                packs.setOutUserId(cursor.getInt(9));
+                packs.setMediPackDueDateTime(cursor.getString(6));
+//                packs.setScannedInDateTime(cursor.getString(11));
+//                packs.setScannedOutDateTime(cursor.getString(12));
+//                packs.setMediPackStatusId(cursor.getInt(13));
+//                packs.setDirtyFlag(cursor.getInt(14));
+                // Adding contact to list
+                mediPacks.add(packs);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return mediPacks;
+
+    }
+
     //delete
     public void DeleteMediPackData(int mediPackId)
     {

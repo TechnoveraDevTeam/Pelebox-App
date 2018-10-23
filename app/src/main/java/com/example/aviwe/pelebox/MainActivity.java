@@ -28,6 +28,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.aviwe.pelebox.checkInternetConnection.ConnectionDetector;
 import com.example.aviwe.pelebox.forgotPassword.RequestPasswordActivity;
 import com.example.aviwe.pelebox.pojos.UserClient;
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.ParseException;
@@ -49,8 +51,9 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
     private boolean found = false;
 
     //for the toast
-    RelativeLayout holder;
-    TextView customText;
+    RelativeLayout holder, holder2;
+    TextView customText, customText2;
+
 
     private ProgressDialog dialog;
     static public CheckBox ckRemember;
@@ -97,7 +100,10 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
+        holder2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast2, (RelativeLayout)findViewById(R.id.customToast2));
+
         customText = (TextView) holder.findViewById(R.id.customToas_text);
+        customText2 = (TextView) holder2.findViewById(R.id.customToas_text2);
 
         //Allow single line to the fields
         password.setSingleLine(true);
@@ -179,10 +185,12 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             {
                                 LoginFromCloud();
                                 myHelper.DeleteUser(userid);
+//                                FancyToast.makeText(getApplicationContext(),"Hello World !",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
                             }
                             else
                             {
-                                customToast(" no internet connection");
+//                                customToast(" no internet connection");
+                                FancyToast.makeText(getApplicationContext(),"No network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
                             }
                         }
                     }
@@ -196,7 +204,9 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                         }
                         else
                         {
-                            customToast(" no internet connection");
+//                            customToast(" no internet connection");
+                            FancyToast.makeText(getApplicationContext(),"No Network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+//
                         }
                     }
                 }
@@ -256,6 +266,18 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         toast.show();
     }
 
+    public void customToast2(String message)
+    {
+        customText2.setText(message);
+        customText2.setTextSize(25);
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER | Gravity.BOTTOM,80,80);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(holder);
+        toast.show();
+    }
+
     public void LoginFromCloud()
     {
         final String email= user_email.getText().toString();
@@ -272,7 +294,10 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             //Login unsuccessfull
                             if (response.equalsIgnoreCase(stringValue))
                             {
-                                customToast("Entered email or passowrd is not correct");
+
+                                FancyToast.makeText(getApplication(), "Entered email or password is not correct", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                                //customToast("Entered email or password is not correct");
+                                //customToast2("Toast test");
                                 //customToast("Unauthorized access!");
                             }
                             else {

@@ -32,7 +32,12 @@
                 <item
                     android:id="@+id/expired_collection"
                     android:icon="@drawable/ic_event_note_black_24dp"
-                    android:title="Expired Parcels For Collection" />
+                    android:title="24Hours Over Due Parcels " />
+
+                <item
+                    android:id="@+id/sevenDays_expired_collection"
+                    android:icon="@drawable/ic_event_note_black_24dp"
+                    android:title="7 Days Over Due Parcels " />
 
                 <item
                     android:id="@+id/scannedout_collection"
