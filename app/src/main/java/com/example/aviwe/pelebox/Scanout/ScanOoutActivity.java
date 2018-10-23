@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ public class ScanOoutActivity extends AppCompatActivity {
     String intype, pinIntype;
     Button search;
     Button collect;
+    boolean valid = true;
 
     //for the toast
     RelativeLayout holder;
@@ -92,35 +94,49 @@ public class ScanOoutActivity extends AppCompatActivity {
                         customToast("Please check one of the radio buttons");
                         //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
                         return;
-                    } else {
-                        if (radioButton.getText().equals("Pin")) {
-                            intype = inputType1.getText().toString();
-                            pinIntype = edPin.getText().toString();
-                            validateInputedUserData();
-                        } else {
-                            intype = inputType1.getText().toString();
-                            validateIDInputFields();
-
-                            //Checking the length of the id
-                            int idLength = Integer.parseInt(String.valueOf(intype.length()));
-
-                            if (idLength == 15)
+                    } else
+                        {
+                        if (radioButton.getText().equals("Pin"))
+                        {
+                            if(validateInputedUserData() == true)
                             {
-                                //Substring the id
-                                String correctedId = intype.substring(1, 14);
-                                intype = correctedId;
-                                mediPackStatus(intype);
+                                intype = inputType1.getText().toString();
+                                pinIntype = edPin.getText().toString();
+
+                                customToast("No record found");
+
                             }
-                            else if (idLength == 13) {
-                                mediPackStatus(intype);
-                            }
-                            else
+                            closeKeyboard();
+
+                        }
+                        else {
+                            if(validateIDInputFields() == true)
                             {
-                                closeKeyboard();
-                                inputType1.setError("ID Number not valid");
-                                inputType1.setText("");
-                                return;
+                                intype = inputType1.getText().toString();
+                                validateIDInputFields();
+
+                                //Checking the length of the id
+                                int idLength = Integer.parseInt(String.valueOf(intype.length()));
+
+                                if (idLength == 15)
+                                {
+                                    //Substring the id
+                                    String correctedId = intype.substring(1, 14);
+                                    intype = correctedId;
+                                    mediPackStatus(intype);
+                                }
+                                else if (idLength == 13) {
+                                    mediPackStatus(intype);
+                                }
+                                else
+                                {
+                                    closeKeyboard();
+                                    inputType1.setError("ID Number not valid");
+                                    inputType1.setText("");
+                                    return;
+                                }
                             }
+                            closeKeyboard();
                         }
                     }
                 } else {
@@ -190,36 +206,88 @@ public class ScanOoutActivity extends AppCompatActivity {
 
         radioButton = findViewById(radioId);
 
-        if (radioButton.getText().equals("Pin")) {
+        if (radioButton.getText().equals("Pin"))
+        {
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.VISIBLE);
             inputType1.setHint("Enter Phone number");
             edPin.setHint("Enter Pin");
+            inputType1.setText("");
         } else {
             inputType1.setHint("Enter ID Number");
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.INVISIBLE);
+            inputType1.setText("");
+            edPin.setText("");
         }
     }
 
 
-    public void validateIDInputFields() {
-        if (intype.isEmpty()) {
-            inputType1.setError("Input field cannot be empty");
-            return;
+    public boolean validateIDInputFields()
+    {
+        intype = inputType1.getText().toString();
+
+        if (!intype.isEmpty())
+        {
         }
+        else
+        {
+            valid = false;
+            inputType1.setError("Please enter ID Number");
+        }
+
+        return valid;
     }
 
-    public void validateInputedUserData() {
-        if (intype.isEmpty()) {
-            inputType1.setError("Input field cannot be empty");
-            return;
+    public boolean validateInputedUserData()
+    {
+        intype = inputType1.getText().toString();
+        pinIntype = edPin.getText().toString();
+
+        if (!intype.isEmpty())
+        {
+        }
+        else
+        {
+            valid = false;
+            inputType1.setError("Please enter phone number");
         }
 
-        if (pinIntype.isEmpty()) {
-            edPin.setError("Input field cannot be empty");
-            return;
+        if (!pinIntype.isEmpty()) {
+            valid = true;
         }
+        else
+        {
+            valid = false;
+            edPin.setError("Please enter pin");
+        }
+
+        if(!TextUtils.isEmpty(intype))
+        {
+            if (isPhoneValid(intype) == false || intype.length() != 10)
+            {
+                valid = false;
+                inputType1.setError("Please enter valid phone numbers");
+            }
+            else
+            {
+                valid = true;
+            }
+        }
+
+        if(!TextUtils.isEmpty(pinIntype))
+        {
+            if (pinIntype.length() != 5) {
+                edPin.setError("Please enter a valid pin");
+                valid = false;
+            }
+            else
+            {
+
+            }
+        }
+
+        return valid;
     }
 
     @Override
@@ -312,6 +380,27 @@ public class ScanOoutActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+
+    //Method for validation the contact details
+    public boolean isPhoneValid(String phone)
+    {
+        boolean isValid = false;
+
+        String[] validNum = {"076","071","082","083","073","072","081","079","061","062","060","063","074","078","084","080","086","088","085","077","075","087","089"};
+
+        String num = phone.substring(0, 3);
+
+        for(int x = 0;x<validNum.length;x++)
+        {
+            if(num.equalsIgnoreCase(validNum[x]))
+            {
+                isValid = true;
+            }
+        }
+        return isValid;
+    }
+
 }
 
 
