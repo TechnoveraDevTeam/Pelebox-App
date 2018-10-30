@@ -41,8 +41,7 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twenty_four_hours_non_collection_report);
 
-//        adapter = new ReportAdapter(mediPackList);
-        adapter = new MediPackClientsAdapter(mediPackList);
+        adapter = new MediPackClientsAdapter(this,mediPackList,this);
 
         helper = new DataBaseHelpe(this);
         mRecyclerView = findViewById(R.id.parcel_ready_for_collection);
@@ -62,7 +61,6 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        myrecyclerview();
 
         for(MediPackClient user : mediPackList)
         {
@@ -71,38 +69,33 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         btnCount.setText(String.valueOf(countall));
         getAdapter(mediPackList);
 
-        //Sort by age functionlity
+
         btnSearchData.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                if (radioButton.getText().equals("0 to 17"))
+                if(radioButton.getText().equals("0 to 17"))
                 {
                     listID.clear();
                     count = 0;
 
-                    for (MediPackClient med : mediPackList)
+                    for(MediPackClient med : mediPackList)
                     {
                         patientId = med.getPatientRSA();
-                        checkingid = patientId.substring(0, 2);
-                        firstNumber = patientId.substring(0, 1);
-                        convert = Integer.parseInt(firstNumber);
+                        checkingid = patientId.substring(0,2);
+                        firstNumber = patientId.substring(0,1);
+                        convert=Integer.parseInt(firstNumber);
 
-                        if (convert == 0 || convert == 1)
+                        if(convert == 0 || convert == 1 )
                         {
                             addYear1 = "20";
-
-                            //Getting the year
                             mediPackPatientYear = addYear1 + checkingid;
-
-                            //Convert string year to int
                             convertYear = Integer.parseInt(mediPackPatientYear);
+                            patientAge  = getCurrentYear() - convertYear;
 
-                            //Calculating the age
-                            patientAge = getCurrentYear() - convertYear;
-
-                            if (patientAge >= 0 || patientAge <= 17) {
+                            if(patientAge >=0 || patientAge <= 17)
+                            {
                                 count++;
                                 listID.add(med);
                             }
@@ -111,18 +104,15 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
                     getAdapter(listID);
                     btnCount.setText(String.valueOf(count));
                 }
-                else if (radioButton.getText().equals("18 to 35"))
+                else if(radioButton.getText().equals("18 to 35"))
                 {
                     listID.clear();
                     counter = 0;
-                    for (MediPackClient med : mediPackList)
+                    for(MediPackClient med : mediPackList)
                     {
                         patientId = med.getPatientRSA();
-
                         checkingid = patientId.substring(0, 2);
-
                         firstNumber = patientId.substring(0, 1);
-
                         convert = Integer.parseInt(firstNumber);
 
                         if (convert == 0 || convert == 1)
@@ -132,19 +122,21 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
                             convertYear = Integer.parseInt(mediPackPatientYear);
                             patientAge = getCurrentYear() - convertYear;
 
-                            if (patientAge >= 18 && patientAge <= 35) {
+                            if (patientAge >= 18 && patientAge <= 35)
+                            {
                                 counter++;
                                 listID.add(med);
                             }
                         }
-                        else if (convert >= 2)
+                        else if(convert >=2)
                         {
+
                             addYear2 = 19;
                             mediPackPatientYear = addYear2 + checkingid;
                             convertYear = Integer.parseInt(mediPackPatientYear);
                             int patientAge = getCurrentYear() - convertYear;
 
-                            if (patientAge >= 18 && patientAge <= 35)
+                            if(patientAge >= 18 && patientAge <= 35)
                             {
                                 counter++;
                                 listID.add(med);
@@ -155,50 +147,49 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
                     getAdapter(listID);
                     btnCount.setText(String.valueOf(count));
                 }
-                else if (radioButton.getText().equals("36 to 65"))
+                else if(radioButton.getText().equals("36 to 65"))
                 {
                     listID.clear();
                     counter = 0;
-
                     for (MediPackClient med : mediPackList)
                     {
                         patientId = med.getPatientRSA();
-
                         checkingid = patientId.substring(0, 2);
-
                         firstNumber = patientId.substring(0, 1);
-
                         convert = Integer.parseInt(firstNumber);
 
-                        if (convert >= 2)
+                        if (convert >= 2 )
                         {
                             addYear1 = "19";
                             mediPackPatientYear = addYear1 + checkingid;
                             convertYear = Integer.parseInt(mediPackPatientYear);
                             patientAge = getCurrentYear() - convertYear;
 
-                            if (patientAge >= 36 && patientAge <= 65) {
+                            if (patientAge >= 36 && patientAge <= 65)
+                            {
                                 counter++;
                                 listID.add(med);
                             }
                         }
                         count = counter;
                     }
+
                     getAdapter(listID);
                     btnCount.setText(String.valueOf(count));
                 }
-                else if (radioButton.getText().equals("Above 65"))
+                else if(radioButton.getText().equals("Above 65"))
                 {
                     listID.clear();
                     counter = 0;
                     for (MediPackClient med : mediPackList)
                     {
                         patientId = med.getPatientRSA();
-
+                        //Cutting the is to get the first two numbers
                         checkingid = patientId.substring(0, 2);
 
                         firstNumber = patientId.substring(0, 1);
 
+                        //Getting the first number from the database
                         convert = Integer.parseInt(firstNumber);
 
                         if (convert >= 2 )
@@ -217,12 +208,15 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
                     }
                     getAdapter(listID);
                     btnCount.setText(String.valueOf(count));
+
                 }
-                else if (radioButton.getText().equals("All")) {
+                else if(radioButton.getText().equals("All"))
+                {
                     mediPackList.clear();
                     counter = 0;
                     mediPackList = helper.getTwentyfourHoursNonCollectedParcels();
-                    for (MediPackClient user : mediPackList) {
+                    for(MediPackClient user : mediPackList)
+                    {
                         counter++;
                     }
                     btnCount.setText(String.valueOf(counter));
@@ -231,44 +225,22 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
             }
         });
 
-
-        //Sorting by Gender functionality
         btnGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                if (radioButton.getText().equals("Female"))
-                {
-                    listID.clear();
-                    counter = 0;
-
-                    for (MediPackClient med : mediPackList)
-                    {
-                        patientId = med.getPatientRSA();
-
-                        checkingid = patientId.substring(6, 7);
-
-                        convert = Integer.parseInt(checkingid);
-                        if (convert >= 0 && convert <= 4) {
-                            counter++;
-                            listID.add(med);
-                        }
-                    }
-                    getAdapter(listID);
-                    btnCount.setText(String.valueOf(counter));
-
-                }
-                else if (radioButton.getText().equals("Male"))
+                if(radioButton.getText().equals("Female"))
                 {
                     listID.clear();
                     counter = 0;
                     for (MediPackClient med : mediPackList)
                     {
                         patientId = med.getPatientRSA();
-                        checkingid = patientId.substring(6, 7);
+                        checkingid = patientId.substring(6,7);
                         convert = Integer.parseInt(checkingid);
 
-                        if (convert >= 5 && convert <= 9) {
+                        if (convert >= 0 && convert <= 4)
+                        {
                             counter++;
                             listID.add(med);
                         }
@@ -276,12 +248,32 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
                     getAdapter(listID);
                     btnCount.setText(String.valueOf(counter));
                 }
-                else if (radioButton.getText().equals("All"))
+                else if(radioButton.getText().equals("Male"))
+                {
+                    listID.clear();
+                    counter = 0;
+                    for (MediPackClient med : mediPackList)
+                    {
+                        patientId = med.getPatientRSA();
+                        checkingid = patientId.substring(6,7);
+                        convert = Integer.parseInt(checkingid);
+
+                        if (convert >= 5 && convert <= 9)
+                        {
+                            counter++;
+                            listID.add(med);
+                        }
+                    }
+                    getAdapter(listID);
+                    btnCount.setText(String.valueOf(counter));
+                }
+                else if(radioButton.getText().equals("All"))
                 {
                     mediPackList.clear();
                     counter = 0;
                     mediPackList = helper.getTwentyfourHoursNonCollectedParcels();
-                    for (MediPackClient user : mediPackList) {
+                    for(MediPackClient user : mediPackList)
+                    {
                         counter++;
                     }
 
@@ -292,64 +284,46 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         });
     }
 
-
-    public void myrecyclerview()
+    public void checkButton(View v)
     {
-        mediPackList = new ArrayList<>();
-        mediPackList = helper.getTwentyfourHoursNonCollectedParcels();
-        Button medPackTotal = findViewById(R.id.btnCountSvn);
-        int count = 0;
-
-        for(MediPackClient user : mediPackList)
-        {
-            count++;
-        }
-
-        medPackTotal.setText(String.valueOf(count));
-//        adapter = new ReportAdapter(mediPackList);
-        adapter = new MediPackClientsAdapter(mediPackList);
-        adapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(adapter);
-    }
-
-    public void checkButton(View v) {
         radioid = ageRadioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioid);
 
-        if (radioButton.getText().equals("0 to 17")) {
-        } else if (radioButton.getText().equals("18 to 35")) {
-        } else if (radioButton.getText().equals("36 to 65")) {
-        } else if (radioButton.getText().equals("Above 65")) {
-        } else if (radioButton.getText().equals("All")) {
-        }
+        if(radioButton.getText().equals("0 to 17")) {}
+        else if(radioButton.getText().equals("18 to 35")) {}
+        else if(radioButton.getText().equals("36 to 65")) {}
+        else if(radioButton.getText().equals("Above 65")) {}
+        else if(radioButton.getText().equals("All")) {}
     }
 
-    public int getCurrentYear() {
+    public int getCurrentYear()
+    {
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 
         return year;
     }
 
-    public void getAdapter(ArrayList arrayList) {
-//        adapter = new ReportAdapter(arrayList);
-        adapter = new MediPackClientsAdapter(arrayList);
+    public void getAdapter(ArrayList arrayList)
+    {
+
+        adapter = new MediPackClientsAdapter(this,arrayList,this);
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }
 
-    //Checking the checked gender radio button
-    public void checkedGender(View view) {
-        radioid = genderRadioGroup.getCheckedRadioButtonId();
+    public void checkedGender(View view)
+    {
+        radioid= genderRadioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioid);
-        if (radioButton.getText().equals("Male")) {
-        } else if (radioButton.getText().equals("Female")) {
-        } else if (radioButton.getText().equals("All")) {
-        }
+        if(radioButton.getText().equals("Male")) {}
+        else if(radioButton.getText().equals("Female")) {}
+        else if(radioButton.getText().equals("All")) {}
     }
 
     @Override
     public void onBackPressed() {
+
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
@@ -357,7 +331,7 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         super.onBackPressed();
     }
 
-    @Override
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
 
@@ -385,6 +359,7 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
             }
         });
         return true;
+
     }
 
     @Override

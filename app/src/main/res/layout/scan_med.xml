@@ -88,7 +88,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/txtID"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/ic_check_black_24dp"
+            android:background="@drawable/ic_black_24dp"
             android:gravity="right"
             android:textColor="#10bcc9"
             android:textSize="15dip"

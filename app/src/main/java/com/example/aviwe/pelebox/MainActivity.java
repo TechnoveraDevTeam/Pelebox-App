@@ -125,6 +125,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
         //Login button functions
         btnLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view)
             {
@@ -168,7 +169,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                         //Condition : Verify token expired date time wih the current date time
                         if ( currentDate.getTime() < date.getTime())
                         {
-                           Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
+                          // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
                             newtoken = userClientVal.getToken();
                             user_name =userClientVal.getUserFirstName();
                             user_surname =userClientVal.getUserLastName();
@@ -365,7 +366,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
                                 newtoken = jsonObject.getString("Token");
                                 newTimeout = newTime;
-                                Toast.makeText(MainActivity.this, " cloud", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MainActivity.this, " cloud", Toast.LENGTH_SHORT).show();
                                 loginType="cloud";
 
                                 Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
@@ -579,7 +580,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             //Condition : Verify token expired date time wih the current date time
                             if ( currentDate.getTime() < date.getTime())
                             {
-                                Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
                                 newtoken = userClientVal.getToken();
                                 user_name =userClientVal.getUserFirstName();
                                 user_surname =userClientVal.getUserLastName();
@@ -596,7 +597,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             }
                             else
                             {
-                                customToast(" IN ELSE");
                                 if (connectionDetector.isNetworkAvailable())
                                 {
                                     LoginFromCloud();

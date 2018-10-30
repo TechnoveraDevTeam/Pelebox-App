@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Over Due Parcels"
+                android:text="24 Hours Over Due Parcels"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="28dp"
                 android:textStyle="bold" />

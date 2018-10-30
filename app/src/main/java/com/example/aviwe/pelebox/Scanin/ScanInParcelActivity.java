@@ -178,6 +178,7 @@ public class ScanInParcelActivity extends AppCompatActivity
                     }
 
                 });
+
     }
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
