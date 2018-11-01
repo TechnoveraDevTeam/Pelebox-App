@@ -37,6 +37,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     public static final String COLUMN_CELLPHONE = "PatientCellphone";
     public static final String COLUMN_BARCODE = "MediPackBarcode";
     public static final String COLUMN_RSA = "PatientRSA";
+   // private static final String COLUMN_PIN = "pin";
     public static final String COLUMN_MANIFEST = "ManifestNumber";
     public static final String COLUMN_DEVICEID = "DeviceId";
     public static final String COLUMN_INUSERID = "InUserId";
@@ -70,6 +71,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     public static final String COLUMN_DEVICE_LOCATION = "deviceLocation";
     public static final String COLUMN_DEVICE_DESCRIPTION = "deviceDescription";
     public static final String COLUMN_DEVICE_DIRTYFLAG = "deviceDirtyFlag";
+
 
     public Context mcontext;
     SQLiteDatabase db;
@@ -114,8 +116,12 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 COLUMN_SCANNEDINDATETIME + " TEXT , " +
                 COLUMN_SCANNEDOUTDATETIME + " TEXT , " +
                 COLUMN_MEDIPACKSTATUSID + " INTEGER , " +
+                //COLUMN_PIN + " INTEGER , " +
                 COLUMN_DIRTYFLAG + " INTEGER );"
         );
+
+
+        //db.execSQL("ALTER TABLE " + TABLE_MED + " ADD COLUMN "+ COLUMN_PIN + "INTEGER");
 
         db.execSQL(" CREATE TABLE " + TABLE_MED_DELETED + " (" +
                 COLUMN_MEDIPACK_ID + " INTEGER NOT NULL , " +
@@ -690,6 +696,57 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     //serach id number for scanning out the parcel
     public MediPackClient searchIdORPIin(String idNumber) {
         String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_RSA + " = " + idNumber + " AND " + COLUMN_MEDIPACKSTATUSID + " = " + 2 ;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        MediPackClient packs = new MediPackClient();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            packs.setMediPackId(cursor.getInt(0));
+            packs.setPatientFisrtName((cursor.getString(1)));
+            packs.setPatientLastName(cursor.getString(2));
+            packs.setPatientCellphone(cursor.getString(3));
+            packs.setMediPackBarcode(cursor.getString(4));
+            packs.setPatientRSA(cursor.getString(5));
+            packs.setManifestNumber(cursor.getString(6));
+            packs.setDeviceId(cursor.getInt(7));
+            packs.setInUserId(cursor.getInt(8));
+            packs.setOutUserId(cursor.getInt(9));
+            packs.setMediPackDueDateTime(cursor.getString(10));
+            packs.setScannedInDateTime(cursor.getString(11));
+            packs.setScannedOutDateTime(cursor.getString(12));
+            packs.setMediPackStatusId(cursor.getInt(13));
+            packs.setDirtyFlag(cursor.getInt(14));
+            cursor.close();
+        } else {
+            packs = null;
+        }
+
+        db.close();
+        return packs;
+    }
+
+    public void UpdateParcelForReturn(int medipackId)
+    {
+        db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_MED +
+                " SET " + COLUMN_MEDIPACKSTATUSID + " = '" + 5 +
+
+                "' WHERE " + COLUMN_MEDIPACK_ID+ " = \"" + medipackId + "\""
+                ;
+        db.execSQL(query);
+        db.close();
+    }
+
+
+    //serach cellphone and pin for scanning out the parcel
+    public MediPackClient searchPin(String cellphone) {
+        String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " = " + cellphone;
+       // String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " = " + cellphone ;
+                //+ COLUMN_PIN + " = '" + pin + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
 
