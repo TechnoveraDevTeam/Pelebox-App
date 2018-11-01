@@ -7,7 +7,7 @@ public class MediPackClient implements Serializable
 {
     private int MediPackId;
     private String PatientFisrtName,PatientLastName,PatientCellphone,MediPackBarcode,PatientRSA,ManifestNumber,ScannedInDateTime,ScannedOutDateTime,MediPackDueDateTime;
-    private int DeviceId,inUserId,OutUserId,DirtyFlag,MediPackStatusId;
+    private int DeviceId,inUserId,OutUserId,DirtyFlag,MediPackStatusId,Pin;
 
     public MediPackClient() {
     }
@@ -22,13 +22,22 @@ public class MediPackClient implements Serializable
     }
     public MediPackClient( String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode) {
 
+    PatientFisrtName = patientFisrtName;
+    PatientLastName = patientLastName;
+    PatientCellphone = patientCellphone;
+    MediPackBarcode = mediPackBarcode;
+
+}
+
+    public MediPackClient( String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode,int pin) {
+
         PatientFisrtName = patientFisrtName;
         PatientLastName = patientLastName;
         PatientCellphone = patientCellphone;
         MediPackBarcode = mediPackBarcode;
+        Pin = pin;
 
     }
-
     public MediPackClient(int mediPackId, String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode,int MediDays) {
         MediPackId = mediPackId;
         PatientFisrtName = patientFisrtName;
