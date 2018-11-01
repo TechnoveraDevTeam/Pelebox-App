@@ -11,9 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.aviwe.pelebox.MainActivity;
-import com.example.aviwe.pelebox.MediPackClientActivity;
 import com.example.aviwe.pelebox.MediPackClientsAdapter;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
@@ -71,9 +68,6 @@ public class SearchPatientActivity extends AppCompatActivity {
         btnSearchParcel = findViewById(R.id.search);
         searchGroup = findViewById(R.id.radioGroup);
 
-        //TRYING SOMETHING OUT 24-10-2018
-        edtParcelSearch.setOnEditorActionListener(editorActionListener);
-
         //Initiatiating the database helper and recycler view
         helper = new DataBaseHelpe(this);
         mRecyclerView = findViewById(R.id.parcel_ready_for_collection);
@@ -104,6 +98,16 @@ public class SearchPatientActivity extends AppCompatActivity {
                 if (ConstantMethods.validateTime() == true)
                 {
                     strSearch = edtParcelSearch.getText().toString();
+                    if (searchGroup.getCheckedRadioButtonId() == -1)
+                    {
+                        customToast("Please check one of the radio buttons");
+                        //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else
+                        {
+
+
                     try
                     {
                         if (radioButton1.getText().equals("Surname"))
@@ -128,7 +132,7 @@ public class SearchPatientActivity extends AppCompatActivity {
                                 return;
                             }
                             else
-                                {
+                            {
                                 closeKeyboard();
                                 mediPackList = helper.searchById(strSearch);
                                 getAdapter(mediPackList);
@@ -140,7 +144,7 @@ public class SearchPatientActivity extends AppCompatActivity {
                                 return;
                             }
                             else
-                                {
+                            {
                                 closeKeyboard();
 
                                 if(strSearch.length() == 6)
@@ -161,7 +165,7 @@ public class SearchPatientActivity extends AppCompatActivity {
                                 return;
                             }
                             else
-                                {
+                            {
                                 closeKeyboard();
                                 mediPackList = helper.searchByCellNumber(strSearch);
                                 getAdapter(mediPackList);
@@ -172,13 +176,14 @@ public class SearchPatientActivity extends AppCompatActivity {
                     }
                     catch (Exception e)
                     {
-                         closeKeyboard();
+                        closeKeyboard();
                         customToast("Please select the option given");
                         //Toast.makeText(getBaseContext(), "Please select the option given", Toast.LENGTH_LONG).show();
                     }
+                        }
                 }
                 else
-                    {
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SearchPatientActivity.this);
                     builder.setTitle("Timeout Warning !");
                     builder.setMessage("Your time has expired .Please login again");
@@ -261,7 +266,7 @@ public class SearchPatientActivity extends AppCompatActivity {
         radioId1 = searchGroup.getCheckedRadioButtonId();
         radioButton1 = findViewById(radioId1);
 
-      if(radioButton1.getText().equals("Surname"))
+        if(radioButton1.getText().equals("Surname"))
         {
             edtParcelSearch.setHint("Enter Surname");
             edtParcelSearch.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -286,111 +291,5 @@ public class SearchPatientActivity extends AppCompatActivity {
             edtParcelSearch.setText("");
         }
     }
-
-    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-            switch(actionId)
-            {
-                case EditorInfo.IME_ACTION_SEND:
-
-                    if (ConstantMethods.validateTime() == true)
-                    {
-                        strSearch = edtParcelSearch.getText().toString();
-                        try
-                        {
-                            if (radioButton1.getText().equals("Surname"))
-                            {
-                                if (TextUtils.isEmpty(strSearch))
-                                {
-                                    edtParcelSearch.setError("Please enter the surname");
-                                   // return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchBySurname(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-                            else if (radioButton1.getText().equals("Id Number"))
-                            {
-                                if (TextUtils.isEmpty(strSearch))
-                                {
-                                    edtParcelSearch.setError("Please enter the identity number");
-                                   // return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchById(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-                            else if (radioButton1.getText().equals("Date of Birth")) {
-                                if (TextUtils.isEmpty(strSearch)) {
-                                    edtParcelSearch.setError("Please enter the date of birth");
-                                    //return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-
-                                    if(strSearch.length() == 6)
-                                    {
-                                        mediPackList = helper.searchBydateofbirth(strSearch);
-                                        getAdapter(mediPackList);
-                                    }
-                                    else {
-                                        edtParcelSearch.setError("Please enter 6 digits to search");
-                                    }
-                                }
-
-                            }
-                            else if (radioButton1.getText().equals("Cell Number"))
-                            {
-                                if (TextUtils.isEmpty(strSearch)) {
-                                    edtParcelSearch.setError("PLease enter the Cell Number");
-                                    //return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchByCellNumber(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-
-                            edtParcelSearch.setText("");
-                        }
-                        catch (Exception e)
-                        {
-                            closeKeyboard();
-                            customToast("Please select the option given");
-                            //Toast.makeText(getBaseContext(), "Please select the option given", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SearchPatientActivity.this);
-                        builder.setTitle("Timeout Warning !");
-                        builder.setMessage("Your time has expired .Please login again");
-                        builder.setIcon(R.drawable.ic_warning_black_24dp);
-
-                        builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-
-                        builder.show();
-                    }
-                    closeKeyboard();
-            }
-            return false;
-        }
-    };
 
 }
