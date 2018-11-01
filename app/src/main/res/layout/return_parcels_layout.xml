@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:layout_marginLeft="5dp"
+
+    android:layout_marginRight="5dp"
+    app:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp">
+
+
+            <Button
+                android:id="@+id/btnFirstLetter"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/circle_button"
+                android:textColor="#455A64"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="450dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/txtsurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Surname"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Name"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="ID NO"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cellphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:hint="Cellphone Number"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtNhi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:hint="NHI"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtDueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:hint="Due Date"
+                android:textColor="#455A64"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtDecline"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/ic_black_24dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/txtDecline"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:background="@drawable/ic_check_black_24dp"-->
+        <!--android:paddingRight="15dp"-->
+        <!--android:textColor="@color/colorAccent"-->
+        <!--android:textSize="20dp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:visibility="visible" />-->
+</android.support.v7.widget.CardView>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>--><!--<android.support.v7.widget.CardView--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_margin="2dp"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--app:cardCornerRadius="15dp">-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="horizontal"--><!--android:weightSum="10">-->
+
+    <!--&lt;!&ndash;xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+
+    <!--<RelativeLayout--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:orientation="horizontal"--><!--android:background="#ffffff"--><!--android:paddingLeft="30dp"--><!--android:layout_weight="8">-->
+
+    <!--<TextView--><!--android:id="@+id/txtsurname"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="surname"--><!--android:textStyle="bold"--><!--android:textColor="#455A64"--><!--android:typeface="sans"--><!--android:textSize="15dp"--><!--/>--><!--<TextView--><!--android:id="@+id/txtname"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="name"--><!--android:textStyle="bold"--><!--android:textColor="#455A64"--><!--android:typeface="sans"--><!--android:textSize="15dp"--><!--android:layout_below="@id/txtsurname"--><!--android:layout_marginTop="1dp"--><!--/>-->
+
+    <!--<TextView--><!--android:id="@+id/txtID"--><!--android:layout_width="fill_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@id/txtname"--><!--android:textColor="#455A64"--><!--android:textSize="15dp"--><!--android:textStyle="bold"--><!--android:layout_marginTop="1dp"--><!--android:text="id number" />-->
+
+    <!--<TextView--><!--android:layout_width="fill_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/txtID"--><!--android:id="@+id/txtDueDate"--><!--android:textStyle="bold"--><!--android:layout_marginTop="1dp"--><!--android:textColor="#455A64"--><!--android:textSize="15dp"--><!--android:text="due date"/>-->
+
+    <!--<TextView--><!--android:layout_width="fill_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/txtDueDate"--><!--android:id="@+id/cellphone"--><!--android:textStyle="bold"--><!--android:layout_marginTop="1dp"--><!--android:textColor="#455A64"--><!--android:textSize="15dp"--><!--android:text="cellphone"/>--><!--<TextView--><!--android:layout_width="fill_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/cellphone"--><!--android:id="@+id/txtNhi"--><!--android:textStyle="bold"--><!--android:layout_marginTop="1dp"--><!--android:textColor="#455A64"--><!--android:textSize="15dp"--><!--android:text="NHI "/>-->
+
+    <!--&lt;!&ndash; Rightend Duration &ndash;&gt;--><!--<TextView--><!--android:id="@+id/txtAccept"--><!--android:layout_width="60dp"--><!--android:layout_height="60dp"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignTop="@+id/txtID"--><!--android:layout_marginEnd="15dp"--><!--android:background="@drawable/ic_check_black_24dp"--><!--android:gravity="right"--><!--android:textColor="#10bcc9"--><!--android:visibility="gone"--><!--android:textSize="15dip"--><!--android:textStyle="bold" />-->
+
+    <!--<TextView--><!--android:id="@+id/txtEdit"--><!--android:layout_width="60dp"--><!--android:layout_height="60dp"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignTop="@+id/txtID"--><!--android:layout_marginEnd="83dp"--><!--android:background="@drawable/ic_edit_black_24dp"--><!--android:gravity="right"--><!--android:textColor="#10bcc9"--><!--android:textSize="15dip"--><!--android:visibility="gone"--><!--android:textStyle="bold" />-->
+
+    <!--&lt;!&ndash;<TextView&ndash;&gt;--><!--&lt;!&ndash;android:id="@+id/txtDecline"&ndash;&gt;--><!--&lt;!&ndash;android:layout_width="60dp"&ndash;&gt;--><!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;--><!--&lt;!&ndash;android:layout_below="@+id/txtname"&ndash;&gt;--><!--&lt;!&ndash;android:layout_toStartOf="@+id/txtEdit"&ndash;&gt;--><!--&lt;!&ndash;android:background="@drawable/ic_close_black_24dp"&ndash;&gt;--><!--&lt;!&ndash;android:gravity="right"&ndash;&gt;--><!--&lt;!&ndash;android:onClick="acceptMedPackClient"&ndash;&gt;--><!--&lt;!&ndash;android:visibility="invisible"&ndash;&gt;--><!--&lt;!&ndash;android:textColor="#10bcc9"&ndash;&gt;--><!--&lt;!&ndash;android:textSize="15dp"&ndash;&gt;--><!--&lt;!&ndash;android:textStyle="bold" />&ndash;&gt;--><!--</RelativeLayout>-->
+
+    <!--<TextView--><!--android:id="@+id/txtDecline"--><!--android:layout_width="0dp"--><!--android:layout_weight="2"--><!--android:layout_height="60dp"--><!--android:layout_below="@+id/txtname"--><!--android:layout_toStartOf="@+id/txtEdit"--><!--android:background="@drawable/ic_close_black_24dp"--><!--android:gravity="right"--><!--android:onClick="acceptMedPackClient"--><!--android:visibility="invisible"--><!--android:textColor="#10bcc9"--><!--android:textSize="15dp"--><!--android:textStyle="bold" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--</android.support.v7.widget.CardView>-->
