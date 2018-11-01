@@ -22,6 +22,11 @@
             android:icon="@drawable/account_search"
             android:title="Search Patient" />
 
+        <item
+            android:id="@+id/nav_returnparcel"
+            android:icon="@drawable/account_search"
+            android:title="Return Parcels" />
+
         <item android:title="REPORTS"
       >
             <menu>
