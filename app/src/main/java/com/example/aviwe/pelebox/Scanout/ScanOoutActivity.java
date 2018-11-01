@@ -218,17 +218,19 @@ public class ScanOoutActivity extends AppCompatActivity {
 
         if (radioButton.getText().equals("Pin"))
         {
+            inputType1.setText("");
+            clearingInputFields();
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.VISIBLE);
             inputType1.setHint("Enter Phone number");
             edPin.setHint("Enter Pin");
-            inputType1.setText("");
         } else {
+            inputType1.setText("");
+            edPin.setText("");
+            clearingInputFields();
             inputType1.setHint("Enter ID Number");
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.INVISIBLE);
-            inputType1.setText("");
-            edPin.setText("");
         }
     }
 
