@@ -45,12 +45,13 @@ public class ScanInParcelActivity extends AppCompatActivity
     private ScannedInAdapter scannedInAdapter;
     private RecyclerView mRecyclerView;
     private int status;
-    private Button btnAcceptAll;
+    private Button btnAcceptAll, btnManualScan, btnSearchManual;
     private Timer timer;
     String barcode, changedBarcode;
     ArrayList<MediPackClient> medList;
     Context context;
     boolean isavailable;
+    Boolean isManual;
 
     //for the toast
     RelativeLayout holder;
@@ -70,28 +71,20 @@ public class ScanInParcelActivity extends AppCompatActivity
         edBarcode = findViewById(R.id.edtBarcode);
         mRecyclerView = findViewById(R.id.scanInCycle);
         btnAcceptAll = findViewById(R.id.bntAcceptAll);
+        btnManualScan = findViewById(R.id.btnManualScan);
+        btnSearchManual = findViewById(R.id.btnSearchManual);
 
-        scannedInAdapter = new ScannedInAdapter(medList, ScanInParcelActivity.this);
-        scannedInAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(scannedInAdapter);
+        isManual = false;
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        // for the toast
-        holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
-        customText = (TextView) holder.findViewById(R.id.customToas_text);
-
-        //Textwatcher barcode scan in functionality
-        edBarcode.addTextChangedListener(new TextWatcher()
-        {
+        final TextWatcher scannerWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 if (timer != null)
                 {
                     timer.cancel();
@@ -125,8 +118,112 @@ public class ScanInParcelActivity extends AppCompatActivity
 
                     }
                 }, 400);
+            }
+        };
+
+        scannedInAdapter = new ScannedInAdapter(medList, ScanInParcelActivity.this);
+        scannedInAdapter.notifyDataSetChanged();
+        mRecyclerView.setAdapter(scannedInAdapter);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        // for the toast
+        holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
+        customText = (TextView) holder.findViewById(R.id.customToas_text);
+
+        //Textwatcher barcode scan in functionality
+        edBarcode.addTextChangedListener(scannerWatcher);
+//        edBarcode.addTextChangedListener(new TextWatcher()
+//        {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (timer != null)
+//                {
+//                    timer.cancel();
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                timer = new Timer();
+//                timer.schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                            }
+//                        });
+//
+//                        try{
+//                            Thread.sleep(100);
+//                        }catch (InterruptedException e){
+//                            e.printStackTrace();
+//                        }
+//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                myBarcode();
+//                                edBarcode.setText("");
+//                            }
+//                        });
+//
+//                    }
+//                }, 400);
+//
+//                }
+//        });
+
+
+        //Deactivate TextWatcher
+        btnManualScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(isManual == false) {
+                    isManual = true;
+                    edBarcode.removeTextChangedListener(scannerWatcher);
+                    customToast("Auto Scan DeActivated!");
+                    btnSearchManual.setVisibility(View.VISIBLE);
+                    btnManualScan.setText("Auto Scan");
+                    //isManual = true;
+                }
+                else
+                {
+                    isManual= false;
+                    btnManualScan.setText("Scan Manual");
+                    btnSearchManual.setVisibility(View.INVISIBLE);
+                    customToast("Auto Scan Activated");
+                    edBarcode.addTextChangedListener(scannerWatcher);
+
 
                 }
+
+            }
+        });
+
+        //Search Manualy
+        btnSearchManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myBarcode();
+                if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+                {
+                    customToast("Incorrect Barcode, Please try again");
+                }
+                edBarcode.setText("");
+                closeKeyboard();
+
+                //Add AutoScan
+
+
+            }
         });
 
         //Accept all scan in medi pack functionality
@@ -245,6 +342,7 @@ public class ScanInParcelActivity extends AppCompatActivity
                 //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
             }
         }
+
 
         return;
 
