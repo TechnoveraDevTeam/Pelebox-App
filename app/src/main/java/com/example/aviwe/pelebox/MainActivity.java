@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -324,7 +325,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                     e.printStackTrace();
                                 }
                                 c.setTime(d);
-                                c.add(Calendar.MINUTE, 5);
+                                c.add(Calendar.HOUR, 24);
                                 String newTime = df.format(c.getTime());
 
                                 //Inserting user information to the local database
