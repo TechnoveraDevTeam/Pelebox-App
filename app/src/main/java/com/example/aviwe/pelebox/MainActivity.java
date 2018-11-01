@@ -482,7 +482,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
     }
 
 
-    //Method to save key values for password and password if the remember me check box is checked
+    //Method to save key value for password and password if the remember me check box is checked
     private void managePrefs(){
         if(ckRemember.isChecked()){
             editor.putString(KEY_USERNAME, user_email.getText().toString().trim());
