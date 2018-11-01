@@ -28,6 +28,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.aviwe.pelebox.ReturnParcels.ReturnParcelsActivity;
 import com.example.aviwe.pelebox.Scanin.ScanInParcelActivity;
 import com.example.aviwe.pelebox.Scanout.ScanOoutActivity;
 import com.example.aviwe.pelebox.checkInternetConnection.ConnectionDetector;
@@ -348,6 +349,12 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
             Intent i = new Intent(MediPackClientActivity.this, SevenDaysNonCollectionReport.class);
             startActivity(i);
         }
+        else if(id == R.id.nav_returnparcel)
+        {
+            Intent i = new Intent(MediPackClientActivity.this, ReturnParcelsActivity.class);
+            startActivity(i);
+        }
+
 
 //        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);
