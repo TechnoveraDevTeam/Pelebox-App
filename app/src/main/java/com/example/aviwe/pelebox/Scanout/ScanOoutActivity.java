@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,11 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.aviwe.pelebox.MainActivity;
-import com.example.aviwe.pelebox.MediPackClientActivity;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
-import com.example.aviwe.pelebox.pojos.UserClient;
 import com.example.aviwe.pelebox.search_parcel.SearchPatientActivity;
 import com.example.aviwe.pelebox.utils.ConstantMethods;
 
@@ -78,10 +74,6 @@ public class ScanOoutActivity extends AppCompatActivity {
         edPin = findViewById(R.id.input2);
         collect = findViewById(R.id.collect);
 
-        //TRYING SOMETHING OUT 24-10-2018
-        inputType1.setOnEditorActionListener(editorActionListener);
-        edPin.setOnEditorActionListener(editorActionListener);
-
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = (TextView) holder.findViewById(R.id.customToas_text);
@@ -103,7 +95,7 @@ public class ScanOoutActivity extends AppCompatActivity {
                         //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
                         return;
                     } else
-                        {
+                    {
                         if (radioButton.getText().equals("Pin"))
                         {
                             if(validateInputedUserData() == true)
@@ -111,8 +103,6 @@ public class ScanOoutActivity extends AppCompatActivity {
                                 intype = inputType1.getText().toString();
                                 pinIntype = edPin.getText().toString();
 
-                                inputType1.setText("");
-                                edPin.setText("");
                                 customToast("No record found");
 
                             }
@@ -123,7 +113,7 @@ public class ScanOoutActivity extends AppCompatActivity {
                             if(validateIDInputFields() == true)
                             {
                                 intype = inputType1.getText().toString();
-                                //validateIDInputFields();
+                                validateIDInputFields();
 
                                 //Checking the length of the id
                                 int idLength = Integer.parseInt(String.valueOf(intype.length()));
@@ -134,19 +124,15 @@ public class ScanOoutActivity extends AppCompatActivity {
                                     String correctedId = intype.substring(1, 14);
                                     intype = correctedId;
                                     mediPackStatus(intype);
-                                    inputType1.setText("");
-                                    clearingInputFields();
                                 }
                                 else if (idLength == 13) {
                                     mediPackStatus(intype);
-                                    inputType1.setText("");
-                                    clearingInputFields();
                                 }
                                 else
                                 {
                                     closeKeyboard();
                                     inputType1.setError("ID Number not valid");
-                                    //inputType1.setText("");
+                                    inputType1.setText("");
                                     return;
                                 }
                             }
@@ -162,32 +148,42 @@ public class ScanOoutActivity extends AppCompatActivity {
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ConstantMethods.validateTime() == true) {
-                    if (med.getPatientRSA().equalsIgnoreCase(PatientRSA.getText().toString())) {
 
-                        if (med.getMediPackStatusId() == 2) {
-                            int NewStatus = 3;
-                            int dirtyFlag = 2;
-
-                            //current date
-                            Calendar c = Calendar.getInstance();
-                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String date = df.format(c.getTime());
-
-                            myHelper.UpdateCollectStatus(NewStatus, intype, date, dirtyFlag);
-                            clearingInputFields();
-
-                            customToast("Parcel successfully scanned out");
-                            //Toast.makeText(ScanOoutActivity.this, "Parcel successfully scanned out", Toast.LENGTH_LONG).show();
-                        } else {
-                            clearingInputFields();
-                            customToast("Parcel unsuccessfully scanned out");
-                            //Toast.makeText(ScanOoutActivity.this, "Parcel unsuccessfully scanned out", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                } else {
-                    timeoutAlert();
+                if(med != null ) {
+                    Intent intent1 = new Intent(ScanOoutActivity.this, ScanOutParcel.class);
+                    startActivity(intent1);
                 }
+                else {
+                    customToast("No Record found to proceed");
+                }
+
+//                if (ConstantMethods.validateTime() == true) {
+//                    if (med.getPatientRSA().equalsIgnoreCase(PatientRSA.getText().toString())) {
+//
+//                        if (med.getMediPackStatusId() == 2) {
+//                            int NewStatus = 3;
+//                            int dirtyFlag = 2;
+//
+//                            //current date
+//                            Calendar c = Calendar.getInstance();
+//                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                            String date = df.format(c.getTime());
+//
+//                            myHelper.UpdateCollectStatus(NewStatus, intype, date, dirtyFlag);
+//                            clearingInputFields();
+//
+//                            customToast("Parcel successfully scanned out");
+//                            //Toast.makeText(ScanOoutActivity.this, "Parcel successfully scanned out", Toast.LENGTH_LONG).show();
+//                        } else {
+//                            clearingInputFields();
+//                            customToast("Parcel unsuccessfully scanned out");
+//                            //Toast.makeText(ScanOoutActivity.this, "Parcel unsuccessfully scanned out", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                } else {
+//                    timeoutAlert();
+//                }
+
             }
         });
     }
@@ -227,14 +223,12 @@ public class ScanOoutActivity extends AppCompatActivity {
             inputType1.setHint("Enter Phone number");
             edPin.setHint("Enter Pin");
             inputType1.setText("");
-            clearingInputFields();
         } else {
             inputType1.setHint("Enter ID Number");
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.INVISIBLE);
             inputType1.setText("");
             edPin.setText("");
-            clearingInputFields();
         }
     }
 
@@ -270,6 +264,7 @@ public class ScanOoutActivity extends AppCompatActivity {
         }
 
         if (!pinIntype.isEmpty()) {
+            valid = true;
         }
         else
         {
@@ -286,18 +281,19 @@ public class ScanOoutActivity extends AppCompatActivity {
             }
             else
             {
+                valid = true;
             }
         }
 
         if(!TextUtils.isEmpty(pinIntype))
         {
-            if(pinIntype.length() != 5) {
+            if (pinIntype.length() != 5) {
                 edPin.setError("Please enter a valid pin");
                 valid = false;
             }
             else
             {
-                valid = true;
+
             }
         }
 
@@ -415,138 +411,7 @@ public class ScanOoutActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
-        {
-            switch(actionId)
-            {
-                case EditorInfo.IME_ACTION_SEND:
-                    if (ConstantMethods.validateTime() == true)
-                    {
-                        if (radioGroup.getCheckedRadioButtonId() == -1) {
-                            customToast("Please check one of the radio buttons");
-                            //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
-                            //return;
-                        } else
-                        {
-                            if (radioButton.getText().equals("Pin"))
-                            {
-                                if(validateInputedUserData() == true)
-                                {
-                                    intype = inputType1.getText().toString();
-                                    pinIntype = edPin.getText().toString();
-
-                                    customToast("No record found");
-                                    inputType1.setText("");
-                                    edPin.setText("");
-
-                                }
-                                closeKeyboard();
-
-                            }
-                            else {
-                                if(validateIDInputFields() == true)
-                                {
-                                    intype = inputType1.getText().toString();
-
-                                    //Checking the length of the id
-                                    int idLength = Integer.parseInt(String.valueOf(intype.length()));
-
-                                    if (idLength == 15)
-                                    {
-                                        //Substring the id
-                                        String correctedId = intype.substring(1, 14);
-                                        intype = correctedId;
-                                        mediPackStatus(intype);
-                                        inputType1.setText("");
-                                        clearingInputFields();
-                                    }
-                                    else if (idLength == 13) {
-                                        mediPackStatus(intype);
-                                        inputType1.setText("");
-                                        clearingInputFields();
-                                    }
-                                    else
-                                    {
-                                        closeKeyboard();
-                                        inputType1.setError("ID Number not valid");
-                                        //inputType1.setText("");
-                                    }
-                                }
-                                closeKeyboard();
-                            }
-                        }
-                    } else {
-                        timeoutAlert();
-                    }
-                    closeKeyboard();
-            }
-
-            return false;
-        }
-    };
-
-    //Making a method for the search to be called wen needed 24-10-2018
-    private void searchMethod()
-    {
-        if (ConstantMethods.validateTime() == true)
-        {
-            if (radioGroup.getCheckedRadioButtonId() == -1) {
-                customToast("Please check one of the radio buttons");
-                //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
-                return;
-            } else
-            {
-                if (radioButton.getText().equals("Pin"))
-                {
-                    if(validateInputedUserData() == true)
-                    {
-                        intype = inputType1.getText().toString();
-                        pinIntype = edPin.getText().toString();
-
-                        customToast("No record found");
-
-                    }
-                    closeKeyboard();
-
-                }
-                else {
-                    if(validateIDInputFields() == true)
-                    {
-                        intype = inputType1.getText().toString();
-                        validateIDInputFields();
-
-                        //Checking the length of the id
-                        int idLength = Integer.parseInt(String.valueOf(intype.length()));
-
-                        if (idLength == 15)
-                        {
-                            //Substring the id
-                            String correctedId = intype.substring(1, 14);
-                            intype = correctedId;
-                            mediPackStatus(intype);
-                        }
-                        else if (idLength == 13) {
-                            mediPackStatus(intype);
-                        }
-                        else
-                        {
-                            closeKeyboard();
-                            inputType1.setError("ID Number not valid");
-                            inputType1.setText("");
-                            return;
-                        }
-                    }
-                    closeKeyboard();
-                }
-            }
-        } else {
-            timeoutAlert();
-        }
-    }
 }
-
 
 
 
