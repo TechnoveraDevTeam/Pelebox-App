@@ -37,7 +37,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     public static final String COLUMN_CELLPHONE = "PatientCellphone";
     public static final String COLUMN_BARCODE = "MediPackBarcode";
     public static final String COLUMN_RSA = "PatientRSA";
-   // private static final String COLUMN_PIN = "pin";
+    private static final String COLUMN_PIN = "pin";
     public static final String COLUMN_MANIFEST = "ManifestNumber";
     public static final String COLUMN_DEVICEID = "DeviceId";
     public static final String COLUMN_INUSERID = "InUserId";
@@ -116,7 +116,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 COLUMN_SCANNEDINDATETIME + " TEXT , " +
                 COLUMN_SCANNEDOUTDATETIME + " TEXT , " +
                 COLUMN_MEDIPACKSTATUSID + " INTEGER , " +
-                //COLUMN_PIN + " INTEGER , " +
+                COLUMN_PIN + " INTEGER , " +
                 COLUMN_DIRTYFLAG + " INTEGER );"
         );
 
@@ -741,12 +741,12 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         db.close();
     }
 
-
     //serach cellphone and pin for scanning out the parcel
-    public MediPackClient searchPin(String cellphone) {
-        String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " = " + cellphone;
-       // String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " = " + cellphone ;
-                //+ COLUMN_PIN + " = '" + pin + "'";
+    public MediPackClient searchPin(String cellphone,String pin) {
+
+        String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " Like '%" + cellphone + "%' AND " + COLUMN_PIN + " Like '%" +  pin +  "%' AND " + COLUMN_MEDIPACKSTATUSID + " = " + 2 ;
+        // String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_CELLPHONE + " = " + cellphone ;
+        //+ COLUMN_PIN + " = '" + pin + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -770,7 +770,8 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
             packs.setScannedInDateTime(cursor.getString(11));
             packs.setScannedOutDateTime(cursor.getString(12));
             packs.setMediPackStatusId(cursor.getInt(13));
-            packs.setDirtyFlag(cursor.getInt(14));
+            packs.setPin(cursor.getString(14));
+            packs.setDirtyFlag(cursor.getInt(15));
             cursor.close();
         } else {
             packs = null;
