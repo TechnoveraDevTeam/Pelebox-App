@@ -103,7 +103,7 @@ public class ScanOoutActivity extends AppCompatActivity {
                                 intype = inputType1.getText().toString();
                                 pinIntype = edPin.getText().toString();
 
-                                customToast("No record found");
+                                searchByPIN(intype,pinIntype);
 
                             }
                             closeKeyboard();
@@ -336,6 +336,51 @@ public class ScanOoutActivity extends AppCompatActivity {
 
             //Getting the medipackstatus id from the database
             statu = med.getMediPackStatusId();
+
+            if (statu == 0) {
+                MediPackStatus.setText("Uploaded");
+
+            } else if (statu == 1) {
+                MediPackStatus.setText("Booking  for scanning ");
+
+            } else if (statu == 2) {
+                MediPackStatus.setText(" Scanned In");
+
+            } else if (statu == 3) {
+                MediPackStatus.setText("Scanned Out Collected ");
+                collect.setVisibility(View.INVISIBLE);
+
+            } else if (statu == 4) {
+                MediPackStatus.setText("Collected by Patient With Assistance From Admin");
+            } else if (statu == 5) {
+                MediPackStatus.setText("Medication Returned Due to Non Collections");
+            }
+        } else {
+            closeKeyboard();
+            customToast("No record found");
+            //Toast.makeText(ScanOoutActivity.this, "No record found", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public void searchByPIN(String cellphone ,String pin) {
+
+        med = myHelper.searchPin(cellphone,pin);
+        if (med != null)
+        {
+            closeKeyboard();
+            inputType1.setText("");
+            PatientFisrtName.setText(med.getPatientFisrtName());
+            PatientLastName.setText(med.getPatientLastName());
+            PatientRSA.setText(med.getPatientRSA());
+            PatientCellphone.setText(med.getPatientCellphone());
+            ScannedInDateTime.setText(med.getScannedInDateTime());
+            MediPackBarcode.setText(med.getMediPackBarcode());
+            MediPackDueDateTime.setText(med.getMediPackDueDateTime());
+
+            //Getting the medipackstatus id from the database
+            statu = med.getMediPackStatusId();
+
 
             if (statu == 0) {
                 MediPackStatus.setText("Uploaded");
