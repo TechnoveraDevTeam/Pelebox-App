@@ -62,7 +62,7 @@
             android:name=".Scanout.ScanOoutActivity"
             android:label="SCAN OUT"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -137,6 +137,20 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReturnParcels.ReturnParcelsActivity"
+            android:label="Return Parcels"
+            android:parentActivityName=".MediPackClientActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MediPackClientActivity" />
+        </activity>
+
+        <activity android:name=".Scanout.ScanOutParcel"
+            android:windowSoftInputMode="stateHidden">
+
         </activity>
     </application>
 
