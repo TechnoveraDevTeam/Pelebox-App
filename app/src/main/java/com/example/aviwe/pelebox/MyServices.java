@@ -85,9 +85,9 @@ public class MyServices extends android.app.job.JobService
                     @Override
                     public void onResponse(String response)
                     {
-
-                        try {
-                            Toast.makeText(MyServices.this, " getting cloud data" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyServices.this, "getting cloud data" , Toast.LENGTH_SHORT).show();
+                        try
+                        {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray medipackArray = jsonObject.getJSONArray("MediPackList");
 
