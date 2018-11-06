@@ -13,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.aviwe.pelebox.MainActivity;
+import com.example.aviwe.pelebox.MediPackClientActivity;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
@@ -36,6 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScanInParcelActivity extends AppCompatActivity
 {
@@ -51,7 +56,7 @@ public class ScanInParcelActivity extends AppCompatActivity
     ArrayList<MediPackClient> medList;
     Context context;
     boolean isavailable;
-    Boolean isManual;
+    Boolean isManual, valid = true;
 
     //for the toast
     RelativeLayout holder;
@@ -74,9 +79,13 @@ public class ScanInParcelActivity extends AppCompatActivity
         btnManualScan = findViewById(R.id.btnManualScan);
         btnSearchManual = findViewById(R.id.btnSearchManual);
 
+        //Trying something for the edit text
+        edBarcode.setOnEditorActionListener(editorActionListener);
+
         isManual = false;
 
-        final TextWatcher scannerWatcher = new TextWatcher() {
+        final TextWatcher scannerWatcher = new TextWatcher()
+        {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -211,18 +220,19 @@ public class ScanInParcelActivity extends AppCompatActivity
         //Search Manualy
         btnSearchManual.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                myBarcode();
-                if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+            public void onClick(View view)
+            {
+
+                if(isBarcodeValid() == true)
                 {
-                    customToast("Incorrect Barcode, Please try again");
+                    myBarcode();
+                    if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+                    {
+                        customToast("Incorrect Barcode, Please try again");
+                    }
+                    edBarcode.setText("");
+                    closeKeyboard();
                 }
-                edBarcode.setText("");
-                closeKeyboard();
-
-                //Add AutoScan
-
-
             }
         });
 
@@ -247,7 +257,6 @@ public class ScanInParcelActivity extends AppCompatActivity
                             {
                                 helper.UpdateAllStatusOfScannedInMediPack(status, formattedDate, dirtyFlag,mec.getMediPackId());
                                 customToast("All Parcel has been successful scanned");
-                                //Toast.makeText(ScanInParcelActivity.this, "All Parcel has been successful scanned", Toast.LENGTH_LONG).show();
                             }
 
                             medList.clear();
@@ -337,10 +346,15 @@ public class ScanInParcelActivity extends AppCompatActivity
             }
             else
             {
-                closeKeyboard();
-                customToast(" No such barcode  found, Please try");
-                //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
+                med = helper.getBarcodeParcel(barcode);
+                scanInBarcodeFunctinality(barcode);
             }
+
+        }
+        else
+        {
+            closeKeyboard();
+            customToast(" No such barcode  found, Please try");
         }
 
 
@@ -410,6 +424,20 @@ public class ScanInParcelActivity extends AppCompatActivity
         scannedInAdapter.notifyDataSetChanged();
     }
 
+    //Validation method for user inputed data/ Edit text
+    public boolean isBarcodeValid()
+    {
+        barcode = edBarcode.getText().toString();
+        if (!barcode.isEmpty()) {
+            valid = true;
+        }
+        else {
+            valid = false;
+            edBarcode.setError("Please enter barcode");
+        }
+        return valid;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -417,5 +445,27 @@ public class ScanInParcelActivity extends AppCompatActivity
         return true;
     }
 
+    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
+        {
+            switch(actionId)
+            {
+                case EditorInfo.IME_ACTION_SEARCH:
+
+                    if(isBarcodeValid() == true)
+                    {
+                        myBarcode();
+                        if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+                        {
+                            customToast("Incorrect Barcode, Please try again");
+                        }
+                        edBarcode.setText("");
+                        closeKeyboard();
+                    }
+            }
+            return false;
+        }
+    };
 }
 
