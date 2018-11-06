@@ -538,7 +538,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         {
             switch(actionId)
             {
-                case EditorInfo.IME_ACTION_SEND:
+                case EditorInfo.IME_ACTION_SEARCH:
                     //Toast.makeText(MainActivity.this, "I am working", Toast.LENGTH_SHORT).show();
 
                     dialog.show();
