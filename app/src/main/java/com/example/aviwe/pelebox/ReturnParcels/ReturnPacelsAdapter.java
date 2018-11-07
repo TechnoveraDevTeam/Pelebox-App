@@ -52,7 +52,16 @@ public class ReturnPacelsAdapter extends RecyclerView.Adapter<ReturnPacelsAdapte
         String s= mFilteredList.get(position).getMediPackDueDateTime();
         holder.surname.setText("Patient Surname          : "  + mFilteredList.get(position).getPatientLastName());
         holder.name.setText("Patient Name               : "  + mFilteredList.get(position).getPatientFisrtName() );
-        holder.id.setText("Patient ID Number       : " + mFilteredList.get(position).getPatientRSA());
+
+        if( mFilteredList.get(position).getPatientRSA().length() == 13)
+        {
+            holder.id.setText("Patient ID Number       : " + mFilteredList.get(position).getPatientRSA());
+        }
+        else
+        {
+            holder.id.setText("Patient Passport         : " + mFilteredList.get(position).getPatientRSA());
+        }
+
         holder.cellphone.setText("Patient Cellphone        : " + mFilteredList.get(position).getPatientCellphone());
         holder.nhiNumber.setText("Patient NHI Number    : " + mFilteredList.get(position).getMediPackBarcode());
         holder.duedate.setText("Parcel Due Date          :  "  + s);
