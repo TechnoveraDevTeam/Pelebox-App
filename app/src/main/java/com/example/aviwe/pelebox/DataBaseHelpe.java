@@ -338,6 +338,41 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         return userClient;
     }
 
+    public String getRequestedPassword(String email)
+    {
+        //db = this.getReadableDatabase();
+        String password = null;
+        db = this.getWritableDatabase();
+        String query = "Select UserPassword from " + TABLE_USER + " WHERE " +COLUMN_6 +" = '" +email +"'" ;
+        Cursor c = db.rawQuery(query, null);
+
+        UserClient userClient = null ;
+
+        if (c.moveToFirst())
+        {
+            userClient = new UserClient();
+            do
+            {
+               // userClient.setUserclientId(c.getInt(0));
+//                userClient.setUserFirstName(c.getString(1));
+//                userClient.setUserLastName(c.getString(2));
+//                userClient.setToken(c.getString(6));
+//                userClient.setRoleId(c.getInt(4));
+                //userClient.setUserEmail(c.getString(0));
+//                userClient.setTimeout(c.getString(7));
+               password =  c.getString(0);
+//                a_email = c.getString(0);
+//                if (a_email.equalsIgnoreCase(email)) {
+//                    a_password = c.getString(1);
+//                    break;
+
+            }while (c.moveToNext());
+
+        }
+
+        return password;
+    }
+
 
     //Trying something to log in with
     public String search(String email) {
@@ -695,7 +730,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
     //serach id number for scanning out the parcel
     public MediPackClient searchIdORPIin(String idNumber) {
-        String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_RSA + " = " + idNumber + " AND " + COLUMN_MEDIPACKSTATUSID + " = " + 2 ;
+        String query = "Select * FROM " + TABLE_MED + " WHERE " + COLUMN_RSA + " LIKE '%" + idNumber + "%' AND " + COLUMN_MEDIPACKSTATUSID + " = " + 2 ;
 
         SQLiteDatabase db = this.getWritableDatabase();
 
