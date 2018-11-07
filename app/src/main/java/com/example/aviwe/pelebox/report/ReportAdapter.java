@@ -53,7 +53,15 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             holder.name.setText("Patient Name          : " + name);
             holder.expiredLabel.setText("Collected");
             holder.expiredLabel.setTextColor(Color.GREEN);
-            holder.id.setText("Patient ID Number  : " + id);
+
+            if(id.length() == 13)
+            {
+                holder.id.setText("Patient ID Number  : " + id);
+            }
+            else{
+                holder.id.setText("Patient Passport    : " + id);
+            }
+
             holder.cellphone.setText("Patient Cellphone      : " + cellphone);
             holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
             holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
