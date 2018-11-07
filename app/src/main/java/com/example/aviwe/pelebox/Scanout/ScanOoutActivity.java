@@ -104,7 +104,7 @@ public class ScanOoutActivity extends AppCompatActivity {
                                 pinIntype = edPin.getText().toString();
 
                                 //customToast("No record found");
-                                searchByPIN(intype,pinIntype);
+                                //searchByPIN(intype,pinIntype);
 
                             }
                             closeKeyboard();
