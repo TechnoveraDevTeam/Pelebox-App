@@ -149,8 +149,13 @@
         </activity>
 
         <activity android:name=".Scanout.ScanOutParcel"
+            android:label="Scanout Parcels"
+            android:parentActivityName=".Scanout.ScanOoutActivity"
             android:windowSoftInputMode="stateHidden">
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MediPackClientActivity" />
         </activity>
     </application>
 
