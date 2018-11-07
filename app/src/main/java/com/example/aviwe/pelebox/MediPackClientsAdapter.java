@@ -86,7 +86,14 @@ public class MediPackClientsAdapter extends RecyclerView.Adapter<MediPackClients
                 holder.surname.setText("Patient Surname     : " + surname);
                 holder.name.setText("Patient Name          : "  + name);
                 holder.expiredLabel.setText("Over Due");
-                holder.id.setText("Patient ID Number  : " + id);
+                if (id.length() == 13)
+                {
+                    holder.id.setText("Patient ID Number  : " + id);
+                }
+                else{
+                    holder.id.setText("Patient Passport    : " + id);
+                }
+                //holder.id.setText("Patient ID Number  : " + id);
                 holder.cellphone.setText("Patient Cellphone      : " + cellphone);
                 holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
                 holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
