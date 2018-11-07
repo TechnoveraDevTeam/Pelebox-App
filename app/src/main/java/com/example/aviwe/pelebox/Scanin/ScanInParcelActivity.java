@@ -199,6 +199,7 @@ public class ScanInParcelActivity extends AppCompatActivity
                     isManual = true;
                     edBarcode.removeTextChangedListener(scannerWatcher);
                     customToast("Auto Scan DeActivated!");
+                    edBarcode.setHint("Enter Barcode");
                     btnSearchManual.setVisibility(View.VISIBLE);
                     btnManualScan.setText("Auto Scan");
                     //isManual = true;
@@ -207,6 +208,7 @@ public class ScanInParcelActivity extends AppCompatActivity
                 {
                     isManual= false;
                     btnManualScan.setText("Scan Manual");
+                    edBarcode.setHint("Scan Barcode");
                     btnSearchManual.setVisibility(View.INVISIBLE);
                     customToast("Auto Scan Activated");
                     edBarcode.addTextChangedListener(scannerWatcher);
@@ -338,29 +340,41 @@ public class ScanInParcelActivity extends AppCompatActivity
         //This is a NHI that does not start with the * when scanned
         else if(barcode.length() == 12)
         {
-            changedBarcode = barcode.substring(0, 3);
-            if(changedBarcode.equalsIgnoreCase("NHI"))
+            med = helper.getBarcodeParcel(barcode);
+          //  scanInBarcodeFunctinality(barcode);
+
+           // changedBarcode = barcode.substring(0, 3);
+
+            if(med == null)
             {
-                med = helper.getBarcodeParcel(barcode);
-                scanInBarcodeFunctinality(barcode);
+                closeKeyboard();
+                customToast(" No such barcode  found, Please try");
             }
             else
             {
-                med = helper.getBarcodeParcel(barcode);
                 scanInBarcodeFunctinality(barcode);
             }
-
+//            if(changedBarcode.equalsIgnoreCase("NHI"))
+//            {
+//                med = helper.getBarcodeParcel(barcode);
+//                scanInBarcodeFunctinality(barcode);
+//            }
+//            else
+//            {
+//                med = helper.getBarcodeParcel(barcode);
+//                scanInBarcodeFunctinality(barcode);
+//            }
+//            else
+//            {
+//                closeKeyboard();
+//                customToast(" No such barcode  found, Please try");
+//            }
         }
-        else
-        {
-            closeKeyboard();
-            customToast(" No such barcode  found, Please try");
-        }
-
-
+//
         return;
 
     }
+
 
     public void scanInBarcodeFunctinality(String scannedNHI)
     {
@@ -455,7 +469,7 @@ public class ScanInParcelActivity extends AppCompatActivity
 
                     if(isBarcodeValid() == true)
                     {
-                        myBarcode();
+                       myBarcode();
                         if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
                         {
                             customToast("Incorrect Barcode, Please try again");
