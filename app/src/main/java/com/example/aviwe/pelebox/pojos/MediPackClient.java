@@ -6,8 +6,16 @@ import java.io.Serializable;
 public class MediPackClient implements Serializable
 {
     private int MediPackId;
-    private String PatientFisrtName,PatientLastName,PatientCellphone,MediPackBarcode,PatientRSA,ManifestNumber,ScannedInDateTime,ScannedOutDateTime,MediPackDueDateTime;
-    private int DeviceId,inUserId,OutUserId,DirtyFlag,MediPackStatusId,Pin;
+    private String PatientFisrtName,PatientLastName,PatientCellphone,MediPackBarcode,PatientRSA,ManifestNumber,ScannedInDateTime,ScannedOutDateTime,MediPackDueDateTime,Pin;
+    private int DeviceId,inUserId,OutUserId,DirtyFlag,MediPackStatusId;
+
+    public String getPin() {
+        return Pin;
+    }
+
+    public void setPin(String pin) {
+        Pin = pin;
+    }
 
     public MediPackClient() {
     }
@@ -29,7 +37,7 @@ public class MediPackClient implements Serializable
 
 }
 
-    public MediPackClient( String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode,int pin) {
+    public MediPackClient( String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode,String pin) {
 
         PatientFisrtName = patientFisrtName;
         PatientLastName = patientLastName;

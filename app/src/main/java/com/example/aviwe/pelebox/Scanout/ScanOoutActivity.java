@@ -45,7 +45,7 @@ public class ScanOoutActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButton;
     int statu, radioId;
-    String intype, pinIntype;
+    String intype, pinIntype, passportType;
     Button search;
     Button collect;
     boolean valid = true;
@@ -111,8 +111,8 @@ public class ScanOoutActivity extends AppCompatActivity {
                         {
                             if(validateInputedUserData() == true)
                             {
-                               // intype = inputType1.getText().toString();
-                               // pinIntype = edPin.getText().toString();
+                                intype = inputType1.getText().toString();
+                                pinIntype = edPin.getText().toString();
 
                                 inputType1.setText("");
                                 edPin.setText("");
@@ -120,6 +120,9 @@ public class ScanOoutActivity extends AppCompatActivity {
                             }
                             closeKeyboard();
 
+                        }else if(radioButton.getText().equals("Passport"))
+                        {
+                            intype = inputType1.getText().toString();
                         }
                         else {
                             if(validateIDInputFields() == true)
@@ -139,10 +142,14 @@ public class ScanOoutActivity extends AppCompatActivity {
                                 else if (idLength == 13) {
                                     mediPackStatus(intype);
                                 }
+                                else if(idLength == 8 )
+                                {
+                                    mediPackStatus(intype);
+                                }
                                 else
                                 {
                                     closeKeyboard();
-                                    inputType1.setError("ID Number not valid");
+                                    inputType1.setError("ID Number / Password not valid");
                                     inputType1.setText("");
                                     return;
                                 }
@@ -235,11 +242,21 @@ public class ScanOoutActivity extends AppCompatActivity {
             edPin.setVisibility(View.VISIBLE);
             inputType1.setHint("Enter Phone number");
             edPin.setHint("Enter Pin");
-        } else {
+        }
+        else if(radioButton.getText().equals("Pin"))
+        {
+            inputType1.setText("");
+            clearingInputFields();
+            inputType1.setVisibility(View.VISIBLE);
+            edPin.setVisibility(View.VISIBLE);
+            inputType1.setHint("Enter Phone number");
+            edPin.setHint("Enter Passport");
+        }
+        else {
             inputType1.setText("");
             edPin.setText("");
             clearingInputFields();
-            inputType1.setHint("Enter ID Number");
+            inputType1.setHint("Enter ID Number / Passport");
             inputType1.setVisibility(View.VISIBLE);
             edPin.setVisibility(View.INVISIBLE);
         }
@@ -256,7 +273,7 @@ public class ScanOoutActivity extends AppCompatActivity {
         else
         {
             valid = false;
-            inputType1.setError("Please enter ID Number");
+            inputType1.setError("Please enter ID Number / Passport");
         }
 
         return valid;
@@ -305,6 +322,7 @@ public class ScanOoutActivity extends AppCompatActivity {
             }
             else
             {
+
             }
         }
 

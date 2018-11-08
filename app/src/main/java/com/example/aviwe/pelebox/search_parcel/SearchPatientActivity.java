@@ -124,11 +124,11 @@ public class SearchPatientActivity extends AppCompatActivity {
                                 getAdapter(mediPackList);
                             }
                         }
-                        else if (radioButton1.getText().equals("Id Number"))
+                        else if (radioButton1.getText().equals("Id Number / Passport"))
                         {
                             if (TextUtils.isEmpty(strSearch))
                             {
-                                edtParcelSearch.setError("Please enter the identity number");
+                                edtParcelSearch.setError("Please enter the identity number / Passport");
                                 return;
                             }
                             else
@@ -284,10 +284,10 @@ public class SearchPatientActivity extends AppCompatActivity {
             edtParcelSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
             edtParcelSearch.setText("");
         }
-        else if(radioButton1.getText().equals("Id Number"))
+        else if(radioButton1.getText().equals("Id Number / Passport"))
         {
-            edtParcelSearch.setHint("Enter ID Number");
-            edtParcelSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
+            edtParcelSearch.setHint("Enter ID Number / Passport");
+            edtParcelSearch.setInputType(InputType.TYPE_CLASS_TEXT);
             edtParcelSearch.setText("");
         }
     }

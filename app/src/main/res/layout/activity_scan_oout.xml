@@ -39,17 +39,17 @@
 
                         <RadioButton
                             android:id="@+id/radio_id"
-                            android:layout_width="200dp"
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             android:onClick="checkButton"
-                            android:text="ID Number"
+                            android:text="ID Number / Passport"
                             android:textSize="18dp"
                             android:textStyle="bold"
                             tools:ignore="OnClick" />
 
                         <RadioButton
                             android:id="@+id/radio_pin"
-                            android:layout_width="200dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
@@ -58,6 +58,19 @@
                             android:text="Pin"
                             android:textSize="18dp"
                             android:textStyle="bold" />
+
+                        <!--<RadioButton-->
+                            <!--android:id="@+id/radio_passport"-->
+                            <!--android:layout_width="150dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignParentStart="true"-->
+                            <!--android:layout_alignParentTop="true"-->
+                            <!--android:layout_marginStart="13dp"-->
+                            <!--android:onClick="checkButton"-->
+                            <!--android:text="Passport"-->
+                            <!--android:textSize="18dp"-->
+                            <!--android:textStyle="bold" />-->
+
                     </RadioGroup>
 
                     <EditText
@@ -65,7 +78,7 @@
                         android:layout_width="480dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="11dp"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:padding="8dp"
                         android:textAllCaps="true"
                         android:textSize="20dp"
