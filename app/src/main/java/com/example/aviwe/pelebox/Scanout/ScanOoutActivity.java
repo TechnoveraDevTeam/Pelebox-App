@@ -49,6 +49,7 @@ public class ScanOoutActivity extends AppCompatActivity {
     Button search;
     Button collect;
     boolean valid = true;
+    static String intentBarcode;
 
     //for the toast
     RelativeLayout holder;
@@ -341,6 +342,8 @@ public class ScanOoutActivity extends AppCompatActivity {
             ScannedInDateTime.setText(med.getScannedInDateTime());
             MediPackBarcode.setText(med.getMediPackBarcode());
             MediPackDueDateTime.setText(med.getMediPackDueDateTime());
+
+            intentBarcode = med.getMediPackBarcode();
 
             //Getting the medipackstatus id from the database
             statu = med.getMediPackStatusId();
