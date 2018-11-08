@@ -108,8 +108,8 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         holder2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast2, (RelativeLayout)findViewById(R.id.customToast2));
 
-        customText = (TextView) holder.findViewById(R.id.customToas_text);
-        customText2 = (TextView) holder2.findViewById(R.id.customToas_text2);
+        customText = holder.findViewById(R.id.customToas_text);
+        customText2 = holder2.findViewById(R.id.customToas_text2);
 
         //Allow single line to the fields
         password.setSingleLine(true);
@@ -196,7 +196,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             }
                             else
                             {
-//                                customToast(" no internet connection");
                                 FancyToast.makeText(getApplicationContext(),"No network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
                             }
                         }
@@ -211,9 +210,8 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                         }
                         else
                         {
-//                            customToast(" no internet connection");
                             FancyToast.makeText(getApplicationContext(),"No Network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
-//
+
                         }
                     }
                 }
@@ -325,7 +323,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                     e.printStackTrace();
                                 }
                                 c.setTime(d);
-                                c.add(Calendar.HOUR, 24);
+                                c.add(Calendar.HOUR, 12);
                                 String newTime = df.format(c.getTime());
 
                                 //Inserting user information to the local database
@@ -496,15 +494,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         }
     }
 
-    public boolean emailValidator(String email)
-    {
-        Pattern pattern;
-        Matcher matcher;
-        final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -581,7 +570,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             //Condition : Verify token expired date time wih the current date time
                             if ( currentDate.getTime() < date.getTime())
                             {
-                               // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
                                 newtoken = userClientVal.getToken();
                                 user_name =userClientVal.getUserFirstName();
                                 user_surname =userClientVal.getUserLastName();
@@ -595,6 +584,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
                                 startActivity(intent);
 
+                                //dialog.dismiss();
                             }
                             else
                             {
@@ -602,10 +592,11 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 {
                                     LoginFromCloud();
                                     myHelper.DeleteUser(userid);
+//                                FancyToast.makeText(getApplicationContext(),"Hello World !",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
                                 }
                                 else
                                 {
-                                    customToast(" no internet connection");
+                                    FancyToast.makeText(getApplicationContext(),"No network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
                                 }
                             }
                         }
@@ -619,11 +610,13 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             }
                             else
                             {
-                                customToast(" no internet connection");
+                                FancyToast.makeText(getApplicationContext(),"No Network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+
                             }
                         }
                     }
                     closeKeyboard();
+                    //  dialog.dismiss();
             }
             return false;
         }
