@@ -25,13 +25,15 @@
                 android:id="@+id/edtBarcode"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:imeOptions="actionSearch"
                 android:hint="Scan barcode"
-                android:maxLines="1" />
+                android:maxLines="1"/>
 
             <Button
                 android:id="@+id/btnSearchManual"
@@ -106,7 +108,6 @@
         android:text="Scan Manual"
         android:textColor="#ffffff"
         android:textSize="20dp"
-
         android:textStyle="bold" />
 
 </RelativeLayout>
