@@ -128,9 +128,11 @@ public class ScanOutParcel extends AppCompatActivity {
                         }
                         ScanOutParcel.this.runOnUiThread(new Runnable() {
                             @Override
-                            public void run() {
-                                myBarcode();
-                                edBarcode.setText("");
+                            public void run()
+                            {
+                                    myBarcode();
+                                    edBarcode.setText("");
+
                             }
                         });
 
@@ -308,45 +310,37 @@ public class ScanOutParcel extends AppCompatActivity {
     {
         barcode = edBarcode.getText().toString();
 
-        isavailable = false;
-        //This is a NHI that starts with the * when scanned
-        if(barcode.length() == 14)
-        {
-            //Checking if the barcode starts with NHI
-            changedBarcode = barcode.substring(1, 4);
+            isavailable = false;
+            //This is a NHI that starts with the * when scanned
+            if (barcode.length() == 14) {
+                //Checking if the barcode starts with NHI
+                changedBarcode = barcode.substring(1, 4);
 
-            if(changedBarcode.equalsIgnoreCase("NHI"))
-            {
-                String nhi=barcode.substring(1,13);
+                if (changedBarcode.equalsIgnoreCase("NHI")) {
+                    String nhi = barcode.substring(1, 13);
 
-                //Searching if the barcode does exist on the database
-                med = helper.getBarcodeParcel(nhi);
-                scanInBarcodeFunctinality(nhi);
+                    //Searching if the barcode does exist on the database
+                    med = helper.getBarcodeParcel(nhi);
+                    scanInBarcodeFunctinality(nhi);
 
+                } else {
+                    //closeKeyboard();
+                    customToast(" No such barcode  found, Please try");
+                    //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
+                }
             }
-            else
-            {
-                //closeKeyboard();
-                customToast(" No such barcode  found, Please try");
-                //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
+            //This is a NHI that does not start with the * when scanned
+            else if (barcode.length() == 12) {
+                changedBarcode = barcode.substring(0, 3);
+                if (changedBarcode.equalsIgnoreCase("NHI")) {
+                    med = helper.getBarcodeParcel(barcode);
+                    scanInBarcodeFunctinality(barcode);
+                } else {
+                    //closeKeyboard();
+                    customToast(" No such barcode  found, Please try");
+                    //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
+                }
             }
-        }
-        //This is a NHI that does not start with the * when scanned
-        else if(barcode.length() == 12)
-        {
-            changedBarcode = barcode.substring(0, 3);
-            if(changedBarcode.equalsIgnoreCase("NHI"))
-            {
-                med = helper.getBarcodeParcel(barcode);
-                scanInBarcodeFunctinality(barcode);
-            }
-            else
-            {
-                //closeKeyboard();
-                customToast(" No such barcode  found, Please try");
-                //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
-            }
-        }
 
         return;
 
@@ -470,13 +464,22 @@ public class ScanOutParcel extends AppCompatActivity {
     {
         if(isBarcodeValid() == true)
         {
-            myBarcode();
-            if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+            if(barcode.equals(ScanOoutActivity.intentBarcode))
             {
-                customToast("Incorrect Barcode, Please try again");
+                myBarcode();
+                if (barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12) {
+                    customToast("Incorrect Barcode, Please try again");
+                }
+                edBarcode.setText("");
+                closeKeyboard();
             }
-            edBarcode.setText("");
-            closeKeyboard();
+            else
+            {
+                edBarcode.setText("");
+                closeKeyboard();
+                customToast("Barcode do not match");
+            }
+
         }
     }
 }
