@@ -85,7 +85,7 @@ public class MyServices extends android.app.job.JobService
                     @Override
                     public void onResponse(String response)
                     {
-                        Toast.makeText(MyServices.this, "getting cloud data" , Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MyServices.this, "getting cloud data" , Toast.LENGTH_SHORT).show();
                         try
                         {
                             JSONObject jsonObject = new JSONObject(response);
@@ -284,7 +284,7 @@ public class MyServices extends android.app.job.JobService
             e.printStackTrace();
         }
         c.setTime(d);
-        c.add(Calendar.HOUR, 24);
+        c.add(Calendar.MINUTE, 60);
         newTime = df.format(c.getTime());
 
         myHelper.updateTokenTimeout(testingTime,newTime);
