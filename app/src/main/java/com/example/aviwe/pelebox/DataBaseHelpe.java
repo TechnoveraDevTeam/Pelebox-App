@@ -206,6 +206,8 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     }
 
 
+
+
     //Medipack
     public ArrayList<MediPackClient> getAllMediPack() {
 
@@ -431,6 +433,22 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         }
         return ucs;
     }
+
+//    public String getCurrentTokenTimeout(int userid) {
+//        db = this.getReadableDatabase();
+//        String ucs = null;
+//        String query = "Select " + COLUMN_8 + " from " + TABLE_USER + " WHERE " + COLUMN_1+ " = " + userid ;
+//        Cursor cursor = db.rawQuery(query, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                UserClient user = new UserClient();
+//                ucs = user.setTimeout((cursor.getString(0)));
+//
+//            } while (cursor.moveToNext());
+//        }
+//        return ucs;
+//    }
 
 
     public MediPackClient getMediPackCient(String searchName) {
