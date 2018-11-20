@@ -81,6 +81,8 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Toast.makeText(MediPackClientActivity.this, "User id " + MainActivity.userloginid  , Toast.LENGTH_SHORT).show();
+
         isDrawerFixed = false;
 
         mRecyclerView = findViewById(R.id.medCycle);
@@ -319,19 +321,20 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         }
         else if(id == R.id.nav_logout)
         {
+            MainActivity.isLogedIn = false;
             Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
             startActivity(intent);
 //          if (MainActivity.loginType.equalsIgnoreCase("local"))
-////          {
-////              Toast.makeText(MediPackClientActivity.this, "logout with local", Toast.LENGTH_SHORT).show();
-////              Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
-////              startActivity(intent);
-////          }
-////          else
-////          {
-////              Toast.makeText(MediPackClientActivity.this, " TOKEN FROM MAIN " + MainActivity.newtoken, Toast.LENGTH_SHORT).show();
-////              LogOUT(MainActivity.newtoken,String.valueOf(MainActivity.userloginid));
-////          }
+//          {
+//              //Toast.makeText(MediPackClientActivity.this, "logout with local", Toast.LENGTH_SHORT).show();
+//              Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
+//              startActivity(intent);
+//          }
+//          else
+//          {
+//              //Toast.makeText(MediPackClientActivity.this, " TOKEN FROM MAIN " + MainActivity.newtoken, Toast.LENGTH_SHORT).show();
+//              LogOUT(MainActivity.newtoken,String.valueOf(MainActivity.userloginid));
+//          }
         }
         else if(id == R.id.nav_searchparcel)
         {
@@ -363,7 +366,7 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
 
     public  void LogOUT(final String token , final String userId)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://medipackwebapi.azurewebsites.net/Medipack/Logout",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, MyServices.apiLink + "Logout",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response)
