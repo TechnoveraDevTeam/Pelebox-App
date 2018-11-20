@@ -101,6 +101,7 @@ public class SearchPatientActivity extends AppCompatActivity {
                     if (searchGroup.getCheckedRadioButtonId() == -1)
                     {
                         customToast("Please check one of the radio buttons");
+
                         //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -135,6 +136,8 @@ public class SearchPatientActivity extends AppCompatActivity {
                             {
                                 closeKeyboard();
                                 mediPackList = helper.searchById(strSearch);
+
+
                                 getAdapter(mediPackList);
                             }
                         }
