@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.R;
+import com.example.aviwe.pelebox.Scanin.ScanInParcelActivity;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private int status;
     private Button btnAcceptAll, btnCountList, btnCountRtn;
+    public Button btnManualScan, btnSearchManual;
     private Timer timer;
     String barcode, changedBarcode;
     ArrayList<MediPackClient> medList;
@@ -42,6 +44,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     boolean isavailable;
     int countReturn;
     int countinitialList;
+    Boolean isManual, valid = true;
 
     //for the toast
     RelativeLayout holder;
@@ -59,6 +62,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         countinitialList = 0;
 
         context = getBaseContext();
+        isManual = false;
 
         edBarcode = findViewById(R.id.edtBarcode);
         mRecyclerView = findViewById(R.id.scanInCycle);
@@ -66,10 +70,10 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         btnCountRtn = findViewById(R.id.btnCountRtn);
         btnCountList = findViewById(R.id.btnCountList);
 
-        // initial List
+        btnManualScan = findViewById(R.id.btnManualScan);
+        btnSearchManual = findViewById(R.id.btnSearchManual);
+
         medList = helper.getSevenDaysNonCollectedParcels();
-
-
 
         for(MediPackClient mediPackClient : medList )
         {
@@ -86,20 +90,19 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        //getAdapter(medList);
-
-        // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
-        customText = (TextView) holder.findViewById(R.id.customToas_text);
+        customText = holder.findViewById(R.id.customToas_text);
 
-        edBarcode.addTextChangedListener(new TextWatcher()
+        final TextWatcher scannerWatcher = new TextWatcher()
         {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 if (timer != null)
                 {
                     timer.cancel();
@@ -133,7 +136,52 @@ public class ReturnParcelsActivity extends AppCompatActivity {
 
                     }
                 }, 400);
+            }
+        };
 
+        edBarcode.addTextChangedListener(scannerWatcher);
+
+        btnManualScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(isManual == false) {
+                    isManual = true;
+                    edBarcode.removeTextChangedListener(scannerWatcher);
+                    customToast("Auto Scan DeActivated!");
+                    edBarcode.setHint("Enter Barcode");
+                    btnSearchManual.setVisibility(View.VISIBLE);
+                    btnManualScan.setText("Auto Scan");
+                    //isManual = true;
+                }
+                else
+                {
+                    isManual= false;
+                    btnManualScan.setText("Scan Manual");
+                    edBarcode.setHint("Scan Barcode");
+                    btnSearchManual.setVisibility(View.INVISIBLE);
+                    customToast("Auto Scan Activated");
+                    edBarcode.addTextChangedListener(scannerWatcher);
+                }
+            }
+        });
+
+        //Search Manualy
+        btnSearchManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+                if(isBarcodeValid() == true)
+                {
+                    myBarcode();
+                    if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+                    {
+                        customToast("Incorrect Barcode, Please try again");
+                    }
+                    edBarcode.setText("");
+                    closeKeyboard();
+                }
             }
         });
 
@@ -188,6 +236,21 @@ public class ReturnParcelsActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    //Validation method for user inputed data/ Edit text
+    public boolean isBarcodeValid()
+    {
+        barcode = edBarcode.getText().toString();
+        if (!barcode.isEmpty()) {
+            valid = true;
+        }
+        else {
+            valid = false;
+            edBarcode.setError("Please enter barcode");
+        }
+        return valid;
     }
 
     //for toast
