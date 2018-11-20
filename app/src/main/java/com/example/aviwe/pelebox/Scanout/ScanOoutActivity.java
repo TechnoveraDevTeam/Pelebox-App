@@ -50,6 +50,7 @@ public class ScanOoutActivity extends AppCompatActivity {
     Button collect;
     boolean valid = true;
     static String intentBarcode;
+    EditText IDLabel;
 
     //for the toast
     RelativeLayout holder;
@@ -78,6 +79,7 @@ public class ScanOoutActivity extends AppCompatActivity {
         inputType1 = findViewById(R.id.input1);
         edPin = findViewById(R.id.input2);
         collect = findViewById(R.id.collect);
+        IDLabel = findViewById(R.id.ediID);
 
         //Trying something for the keyboard
         inputType1.setOnEditorActionListener(editorActionListener);
@@ -140,10 +142,12 @@ public class ScanOoutActivity extends AppCompatActivity {
                                     mediPackStatus(intype);
                                 }
                                 else if (idLength == 13) {
+                                    IDLabel.setText("Passport Number");
                                     mediPackStatus(intype);
                                 }
-                                else if(idLength == 8 )
+                                else if(idLength > 7 && idLength < 11 )
                                 {
+                                    IDLabel.setText("Passport Number");
                                     mediPackStatus(intype);
                                 }
                                 else
