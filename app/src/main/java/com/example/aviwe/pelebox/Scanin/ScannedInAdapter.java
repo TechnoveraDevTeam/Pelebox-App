@@ -199,7 +199,14 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                             {
                                 holder.surname.setText("Patient Surname         : "  + edSurname);
                                 holder.name.setText("Patient Name              : " + edName);
-                                holder.id.setText("Patient ID Number      : " + edID);
+                                if(edID.length() == 13)
+                                {
+                                    holder.id.setText("Patient ID Number      : " + edID);
+                                }
+                                else{
+                                    holder.id.setText("Patient Passport NO     : " + edID);
+                                }
+
                                 holder.cellphone.setText("Patient Cellphone        : " + edCellNumber);
                                 holder.duedate.setText("Parcel Due Date          :  " + edDueDate);
 
