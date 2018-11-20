@@ -2,6 +2,7 @@ package com.example.aviwe.pelebox;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.aviwe.pelebox.checkInternetConnection.ConnectionDetector;
 import com.example.aviwe.pelebox.pojos.Confirmation;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
+import com.example.aviwe.pelebox.pojos.UserClient;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,12 +34,16 @@ import java.util.Map;
 public class MyServices extends android.app.job.JobService
 {
     MJobExecuter mJobExecuter;
-    static String tokenVal = null;
-    int number=1, testingTime;
+    static String tokenVal = null,convertedUserid;
+    static int userid;
+    int number=1, mainuserid;
     private String newTime;
     ConnectionDetector connectionDetector;
     final DataBaseHelpe myHelper = new DataBaseHelpe(this);
-    String apiLink = "http://medipackwebapi.azurewebsites.net/Medipack/";
+    public static String apiLink = "https://www.pelebox.com/MedipackService/Medipack/";
+    public static String device_id = "1" ;
+    public  String stringValue = "\"Unauthorized access!\"";
+    public  String stringVal = "\"Cannot find table 0.\"";
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -54,15 +60,23 @@ public class MyServices extends android.app.job.JobService
                 final String MY_PREFS_NAME = "MyPrefsFile";
                 SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                 tokenVal =MainActivity.newtoken;
+                userid = MainActivity.userloginid;
+                convertedUserid = String.valueOf(userid);
 
-            refreshRecyclerview();
-                if (tokenVal!=null) {
-                    if (connectionDetector.isNetworkAvailable())
-                    {
-                        getcloudData();
+                refreshRecyclerview();
+                if (MainActivity.isLogedIn == true) {
+                    //Toast.makeText(MyServices.this, "is syncing", Toast.LENGTH_SHORT).show();
+                    if (tokenVal != null) {
+                        if (connectionDetector.isNetworkAvailable()) {
+                            getcloudData();
+                            updateCloudData();
+                        }
                     }
                 }
-                updateCloudData();
+                else{
+                   // Toast.makeText(MyServices.this, "Is no syncing", Toast.LENGTH_SHORT).show();
+                }
+
                 jobFinished(jobParameters,false);
             }
         };
@@ -85,70 +99,91 @@ public class MyServices extends android.app.job.JobService
                     @Override
                     public void onResponse(String response)
                     {
-                       // Toast.makeText(MyServices.this, "getting cloud data" , Toast.LENGTH_SHORT).show();
                         try
                         {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray medipackArray = jsonObject.getJSONArray("MediPackList");
-
-                            ArrayList<Confirmation> confirmationList = new ArrayList<>();
-
-                            Confirmation conf;
-                            for (int i = 0; i < medipackArray.length(); i++)
+                            if(response.equalsIgnoreCase(stringValue) || response.equalsIgnoreCase(stringVal))
                             {
-                                JSONObject medipackObject = medipackArray.getJSONObject(i);
+                                Toast.makeText(MyServices.this, " Failed To Sync " , Toast.LENGTH_SHORT).show();
+                                ArrayList<UserClient> users = myHelper.getAllUsers();
 
-                                //MediPackClient pojo object
-                                MediPackClient medi = new MediPackClient();
-
-                                medi.setMediPackId(medipackObject.getInt("MediPackId"));
-                                medi.setPatientFisrtName(medipackObject.getString("PatientFirstName"));
-                                medi.setPatientLastName(medipackObject.getString("PatientLastName"));
-                                medi.setPatientCellphone(medipackObject.getString("PatientCellphone"));
-                                medi.setMediPackBarcode(medipackObject.getString("MediPackBarcode"));
-                                medi.setPatientRSA(medipackObject.getString("PatientRSA"));
-                                medi.setManifestNumber(medipackObject.getString("ManifestNumber"));
-                                medi.setDeviceId(medipackObject.getInt("DeviceId"));
-                               // medi.setInUserId(medipackObject.getInt("InUserId"));
-                                medi.setMediPackDueDateTime(medipackObject.getString("MediPackDueDateTime"));
-                                medi.setMediPackStatusId(medipackObject.getInt("MediPackStatusId"));
-                                medi.setDirtyFlag(medipackObject.getInt("DirtyFlag"));
-
-                                int myid = medi.getMediPackId();
-
-                                switch (medi.getDirtyFlag())
+                                for (UserClient userClients : users)
                                 {
-                                    case 1:
-                                        MediPackClient mediPackClient = myHelper.getMedipackDetails(myid);
-
-                                        if (mediPackClient != null) {
-                                            myHelper.UpdateMedipackData(medi);
-                                        }
-                                        else {
-                                            String names= medi.getPatientLastName();
-                                            names.toLowerCase();
-                                            myHelper.addDataFromCloud(medi);
-                                        }
-                                        conf = new Confirmation(myid, 0);
-                                        confirmationList.add(conf);
-                                        break;
-                                    case 2:
-                                        myHelper.UpdateMedipackData(medi);
-                                        conf = new Confirmation(myid, 0);
-                                        confirmationList.add(conf);
-                                        break;
-                                    default:
-                                        conf = new Confirmation(myid, medi.getDirtyFlag());
-                                        confirmationList.add(conf);
-                                        myHelper.DeleteMediPackData(medi.getMediPackId());
-                                        break;
+                                    if (userClients.getUserclientId() == userid )
+                                    {
+                                      Toast.makeText(MyServices.this, " There is a user " , Toast.LENGTH_SHORT).show();
+                                        myHelper.DeleteUser(userid);
+                                        Intent dialogIntent = new Intent(MyServices.this, MainActivity.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(dialogIntent);
+                                    }
                                 }
                             }
+                            else
+                                {
 
-                            updateTokenTime();
-                            Gson gson = new Gson();
-                            String jsonCartList = gson.toJson(confirmationList);
-                            sendConfirmationToCloud(jsonCartList);
+                                //Toast.makeText(MyServices.this, "Time out  " + MainActivity.newTimeout  , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyServices.this, "getting cloud data" , Toast.LENGTH_SHORT).show();
+
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray medipackArray = jsonObject.getJSONArray("MediPackList");
+
+                                ArrayList<Confirmation> confirmationList = new ArrayList<>();
+
+                                Confirmation conf;
+                                for (int i = 0; i < medipackArray.length(); i++) {
+                                    JSONObject medipackObject = medipackArray.getJSONObject(i);
+
+                                    //MediPackClient pojo object
+                                    MediPackClient medi = new MediPackClient();
+
+                                    medi.setMediPackId(medipackObject.getInt("MediPackId"));
+                                    medi.setPatientFisrtName(medipackObject.getString("PatientFirstName"));
+                                    medi.setPatientLastName(medipackObject.getString("PatientLastName"));
+                                    medi.setPatientCellphone(medipackObject.getString("PatientCellphone"));
+                                    medi.setMediPackBarcode(medipackObject.getString("MediPackBarcode"));
+                                    medi.setPatientRSA(medipackObject.getString("PatientRSA"));
+                                    medi.setManifestNumber(medipackObject.getString("ManifestNumber"));
+                                    medi.setDeviceId(medipackObject.getInt("DeviceId"));
+                                    // medi.setInUserId(medipackObject.getInt("InUserId"));
+                                    medi.setMediPackDueDateTime(medipackObject.getString("MediPackDueDateTime"));
+                                    medi.setMediPackStatusId(medipackObject.getInt("MediPackStatusId"));
+                                    medi.setDirtyFlag(medipackObject.getInt("DirtyFlag"));
+
+                                    int myid = medi.getMediPackId();
+
+                                    switch (medi.getDirtyFlag()) {
+                                        case 1:
+                                            MediPackClient mediPackClient = myHelper.getMedipackDetails(myid);
+
+                                            if (mediPackClient != null) {
+                                                myHelper.UpdateMedipackData(medi);
+                                            } else {
+                                                String names = medi.getPatientLastName();
+                                                names.toLowerCase();
+                                                myHelper.addDataFromCloud(medi);
+                                            }
+                                            conf = new Confirmation(myid, 0);
+                                            confirmationList.add(conf);
+                                            break;
+                                        case 2:
+                                            myHelper.UpdateMedipackData(medi);
+                                            conf = new Confirmation(myid, 0);
+                                            confirmationList.add(conf);
+                                            break;
+                                        case 3:
+                                            conf = new Confirmation(myid, medi.getDirtyFlag());
+                                            confirmationList.add(conf);
+                                            myHelper.DeleteMediPackData(medi.getMediPackId());
+                                            break;
+                                        default : break;
+                                    }
+                                }
+
+                                updateTokenTime();
+                                Gson gson = new Gson();
+                                String jsonCartList = gson.toJson(confirmationList);
+                                sendConfirmationToCloud(jsonCartList);
+                            }
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -166,9 +201,8 @@ public class MyServices extends android.app.job.JobService
                 Map<String, String> params = new HashMap<>();
 
                 params.put("Token", tokenVal);
-                params.put("DeviceId", "1");
-                params.put("UserId", "1");
-
+                params.put("DeviceId", device_id);
+                params.put("UserId", convertedUserid);
                 return params;
             }
         };
@@ -198,8 +232,8 @@ public class MyServices extends android.app.job.JobService
 
                 params.put("Token", tokenVal);
                 Log.d("token 2",tokenVal);
-                params.put("DeviceId", "1");
-                params.put("UserId", "1");
+                params.put("DeviceId", device_id);
+                params.put("UserId", convertedUserid);
                 params.put("confList ", jsonCartList);
 
                 return params;
@@ -220,7 +254,24 @@ public class MyServices extends android.app.job.JobService
                     @Override
                     public void onResponse(String response)
                     {
-                        if (response.equals("true"))
+                        if(response.equalsIgnoreCase(stringValue) || response.equalsIgnoreCase(stringVal))
+                        {
+                            Toast.makeText(MyServices.this, " Failed To Sync " , Toast.LENGTH_SHORT).show();
+                            ArrayList<UserClient> users = myHelper.getAllUsers();
+
+                            for (UserClient userClients : users)
+                            {
+                                if (userClients.getUserclientId() == userid )
+                                {
+                                    Toast.makeText(MyServices.this, " There is a user " , Toast.LENGTH_SHORT).show();
+                                    myHelper.DeleteUser(userid);
+                                    Intent dialogIntent = new Intent(MyServices.this, MainActivity.class);
+                                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(dialogIntent);
+                                }
+                            }
+                        }
+                        else if (response.equals("true"))
                         {
                             //update local database
                             for(int i=0; i< updateList.size();i++)
@@ -242,8 +293,8 @@ public class MyServices extends android.app.job.JobService
                 Map<String, String> params = new HashMap<>();
 
                 params.put("Token", tokenVal);
-                params.put("DeviceId", "1");
-                params.put("UserId", "1");
+                params.put("DeviceId", device_id);
+                params.put("UserId", convertedUserid);
                 params.put("MedipackList",penidngMediPackList);
 
                 return params;
@@ -269,24 +320,35 @@ public class MyServices extends android.app.job.JobService
     //Updating the token time out when ever sync
     public void updateTokenTime()
     {
-        testingTime = MainActivity.userloginid;
+        mainuserid = MainActivity.userloginid;
+        String userDatabaseTokenTime = "";
+
+        ArrayList<UserClient> users = myHelper.getAllUsers();
+
+        for (UserClient userClients : users)
+        {
+            if (userClients.getUserclientId() == mainuserid )
+            {
+                userDatabaseTokenTime = userClients.getTimeout();
+            }
+        }
+
         //Getting the current date time and add 60 minutes to it
-        String f = "";
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        f = df.format(c.getTime());
         Date d = null;
         try
         {
-            d = df.parse(f);
+            d = df.parse(userDatabaseTokenTime);
         }
         catch (ParseException e) {
             e.printStackTrace();
         }
         c.setTime(d);
-        c.add(Calendar.MINUTE, 60);
+        c.add(Calendar.SECOND, 30);
         newTime = df.format(c.getTime());
 
-        myHelper.updateTokenTimeout(testingTime,newTime);
+       // Toast.makeText(MyServices.this, " NEW UPDATED SYNC TIME " + " " + newTime , Toast.LENGTH_SHORT).show();
+        myHelper.updateTokenTimeout(mainuserid,newTime);
     }
 }
