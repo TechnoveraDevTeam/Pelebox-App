@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
+import com.example.aviwe.pelebox.report.ReportAdapter;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -31,7 +32,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     private DataBaseHelpe helper;
     private EditText edBarcode;
     private MediPackClient med;
-    private ReturnPacelsAdapter returnAdapter;
+    private ReportAdapter returnAdapter;
     private RecyclerView mRecyclerView;
     private int status;
     private Button btnAcceptAll, btnCountList, btnCountRtn;
@@ -78,7 +79,8 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         btnCountList.setText(String.valueOf(countinitialList));
         btnCountRtn.setText(String.valueOf(countReturn));
 
-        returnAdapter = new ReturnPacelsAdapter(medList, ReturnParcelsActivity.this);
+
+        returnAdapter = new ReportAdapter(medList);
         returnAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(returnAdapter);
 
@@ -213,7 +215,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
 //        btnCountList.setText(String.valueOf(countinitialList));
 
 //        adapter = new ReportAdapter(arrayList);
-        returnAdapter = new ReturnPacelsAdapter(arrayList, ReturnParcelsActivity.this);
+        returnAdapter = new ReportAdapter(arrayList);
         returnAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(returnAdapter);
     }
