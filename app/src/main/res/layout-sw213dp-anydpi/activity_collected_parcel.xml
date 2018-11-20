@@ -45,33 +45,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="10">
+        android:weightSum="10"
+        android:layout_marginBottom="4dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginRight="5dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sort By Age" />
+                    android:text="Sort By Age"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <RadioGroup
                         android:id="@+id/rgAge"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -79,6 +87,7 @@
                             android:id="@+id/upto_17_search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
                             android:onClick="checkButton"
                             android:text="0 to 17" />
 
@@ -87,8 +96,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="checkButton"
+                            android:layout_marginLeft="5dp"
                             android:text="18 to 35" />
-
 
 
                         <RadioButton
@@ -96,21 +105,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="checkButton"
+                            android:layout_marginLeft="5dp"
                             android:text="36 to 65" />
 
                         <RadioButton
                             android:id="@+id/above65_search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:onClick="checkButton"
+                            android:layout_marginLeft="5dp"
                             android:text="Above 65" />
 
                         <RadioButton
                             android:id="@+id/all_age_search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:layout_marginLeft="5dp"
                             android:onClick="checkButton"
                             android:text="All" />
 
@@ -118,17 +128,17 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSearchData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/customedittext"
-                    android:padding="10dp"
-                    android:text="Search Records"
-                    android:textAllCaps="false"
-                    android:textColor="@color/button_color" />
+                <!--<Button-->
+                    <!--android:id="@+id/btnSearchData"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:background="@drawable/customedittext"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:text="Search Records"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:textColor="@color/button_color" />-->
 
             </LinearLayout>
 
@@ -137,13 +147,13 @@
         <android.support.v7.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="5"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -184,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:onClick="checkedGender"
                         android:text="Female" />
 
@@ -192,21 +203,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:onClick="checkedGender"
                         android:text="All" />
                 </RadioGroup>
 
-                <Button
-                    android:id="@+id/btnSearchGender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/customedittext"
-                    android:padding="10dp"
-                    android:text="Search Records"
-                    android:textAllCaps="false"
-                    android:textColor="@color/button_color" />
+                <!--<Button-->
+                    <!--android:id="@+id/btnSearchGender"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="end|bottom"-->
+                    <!--android:layout_margin="8dp"-->
+                    <!--android:background="@drawable/customedittext"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:text="Search Records"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:textColor="@color/button_color" />-->
 
             </LinearLayout>
 
@@ -221,10 +233,10 @@
         android:weightSum="10">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="8"
+
             android:orientation="vertical">
 
 
@@ -236,165 +248,165 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
             <!--android:layout_height="match_parent"-->
-            <!--android:paddingLeft="20dp">-->
+            <!--android:layout_weight="2"-->
+            <!--android:orientation="vertical">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:gravity="end"
-                android:orientation="vertical"
-                android:weightSum="10">
+            <!--&lt;!&ndash;<ScrollView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingLeft="20dp">&ndash;&gt;-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"
-                    android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:gravity="end"-->
+                <!--android:orientation="vertical"-->
+                <!--android:weightSum="10">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:orientation="vertical">-->
 
 
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="10dp">
+                    <!--<android.support.v7.widget.CardView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--app:cardCornerRadius="4dp"-->
+                        <!--app:cardElevation="10dp">-->
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:text="Sort by:"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:text="Sort by:"-->
+                                <!--android:textColor="@color/colorPrimaryDark"-->
+                                <!--android:textSize="15dp"-->
+                                <!--android:textStyle="bold" />-->
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
 
-                                android:orientation="horizontal">
+                                <!--android:orientation="horizontal">-->
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
-                                    android:orientation="vertical">
+                                <!--<LinearLayout-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_marginLeft="10dp"-->
+                                    <!--android:orientation="vertical">-->
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginTop="5dp"
-                                        android:text="Age"
-                                        android:textColor="@color/colorPrimaryDark"
-                                        android:textStyle="bold"
-                                        android:textSize="15dp"/>
-
-                                    <!--<RadioGroup-->
-                                        <!--android:id="@+id/rgAge"-->
+                                    <!--<TextView-->
                                         <!--android:layout_width="wrap_content"-->
-                                        <!--android:layout_height="wrap_content">-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:layout_marginLeft="10dp"-->
+                                        <!--android:layout_marginTop="5dp"-->
+                                        <!--android:text="Age"-->
+                                        <!--android:textColor="@color/colorPrimaryDark"-->
+                                        <!--android:textStyle="bold"-->
+                                        <!--android:textSize="15dp"/>-->
 
-                                        <!--<RadioButton-->
-                                            <!--android:id="@+id/upto_17_search"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:onClick="checkButton"-->
-                                            <!--android:text="0 to 17" />-->
+                                    <!--&lt;!&ndash;<RadioGroup&ndash;&gt;-->
+                                        <!--&lt;!&ndash;android:id="@+id/rgAge"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;android:layout_height="wrap_content">&ndash;&gt;-->
 
-                                        <!--<RadioButton-->
-                                            <!--android:id="@+id/between_18_and_35_search"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:onClick="checkButton"-->
-                                            <!--android:text="18 to 35" />-->
+                                        <!--&lt;!&ndash;<RadioButton&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:id="@+id/upto_17_search"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:onClick="checkButton"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:text="0 to 17" />&ndash;&gt;-->
 
-                                        <!--<RadioButton-->
-                                            <!--android:id="@+id/betwen_36_to_65_search"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:onClick="checkButton"-->
-                                            <!--android:text="36 to 65" />-->
+                                        <!--&lt;!&ndash;<RadioButton&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:id="@+id/between_18_and_35_search"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:onClick="checkButton"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:text="18 to 35" />&ndash;&gt;-->
 
-                                        <!--<RadioButton-->
-                                            <!--android:id="@+id/above65_search"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:layout_weight="1"-->
-                                            <!--android:onClick="checkButton"-->
-                                            <!--android:text="Above 65" />-->
+                                        <!--&lt;!&ndash;<RadioButton&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:id="@+id/betwen_36_to_65_search"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:onClick="checkButton"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:text="36 to 65" />&ndash;&gt;-->
 
-                                        <!--<RadioButton-->
-                                            <!--android:id="@+id/all_age_search"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:layout_weight="1"-->
-                                            <!--android:onClick="checkButton"-->
-                                            <!--android:text="All" />-->
+                                        <!--&lt;!&ndash;<RadioButton&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:id="@+id/above65_search"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:onClick="checkButton"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:text="Above 65" />&ndash;&gt;-->
 
-                                    <!--</RadioGroup>-->
-                                </LinearLayout>
+                                        <!--&lt;!&ndash;<RadioButton&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:id="@+id/all_age_search"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:onClick="checkButton"&ndash;&gt;-->
+                                            <!--&lt;!&ndash;android:text="All" />&ndash;&gt;-->
 
-                            </LinearLayout>
+                                    <!--&lt;!&ndash;</RadioGroup>&ndash;&gt;-->
+                                <!--</LinearLayout>-->
 
-                        </LinearLayout>
+                            <!--</LinearLayout>-->
 
-
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"
-                    android:orientation="vertical">
-
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="1dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="10dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="70dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical">
+                        <!--</LinearLayout>-->
 
 
+                    <!--</android.support.v7.widget.CardView>-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:orientation="vertical">-->
+
+
+                    <!--<android.support.v7.widget.CardView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_margin="1dp"-->
+                        <!--app:cardCornerRadius="4dp"-->
+                        <!--app:cardElevation="10dp">-->
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginBottom="70dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:orientation="vertical">-->
 
 
 
-                        </LinearLayout>
+
+
+                        <!--</LinearLayout>-->
 
 
 
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
+                    <!--</android.support.v7.widget.CardView>-->
+                <!--</LinearLayout>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <!--</ScrollView>-->
-        </LinearLayout>
+            <!--&lt;!&ndash;</ScrollView>&ndash;&gt;-->
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 </LinearLayout>
