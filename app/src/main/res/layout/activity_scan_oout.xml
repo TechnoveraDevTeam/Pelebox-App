@@ -26,16 +26,16 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginLeft="60dp">
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical">
 
                     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/radioGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginLeft="40dp">
+                        android:layout_marginLeft="40dp"
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/radio_id"
@@ -56,20 +56,20 @@
                             android:layout_marginStart="13dp"
                             android:onClick="checkButton"
                             android:text="Pin"
-                            android:textSize="18dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <!--<RadioButton-->
-                            <!--android:id="@+id/radio_passport"-->
-                            <!--android:layout_width="150dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_alignParentStart="true"-->
-                            <!--android:layout_alignParentTop="true"-->
-                            <!--android:layout_marginStart="13dp"-->
-                            <!--android:onClick="checkButton"-->
-                            <!--android:text="Passport"-->
-                            <!--android:textSize="18dp"-->
-                            <!--android:textStyle="bold" />-->
+                        <!--android:id="@+id/radio_passport"-->
+                        <!--android:layout_width="150dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentStart="true"-->
+                        <!--android:layout_alignParentTop="true"-->
+                        <!--android:layout_marginStart="13dp"-->
+                        <!--android:onClick="checkButton"-->
+                        <!--android:text="Passport"-->
+                        <!--android:textSize="18dp"-->
+                        <!--android:textStyle="bold" />-->
 
                     </RadioGroup>
 
@@ -78,11 +78,11 @@
                         android:layout_width="480dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="11dp"
+                        android:imeOptions="actionSend"
                         android:inputType="text"
                         android:padding="8dp"
                         android:textAllCaps="true"
                         android:textSize="20dp"
-                        android:imeOptions="actionSend"
                         android:textStyle="bold" />
                     <!--android:background="@drawable/customedittext2"-->
 
@@ -93,11 +93,12 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionSend"
                         android:inputType="number"
                         android:padding="8dp"
+
                         android:textAllCaps="true"
                         android:textSize="20dp"
-                        android:imeOptions="actionSend"
                         android:textStyle="bold" />
                     <!--android:background="@drawable/customedittext2"-->
 
@@ -106,11 +107,11 @@
                         android:id="@+id/search"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/button_round_shape"
                         android:padding="5dp"
-                        android:text="Search"
-                        android:layout_gravity="center"
+                        android:text="SearchNRM"
                         android:textAllCaps="true"
                         android:textColor="#ffffff"
                         android:textSize="20dp"
