@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/color_samples"
+    tools:context="com.example.aviwe.pelebox.MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="29dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center"
+
+            android:src="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/textview_round_shape"
+                android:drawableStart="@drawable/ic_email_black_24dp"
+                android:drawablePadding="12dp"
+                android:hint="Enter emailAddress"
+                android:inputType="textEmailAddress"
+                android:lines="1"
+                android:layout_margin="20dp"
+                android:minLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="#FFFFFF"
+                android:textSize="10dp" />
+
+            <EditText
+                android:id="@+id/edPssword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textview_round_shape"
+                android:drawableStart="@drawable/ic_lock_outline_white_24dp"
+                android:drawablePadding="12dp"
+                android:hint="Enter password"
+                android:imeOptions="actionSend"
+                android:inputType="numberPassword"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="#FFFFFF"
+                android:textSize="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp"
+                android:paddingTop="10dp">
+
+                <CheckBox
+                    android:id="@+id/ckRememberM"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp" />
+
+                <TextView
+                    android:id="@+id/txtRememebrMe"
+                    android:layout_width="148dp"
+                    android:layout_height="wrap_content"
+                    android:text="Remember Me"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/txtRequestPassword"
+                    android:layout_width="@dimen/_148sdp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="0dp"
+                    android:text="Request Password"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="318dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_round_shape"
+                android:text="LogSmall"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
