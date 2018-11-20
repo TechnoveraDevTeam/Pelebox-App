@@ -141,53 +141,8 @@ public class ScanInParcelActivity extends AppCompatActivity
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = (TextView) holder.findViewById(R.id.customToas_text);
-
-        //Textwatcher barcode scan in functionality
+        
         edBarcode.addTextChangedListener(scannerWatcher);
-//        edBarcode.addTextChangedListener(new TextWatcher()
-//        {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (timer != null)
-//                {
-//                    timer.cancel();
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                timer = new Timer();
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                            }
-//                        });
-//
-//                        try{
-//                            Thread.sleep(100);
-//                        }catch (InterruptedException e){
-//                            e.printStackTrace();
-//                        }
-//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                myBarcode();
-//                                edBarcode.setText("");
-//                            }
-//                        });
-//
-//                    }
-//                }, 400);
-//
-//                }
-//        });
 
 
         //Deactivate TextWatcher
