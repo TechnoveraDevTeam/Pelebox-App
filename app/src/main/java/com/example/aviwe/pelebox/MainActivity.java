@@ -14,7 +14,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,6 +34,8 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,13 +48,13 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends Activity implements TextWatcher,CompoundButton.OnCheckedChangeListener
 {
-//avonqo
-
    // declaration
     private EditText password,user_email;
     private Button btnLogin;
     private TextView requestPassword;
     private boolean found = false;
+    String formattedTime ="";
+    public static Boolean isLogedIn = false;
 
     //for the toast
     RelativeLayout holder, holder2;
@@ -73,9 +74,8 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
     public static String newtoken = null;
     public static String newTimeout = null;
-    public static String user_name,user_surname,uEmail,uPassword,loginType;
+    public static String user_name,user_surname,uEmail,uPassword,loginType,databaseNewTime;
     public static int userloginid;
-
     //Shared Preferences for remember me function
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -103,15 +103,14 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         user_email = findViewById(R.id.edEmail);
         btnLogin=findViewById(R.id.btnSearch);
 
-        //TRYING SOMETHING OUT 19-10-2018 FRIDAY
         password.setOnEditorActionListener(editorActionListener);
 
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         holder2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast2, (RelativeLayout)findViewById(R.id.customToast2));
 
-        customText = (TextView) holder.findViewById(R.id.customToas_text);
-        customText2 = (TextView) holder2.findViewById(R.id.customToas_text2);
+        customText = holder.findViewById(R.id.customToas_text);
+        customText2 = holder2.findViewById(R.id.customToas_text2);
 
         //Allow single line to the fields
         password.setSingleLine(true);
@@ -132,95 +131,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
             @Override
             public void onClick(View view)
             {
-                dialog.show();
-
-                //Enter user email and password
-                userPassword= password.getText().toString();
-                userEmail= user_email.getText().toString();
-
-                //Validate user input
-                if(validateInput() ==true)
-                {
-                    //Calling the database helper passing the email and password
-                    UserClient userClientVal = myHelper.verifyUser(userEmail, userPassword);
-
-                    //Condition : Verify username and password in the local database
-                    if(userClientVal != null)
-                    {
-                        //Get current date time
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                        String d1 = df.format(c.getTime());
-                        Date date = null;
-                        Date currentDate = null;
-
-                        int userid = userClientVal.getUserclientId();
-
-                        //change a string to a datetime format
-                        String timeoutDb = userClientVal.getTimeout();
-
-                        try
-                        {
-                            date = df.parse(timeoutDb);
-                            currentDate = df.parse(d1);
-                        }
-                        catch (ParseException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                        //Condition : Verify token expired date time wih the current date time
-                        if ( currentDate.getTime() < date.getTime())
-                        {
-                          // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
-                            newtoken = userClientVal.getToken();
-                            user_name =userClientVal.getUserFirstName();
-                            user_surname =userClientVal.getUserLastName();
-                            uEmail=userClientVal.getUserEmail();
-                            newTimeout = userClientVal.getTimeout();
-                            loginType="local";
-
-                            //just added 08-10-2018
-                            userloginid = userClientVal.getUserclientId();
-
-                            Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
-                            startActivity(intent);
-
-                            //dialog.dismiss();
-                        }
-                        else
-                        {
-                            if (connectionDetector.isNetworkAvailable())
-                            {
-                                LoginFromCloud();
-                                myHelper.DeleteUser(userid);
-//                                FancyToast.makeText(getApplicationContext(),"Hello World !",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
-                            }
-                            else
-                            {
-//                                customToast(" no internet connection");
-                                FancyToast.makeText(getApplicationContext(),"No network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
-                            }
-                        }
-                    }
-                    //Calling the cloud API passing the username and password
-                    else
-                    {
-                        if (connectionDetector.isNetworkAvailable())
-                        {
-                            LoginFromCloud();
-                            dialog.dismiss();
-                        }
-                        else
-                        {
-//                            customToast(" no internet connection");
-                            FancyToast.makeText(getApplicationContext(),"No Network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
-//
-                        }
-                    }
-                }
-                closeKeyboard();
-              //  dialog.dismiss();
+                LoginMethod();
             }
         });
 
@@ -292,7 +203,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         final String email= user_email.getText().toString();
         final String jpassword=password.getText().toString();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://medipackwebapi.azurewebsites.net/Medipack/Login/",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,  MyServices.apiLink + "Login/",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -305,32 +216,30 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                             {
 
                                 FancyToast.makeText(getApplication(), "Entered email or password is not correct", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                                //customToast("Entered email or password is not correct");
-                                //customToast2("Toast test");
-                                //customToast("Unauthorized access!");
                             }
                             else {
                                 //Login successfully
                                 jsonObject = new JSONObject(response);
 
                                 //Getting the current date time and add 60 minutes to it
-                                String f = "";
-                                Calendar c = Calendar.getInstance();
-                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                f = df.format(c.getTime());
-                                Date d = null;
-                                try
-                                {
-                                    d = df.parse(f);
-                                }
-                                catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                c.setTime(d);
-                                c.add(Calendar.HOUR, 24);
-                                String newTime = df.format(c.getTime());
+//                                String f = "";
+//                                Calendar c = Calendar.getInstance();
+//                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//                                f = df.format(c.getTime());
+//                                Date d = null;
+//                                try
+//                                {
+//                                    d = df.parse(f);
+//                                }
+//                                catch (ParseException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                c.setTime(d);
+//                                c.add(Calendar.MINUTE, 30);
+//                                String newTime = df.format(c.getTime());
 
-                                //Inserting user information to the local database
+
+                               // Inserting user information to the local database
                                 userClient = new UserClient(
                                         Integer.parseInt(jsonObject.getString("UserId")),
                                         jsonObject.getString("UserFirstName"),
@@ -339,7 +248,26 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                         Integer.parseInt(jsonObject.getString("UserRoleId")),
                                         jsonObject.getString("UserEmail"),
                                         jsonObject.getString("Token"),
-                                        newTime);
+                                        jsonObject.getString("Timeout"));
+
+                                String clousTime = userClient.getTimeout();
+                                String subTokenTimeout = clousTime.substring(0,10) + " " + clousTime.substring(11,19);
+
+                                Date date = new Date();
+
+                                DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                try
+                                {
+                                     date =  parser.parse(subTokenTimeout);
+                                }
+                                catch (ParseException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                userClient.setTimeout(formatter.format(date));
+                                //Toast.makeText(MainActivity.this, "CLOUD TIME " + formatter.format(date), Toast.LENGTH_LONG).show();
 
                                 ArrayList<UserClient> users = myHelper.getAllUsers();
 
@@ -363,14 +291,10 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 user_surname = userClient.getUserLastName();
                                 uEmail = userClient.getUserEmail();
                                 uPassword = userClient.getUserPassword();
-
-                                //just added 08-10-2018
                                 userloginid = userClient.getUserclientId();
-
                                 newtoken = jsonObject.getString("Token");
-                                newTimeout = newTime;
-                                //Toast.makeText(MainActivity.this, " cloud", Toast.LENGTH_SHORT).show();
                                 loginType="cloud";
+                                isLogedIn = true;
 
                                 Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
                                 intent.putExtra("username", jsonObject.getString("UserEmail"));
@@ -426,31 +350,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
             if (matcher.matches())
             {
                 valid = true;
-//                String[] token = emailHolder.split("@");
-//                if (token[1].equalsIgnoreCase("technovera.co.za"))
-//                {
-                    //validating if the password does not contain a space
-//                    for (int i = 0; i < passwordHolder.length(); i++)
-//                    {
-//                        if (Character.isWhitespace(emailHolder.charAt(i))) {
-//                            user_email.setError("Email must not contain spaces");
-//                            valid = false;
-//                        }
-//                    }
-//
-//                for (int i = 0; i < passwordHolder.length(); i++)
-//                {
-//                    if (Character.isWhitespace(passwordHolder.charAt(i))) {
-//                        password.setError("Password must not contain spaces");
-//                        valid = false;
-//                    }
-//                }
-//                }
-//                else {
-//                    user_email.setError("please enter correct domain email ");
-//
-//                    valid = false;
-//                }
             }
             else {
                 valid = false;
@@ -472,9 +371,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
             user_email.setError(" Please Enter email");
         }
 
-        if (!passwordHolder.isEmpty()) {
-
-        } else {
+        if (passwordHolder.isEmpty()) {
             valid = false;
             password.setError(" Please enter password");
             dialog.dismiss();
@@ -498,15 +395,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         }
     }
 
-    public boolean emailValidator(String email)
-    {
-        Pattern pattern;
-        Matcher matcher;
-        final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -533,101 +421,107 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         managePrefs();
     }
 
-    //TRYING SOMETHING OUT 19-10-2018
     private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
         {
             switch(actionId)
             {
-                case EditorInfo.IME_ACTION_SEND:
-                    //Toast.makeText(MainActivity.this, "I am working", Toast.LENGTH_SHORT).show();
-
-                    dialog.show();
-
-                    //Enter user email and password
-                    userPassword= password.getText().toString();
-                    userEmail= user_email.getText().toString();
-
-                    //Validate user input
-                    if(validateInput() ==true)
-                    {
-                        //Calling the database helper passing the email and password
-                        UserClient userClientVal = myHelper.verifyUser(userEmail, userPassword);
-
-                        //Condition : Verify username and password in the local database
-                        if(userClientVal != null)
-                        {
-                            //Get current date time
-                            Calendar c = Calendar.getInstance();
-                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                            String d1 = df.format(c.getTime());
-                            Date date = null;
-                            Date currentDate = null;
-
-                            int userid = userClientVal.getUserclientId();
-
-                            //change a string to a datetime format
-                            String timeoutDb = userClientVal.getTimeout();
-
-                            try
-                            {
-                                date = df.parse(timeoutDb);
-                                currentDate = df.parse(d1);
-                            }
-                            catch (ParseException e)
-                            {
-                                e.printStackTrace();
-                            }
-
-                            //Condition : Verify token expired date time wih the current date time
-                            if ( currentDate.getTime() < date.getTime())
-                            {
-                               // Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
-                                newtoken = userClientVal.getToken();
-                                user_name =userClientVal.getUserFirstName();
-                                user_surname =userClientVal.getUserLastName();
-                                uEmail=userClientVal.getUserEmail();
-                                newTimeout = userClientVal.getTimeout();
-                                loginType="local";
-
-                                //just added 08-10-2018
-                                userloginid = userClientVal.getUserclientId();
-
-                                Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
-                                startActivity(intent);
-
-                            }
-                            else
-                            {
-                                if (connectionDetector.isNetworkAvailable())
-                                {
-                                    LoginFromCloud();
-                                    myHelper.DeleteUser(userid);
-                                }
-                                else
-                                {
-                                    customToast(" no internet connection");
-                                }
-                            }
-                        }
-                        //Calling the cloud API passing the username and password
-                        else
-                        {
-                            if (connectionDetector.isNetworkAvailable())
-                            {
-                                LoginFromCloud();
-                                dialog.dismiss();
-                            }
-                            else
-                            {
-                                customToast(" no internet connection");
-                            }
-                        }
-                    }
-                    closeKeyboard();
+                case EditorInfo.IME_ACTION_SEARCH:
+                    LoginMethod();
             }
             return false;
         }
     };
+
+    public void LoginMethod()
+    {
+        dialog.show();
+
+        //Enter user email and password
+        userPassword= password.getText().toString();
+        userEmail= user_email.getText().toString();
+
+        //Validate user input
+        if(validateInput() ==true)
+        {
+            //Calling the database helper passing the email and password
+            UserClient userClientVal = myHelper.verifyUser(userEmail, userPassword);
+
+            //Condition : Verify username and password in the local database
+            if(userClientVal != null)
+            {
+                //Get current date time
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String d1 = df.format(c.getTime());
+                Date date = null;
+                Date currentDate = null;
+
+                int userid = userClientVal.getUserclientId();
+
+                //change a string to a datetime format
+                String timeoutDb = userClientVal.getTimeout();
+
+                try
+                {
+                    date = df.parse(timeoutDb);
+                    currentDate = df.parse(d1);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //Condition : Verify token expired date time wih the current date time
+                if ( currentDate.getTime() < date.getTime())
+                {
+                    Toast.makeText(MainActivity.this, " Local", Toast.LENGTH_SHORT).show();
+                    newtoken = userClientVal.getToken();
+                    user_name =userClientVal.getUserFirstName();
+                    user_surname =userClientVal.getUserLastName();
+                    uEmail=userClientVal.getUserEmail();
+                    newTimeout = userClientVal.getTimeout();
+                    loginType="local";
+                    userloginid = userClientVal.getUserclientId();
+
+                    isLogedIn = true;
+
+                    Intent intent = new Intent(MainActivity.this, MediPackClientActivity.class);
+                    startActivity(intent);
+
+                    //dialog.dismiss();
+                }
+                else
+                {
+                    if (connectionDetector.isNetworkAvailable())
+                    {
+                        myHelper.DeleteUser(userid);
+                        LoginFromCloud();
+
+//                                FancyToast.makeText(getApplicationContext(),"Hello World !",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
+                    }
+                    else
+                    {
+                        FancyToast.makeText(getApplicationContext(),"No network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+                    }
+                }
+            }
+            //Calling the cloud API passing the username and password
+            else
+            {
+                if (connectionDetector.isNetworkAvailable())
+                {
+                    LoginFromCloud();
+                    dialog.dismiss();
+                }
+                else
+                {
+                    FancyToast.makeText(getApplicationContext(),"No Network Connection!",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+
+                }
+            }
+        }
+        closeKeyboard();
+    }
 }

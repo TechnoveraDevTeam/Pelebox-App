@@ -41,6 +41,7 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
     String selectedDate,barcode,formattedDate;
     int databaseStatus,status,dirtyFlag;
     Button saveData,cancelData,selectDate;
+    boolean isValid = true;
 
     public ScannedInAdapter(ArrayList<MediPackClient> arrayList,Context mContext) {
         this.mArrayList = arrayList;
@@ -84,52 +85,56 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
             {
                 if (validateTime() == true)
                 {
-                    new AlertDialog.Builder(mContext)
-                            .setMessage("Are you sure you want to accept the parcel?")
-                            .setNegativeButton("No", null)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i)
-                                {
-                                    //Getting the barcode at the specific position
-                                    barcode = mFilteredList.get(position).getMediPackBarcode();
+//                    if(mFilteredList.get(position).getPatientFisrtName().length() != 0 )
+//                    {
+                       // Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
+                        new AlertDialog.Builder(mContext)
+                                .setMessage("Are you sure you want to accept the parcel?")
+                                .setNegativeButton("No", null)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //Getting the barcode at the specific position
+                                        barcode = mFilteredList.get(position).getMediPackBarcode();
 
-                                    //Getting the medi pack id at the specific position
-                                    databaseStatus = mFilteredList.get(position).getMediPackStatusId();
+                                        //Getting the medi pack id at the specific position
+                                        databaseStatus = mFilteredList.get(position).getMediPackStatusId();
 
-                                    status = 2;
-                                    dirtyFlag = 2;
+                                        status = 2;
+                                        dirtyFlag = 2;
 
-                                    if (databaseStatus == status)
-                                    {
-                                        Toast.makeText(mContext, "Medi Pack Parcel has already been sccanned in", Toast.LENGTH_LONG).show();
+                                        if (databaseStatus == status) {
+                                            Toast.makeText(mContext, "Medi Pack Parcel has already been sccanned in", Toast.LENGTH_LONG).show();
 
-                                        //Removing the item from the list
-                                        mFilteredList.remove(position);
-                                        notifyItemRemoved(position);
-                                        notifyItemRangeChanged(position, mFilteredList.size());
+                                            //Removing the item from the list
+                                            mFilteredList.remove(position);
+                                            notifyItemRemoved(position);
+                                            notifyItemRangeChanged(position, mFilteredList.size());
+                                        } else {
+                                            helper = new DataBaseHelpe(mContext);
+                                            helper.UpdateParcelStatus(barcode, status, dirtyFlag);
+                                            Toast.makeText(mContext, "Successfully sccanned in ", Toast.LENGTH_LONG).show();
+
+                                            //Display and update the current date the medi parecel was scanned in
+                                            Calendar c = Calendar.getInstance();
+                                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                            formattedDate = df.format(c.getTime());
+
+                                            //Calling the update method from the database to update the date
+                                            helper.UpdateParcelDateScannedIn(barcode, formattedDate);
+
+                                            //Removing the item from the list after scan in successfully
+                                            mFilteredList.remove(position);
+                                            notifyItemRemoved(position);
+                                            notifyItemRangeChanged(position, mFilteredList.size());
+                                        }
                                     }
-                                    else
-                                    {
-                                        helper = new DataBaseHelpe(mContext);
-                                        helper.UpdateParcelStatus(barcode, status, dirtyFlag);
-                                        Toast.makeText(mContext, "Successfully sccanned in ", Toast.LENGTH_LONG).show();
-
-                                        //Display and update the current date the medi parecel was scanned in
-                                        Calendar c = Calendar.getInstance();
-                                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                                        formattedDate = df.format(c.getTime());
-
-                                        //Calling the update method from the database to update the date
-                                        helper.UpdateParcelDateScannedIn(barcode, formattedDate);
-
-                                        //Removing the item from the list after scan in successfully
-                                        mFilteredList.remove(position);
-                                        notifyItemRemoved(position);
-                                        notifyItemRangeChanged(position, mFilteredList.size());
-                                    }
-                                }
-                            }).create().show();
+                                }).create().show();
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(mContext, "Please fillin the missing information", Toast.LENGTH_SHORT).show();
+//                    }
                 }
                 else
                 {
@@ -194,7 +199,14 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                             {
                                 holder.surname.setText("Patient Surname         : "  + edSurname);
                                 holder.name.setText("Patient Name              : " + edName);
-                                holder.id.setText("Patient ID Number      : " + edID);
+                                if(edID.length() == 13)
+                                {
+                                    holder.id.setText("Patient ID Number      : " + edID);
+                                }
+                                else{
+                                    holder.id.setText("Patient Passport NO     : " + edID);
+                                }
+
                                 holder.cellphone.setText("Patient Cellphone        : " + edCellNumber);
                                 holder.duedate.setText("Parcel Due Date          :  " + edDueDate);
 
@@ -214,6 +226,8 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                                         isFound = true;
                                     }
                                 }
+
+
                                 if (isFound) {
                                     helper.UpdateParcelfromScan(barcode, edName, edCellNumber, edSurname, edID, edDueDate);
 

@@ -38,9 +38,25 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="20dp"
+                        android:inputType="text"
+                        android:imeOptions="actionSearch"
                         android:gravity="center"
                         android:hint="Scan barcode"
                         android:maxLines="1" />
+
+                    <Button
+                        android:id="@+id/btnSearchManual"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toEndOf="@+id/edtBarcode"
+                        android:background="@drawable/button_round_shape"
+                        android:text="Scan Manual"
+                        android:textColor="#ffffff"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -112,7 +128,22 @@
         android:text="Collect parcel"
         android:textColor="#ffffff"
         android:textSize="20dp"
+        android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btnManualScan"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/button_round_shape"
+        android:padding="13dp"
+        android:paddingLeft="20dp"
+        android:text="Scan Manual"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
 </RelativeLayout>
