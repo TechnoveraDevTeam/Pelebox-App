@@ -90,15 +90,15 @@ public class ReturnPacelsAdapter extends RecyclerView.Adapter<ReturnPacelsAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         Button firstLetter = itemView.findViewById(R.id. btnFirstLetter);
-        TextView name = itemView.findViewById(R.id.txtname);
+        TextView name = itemView.findViewById(R.id.txtNames);
         TextView surname = itemView.findViewById(R.id.txtSurname);
         TextView id = itemView.findViewById(R.id.txtID);
         TextView duedate = itemView.findViewById(R.id.txtDueDate);
         TextView accept = itemView.findViewById(R.id.txtAccept);
         TextView decline = itemView.findViewById(R.id.txtDecline);
         TextView edit = itemView.findViewById(R.id.txtEdit);
-        TextView cellphone = itemView.findViewById(R.id.cellphone);
-        TextView nhiNumber = itemView.findViewById(R.id.txtNhi);
+        TextView cellphone = itemView.findViewById(R.id.txtCellphone);
+        TextView nhiNumber = itemView.findViewById(R.id.txtNhiNumber);
 
         public ViewHolder(View itemView) {
             super(itemView);

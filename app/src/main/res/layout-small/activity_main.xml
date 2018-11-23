@@ -68,7 +68,7 @@
 
                 <CheckBox
                     android:id="@+id/ckRememberM"
-                    android:layout_width="@dimen/_30sdp"
+                    android:layout_width="30sp"
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp" />
 
@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/txtRequestPassword"
-                    android:layout_width="@dimen/_148sdp"
+                    android:layout_width="148dp"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="0dp"
                     android:text="Request Password"

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text=" Collected Parcels"
+                android:text="Parcels Ready For Collection"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="28dp"
                 android:textStyle="bold" />
@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
+
 
 
         <LinearLayout
@@ -285,7 +286,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <!--</ScrollView>-->
         </LinearLayout>
 
