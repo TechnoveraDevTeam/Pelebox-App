@@ -111,6 +111,22 @@
         </LinearLayout>
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/btnManualScan"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/button_round_shape"
+        android:padding="13dp"
+        android:paddingLeft="20dp"
+        android:text="Scan Manual"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold" />
     <Button
         android:id="@+id/btnManualScan"
         android:layout_width="180dp"
