@@ -7,31 +7,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    android:weightSum="5">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_weight="1"
+    >
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav"
-            android:layout_width="wrap_content"
+            android:layout_width="275dp"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="false"
-            android:layout_gravity="start"
+
+
             app:headerLayout="@layout/nav_header_medi_pack_client"
-            app:menu="@menu/activity_medi_pack_client_drawer"/>
+            app:menu="@menu/activity_medi_pack_client_drawer" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="4">
+
         <include
             layout="@layout/app_bar_medi_pack_client"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+
+            />
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
