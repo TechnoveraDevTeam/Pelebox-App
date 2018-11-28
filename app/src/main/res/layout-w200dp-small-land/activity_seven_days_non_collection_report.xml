@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".report.TwentyFourHoursNonCollectionReport">
+    tools:context=".report.SevenDaysNonCollectionReport">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="24 Hours Over Due Parcels"
+                android:text="7 Days Over Due Parcels"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -32,8 +32,8 @@
                 android:id="@+id/btnCountSvn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/circle_button"
                 android:textColor="#000000"
                 android:textSize="30sp" />
@@ -271,8 +271,9 @@
 
             </LinearLayout>
 
-
+            <!--</ScrollView>-->
         </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

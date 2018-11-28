@@ -1,5 +1,4 @@
 package com.example.aviwe.pelebox.ReturnParcels;
-
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,23 +16,18 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.Scanin.ScanInParcelActivity;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
-import com.example.aviwe.pelebox.report.ReportAdapter;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 public class ReturnParcelsActivity extends AppCompatActivity {
-
     private DataBaseHelpe helper;
     private EditText edBarcode;
     private MediPackClient med;
-    private ReportAdapter returnAdapter;
+    private ReturnPacelsAdapter returnAdapter;
     private RecyclerView mRecyclerView;
     private int status;
     private Button btnAcceptAll, btnCountList, btnCountRtn;
@@ -46,71 +40,54 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     int countReturn;
     int countinitialList;
     Boolean isManual, valid = true;
-
     //for the toast
     RelativeLayout holder;
     TextView customText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_parcels);
-
         med = new MediPackClient();
         helper = new DataBaseHelpe(this);
         medList = new ArrayList<>();
         countReturn = 0;
         countinitialList = 0;
-
         context = getBaseContext();
         isManual = false;
-
         edBarcode = findViewById(R.id.edtBarcode);
         mRecyclerView = findViewById(R.id.scanInCycle);
         btnAcceptAll = findViewById(R.id.bntAcceptAll);
         btnCountRtn = findViewById(R.id.btnCountRtn);
         btnCountList = findViewById(R.id.btnCountList);
-
         btnManualScan = findViewById(R.id.btnManualScan);
         btnSearchManual = findViewById(R.id.btnSearchManual);
-
         medList = helper.getSevenDaysNonCollectedParcels();
-
         for(MediPackClient mediPackClient : medList )
         {
             countinitialList++;
         }
         btnCountList.setText(String.valueOf(countinitialList));
         btnCountRtn.setText(String.valueOf(countReturn));
-
-
-        returnAdapter = new ReportAdapter(medList);
+        returnAdapter = new ReturnPacelsAdapter(medList, ReturnParcelsActivity.this);
         returnAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(returnAdapter);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = holder.findViewById(R.id.customToas_text);
-
         final TextWatcher scannerWatcher = new TextWatcher()
         {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 if (timer != null)
                 {
                     timer.cancel();
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 timer = new Timer();
@@ -122,7 +99,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                             public void run() {
                             }
                         });
-
                         try{
                             Thread.sleep(100);
                         }catch (InterruptedException e){
@@ -135,18 +111,14 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                                 edBarcode.setText("");
                             }
                         });
-
                     }
                 }, 400);
             }
         };
-
         edBarcode.addTextChangedListener(scannerWatcher);
-
         btnManualScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(isManual == false) {
                     isManual = true;
                     edBarcode.removeTextChangedListener(scannerWatcher);
@@ -167,13 +139,11 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 }
             }
         });
-
         //Search Manualy
         btnSearchManual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-
                 if(isBarcodeValid() == true)
                 {
                     myBarcode();
@@ -186,28 +156,20 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 }
             }
         });
-
         btnAcceptAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 Boolean foundTick = false;
                 for(MediPackClient mediReturn : medList)
                 {
                     if (mediReturn.getMediPackStatusId() == 5 )
                     {
-
                         helper.UpdateParcelForReturn(mediReturn.getMediPackId());
                         foundTick = true;
                         Log.d("Tharollo", "onClick: "+mediReturn.getMediPackId());
 //                        customToast("is in: "+ mediReturn.getMediPackStatusId());
                     }
-
-
                 }
-
                 if (foundTick == false)
                 {
                     customToast("There is  no record found!");
@@ -215,23 +177,19 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 {
                     customToast("Parcels Are Successfully Returned");
                     medList = helper.getSevenDaysNonCollectedParcels();
-
                     countReturn = 0;
                     countinitialList = 0;
-
                     for(MediPackClient mediPackClient : medList )
                     {
                         countinitialList++;
                     }
                     btnCountList.setText(String.valueOf(countinitialList));
                     btnCountRtn.setText(String.valueOf(countReturn));
-
                     getAdapter(medList);
                 }
             }
         });
     }
-
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -239,8 +197,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
-
     //Validation method for user inputed data/ Edit text
     public boolean isBarcodeValid()
     {
@@ -254,55 +210,44 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         }
         return valid;
     }
-
     //for toast
     public void customToast(String message)
     {
         //customText.setText("Unauthorized access!");
         customText.setText(message);
         customText.setTextSize(25);
-
         final Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER | Gravity.BOTTOM,50,50);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(holder);
         toast.show();
     }
-
     public void getAdapter(ArrayList arrayList) {
-
 //        for(MediPackClient mediPackClient : medList )
 //        {
 //            countinitialList++;
 //        }
 //        btnCountList.setText(String.valueOf(countinitialList));
-
 //        adapter = new ReportAdapter(arrayList);
-        returnAdapter = new ReportAdapter(arrayList);
+        returnAdapter = new ReturnPacelsAdapter(arrayList, ReturnParcelsActivity.this);
         returnAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(returnAdapter);
     }
-
-
     public void myBarcode()
     {
         barcode = edBarcode.getText().toString();
-
         isavailable = false;
         //This is a NHI that starts with the * when scanned
         if(barcode.length() == 14)
         {
             //Checking if the barcode starts with NHI
             changedBarcode = barcode.substring(1, 4);
-
             if(changedBarcode.equalsIgnoreCase("NHI"))
             {
                 String nhi=barcode.substring(1,13);
-
                 //Searching if the barcode does exist on the database
                 med = helper.getBarcodeParcel(nhi);
                 scanInBarcodeFunctinality(nhi);
-
             }
             else
             {
@@ -327,11 +272,8 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
             }
         }
-
         return;
-
     }
-
     public void scanInBarcodeFunctinality(String scannedNHI)
     {
         if (med != null)
@@ -341,16 +283,12 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 int index = 0;
                 for (MediPackClient m : medList)
                 {
-
                     if (m.getMediPackBarcode().equalsIgnoreCase(scannedNHI)) {
                         isavailable = true;
-
                         break;
                     }
-
                     index++;
                 }
-
                 if (isavailable == false)
                 {
 //                    medList.add(med);
@@ -360,7 +298,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                     closeKeyboard();
                     medList.get(index).setMediPackStatusId(5);
                     countReturn = countReturn + 1;
-
                     btnCountRtn.setText(String.valueOf(countReturn));
                     getAdapter(medList);
                     //customToast(" Parcel barcode has already been scanned in");
@@ -381,7 +318,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                     break;
                 }
             }
-
             if(isavailable == false)
             {
                 med = new MediPackClient("", "", "", scannedNHI, "", "", 0);
@@ -393,7 +329,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
                 customToast("barcode has already been scanned in for unknowm barcode");
                 //Toast.makeText(ScanInParcelActivity.this, "barcode has already been scanned in for unknowm barcode", Toast.LENGTH_LONG).show();
             }
-
         }
         else
         {
@@ -403,7 +338,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         }
         returnAdapter.notifyDataSetChanged();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

@@ -43,7 +43,7 @@
                         android:maxLines="1" />
 
                     <Button
-                        android:id="@+id/btnSearchManualB"
+                        android:id="@+id/btnSearchManual"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"

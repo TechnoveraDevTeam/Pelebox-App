@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".report.TwentyFourHoursNonCollectionReport">
+    tools:context="com.example.aviwe.pelebox.report.CollectedParcelActivity">
+
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -23,17 +24,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="24 Hours Over Due Parcels"
+                android:text="Parcels Ready For Collection"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btnCountSvn"
+                android:id="@+id/btnCount"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/circle_button"
                 android:textColor="#000000"
                 android:textSize="30sp" />
@@ -72,7 +73,6 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
             <!--android:paddingLeft="20dp">-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -129,12 +129,12 @@
                                         android:textStyle="bold" />
 
                                     <RadioGroup
-                                        android:id="@+id/svnAge"
+                                        android:id="@+id/rgAge"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content">
 
                                         <RadioButton
-                                            android:id="@+id/svn_upto_17_search"
+                                            android:id="@+id/upto_17_search"
                                             android:layout_width="wrap_content"
                                             android:layout_height="22dp"
                                             android:layout_weight="0.2"
@@ -142,15 +142,15 @@
                                             android:text="0 to 17" />
 
                                         <RadioButton
-                                            android:id="@+id/svn_between_18_and_35_search"
+                                            android:id="@+id/between_18_and_35_search"
                                             android:layout_width="wrap_content"
                                             android:layout_height="22dp"
                                             android:layout_weight="0.2"
                                             android:onClick="checkButton"
-                                            android:text="18 to 35"  />
+                                            android:text="18 to 35" />
 
                                         <RadioButton
-                                            android:id="@+id/svn_betwen_36_to_65_search"
+                                            android:id="@+id/betwen_36_to_65_search"
                                             android:layout_width="wrap_content"
                                             android:layout_height="22dp"
                                             android:layout_weight="0.2"
@@ -158,15 +158,15 @@
                                             android:text="36 to 65" />
 
                                         <RadioButton
-                                            android:id="@+id/svn_above65_search"
+                                            android:id="@+id/above65_search"
                                             android:layout_width="wrap_content"
                                             android:layout_height="22dp"
                                             android:layout_weight="0.2"
                                             android:onClick="checkButton"
-                                            android:text="Above 65"/>
+                                            android:text="Above 65" />
 
                                         <RadioButton
-                                            android:id="@+id/svn_all_age_search"
+                                            android:id="@+id/all_age_search"
                                             android:layout_width="match_parent"
                                             android:layout_height="22dp"
                                             android:layout_weight="0.2"
@@ -181,7 +181,7 @@
                         </LinearLayout>
 
                         <!--<Button-->
-                            <!--android:id="@+id/btnSearchDataSvn"-->
+                            <!--android:id="@+id/btnSearchData"-->
                             <!--android:layout_width="wrap_content"-->
                             <!--android:layout_height="34dp"-->
                             <!--android:layout_gravity="end|bottom"-->
@@ -189,8 +189,8 @@
                             <!--android:padding="10dp"-->
                             <!--android:text="Search Records"-->
                             <!--android:textAllCaps="false"-->
-                            <!--android:textColor="@color/button_color"-->
-                            <!--android:textSize="12dp" />-->
+                            <!--android:textSize="12dp"-->
+                            <!--android:textColor="@color/button_color" />-->
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
 
@@ -204,6 +204,7 @@
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="1dp"
                         app:cardCornerRadius="4dp"
                         app:cardElevation="10dp">
 
@@ -222,20 +223,20 @@
                                 android:textStyle="bold" />
 
                             <RadioGroup
-                                android:id="@+id/svnGender"
+                                android:id="@+id/rgGender"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 
                                 <RadioButton
-                                    android:id="@+id/svnMale"
+                                    android:id="@+id/rbMale"
                                     android:layout_width="wrap_content"
                                     android:layout_height="22dp"
                                     android:layout_weight="0.2"
                                     android:onClick="checkedGender"
-                                    android:text="Male"/>
+                                    android:text="Male" />
 
                                 <RadioButton
-                                    android:id="@+id/svnFemale"
+                                    android:id="@+id/rbFemale"
                                     android:layout_width="wrap_content"
                                     android:layout_height="22dp"
                                     android:layout_weight="0.2"
@@ -243,22 +244,23 @@
                                     android:text="Female" />
 
                                 <RadioButton
-                                    android:id="@+id/svnAllGender"
+                                    android:id="@+id/rgAllGender"
                                     android:layout_width="wrap_content"
                                     android:layout_height="22dp"
                                     android:layout_weight="0.2"
                                     android:onClick="checkedGender"
-                                    android:text="All"/>
+                                    android:text="All" />
                             </RadioGroup>
 
 
                         </LinearLayout>
 
                         <Button
-                            android:id="@+id/btnSearchGenderSvn"
+                            android:id="@+id/btnSearchGender"
                             android:layout_width="wrap_content"
                             android:layout_height="34dp"
                             android:layout_gravity="end|bottom"
+                            android:layout_marginBottom="5dp"
                             android:background="@drawable/customedittext"
                             android:padding="10dp"
                             android:text="Search Records"
@@ -270,9 +272,8 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
+            <!--</ScrollView>-->
         </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
 </LinearLayout>

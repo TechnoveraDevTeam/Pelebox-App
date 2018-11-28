@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginLeft="250dp"
+    android:layout_marginLeft="270dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.aviwe.pelebox.MediPackClientActivity"
     tools:showIn="@layout/app_bar_medi_pack_client">
@@ -14,14 +14,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         app:cardElevation="4dp"
-        app:cardCornerRadius="4dp"
-        android:layout_margin="2dp"
+        app:cardCornerRadius="2dp"
+
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+        >
 
             <TextView
                 android:layout_width="wrap_content"

@@ -112,6 +112,7 @@
     </LinearLayout>
 
 
+   
     <Button
         android:id="@+id/btnManualScan"
         android:layout_width="180dp"
@@ -127,6 +128,7 @@
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:textStyle="bold" />
+
     <Button
         android:id="@+id/bntAcceptAll"
         android:layout_width="wrap_content"

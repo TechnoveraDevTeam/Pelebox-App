@@ -51,21 +51,34 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
             holder.surname.setText("Patient Surname     : " + surname);
             holder.name.setText("Patient Name          : " + name);
-            holder.expiredLabel.setText("Collected");
-            holder.expiredLabel.setTextColor(Color.GREEN);
+//            holder.expiredLabel.setText("Collected");
+//            holder.expiredLabel.setTextColor(Color.GREEN);
 
             if(id.length() == 13)
             {
-                holder.id.setText("Patient ID Number  : " + id);
+                holder.id.setText("Patient ID Number : " + id);
             }
             else{
                 holder.id.setText("Patient Passport    : " + id);
             }
 
-            holder.cellphone.setText("Patient Cellphone      : " + cellphone);
+            holder.cellphone.setText("  Patient Cellphone      : " + cellphone);
             holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
             holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
             holder.firstLetter.setText(fname);
+
+        if (mFilteredList.get(position).getMediPackStatusId()> 4)
+        {
+            holder.decline.setVisibility(View.VISIBLE);
+            //Toast.makeText(mContext, "TICK" + mFilteredList.get(position).getPatientFisrtName(), Toast.LENGTH_SHORT).show();
+        }
+        if (mFilteredList.get(position).getMediPackStatusId()== 3 || mFilteredList.get(position).getMediPackStatusId()== 4)
+                {
+                    holder.expiredLabel.setText("Collected");
+                    holder.expiredLabel.setTextColor(Color.GREEN);
+                    holder.expiredLabel.setVisibility(View.VISIBLE);
+            //Toast.makeText(mContext, "TICK" + mFilteredList.get(position).getPatientFisrtName(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -120,6 +133,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         TextView cellphone = itemView.findViewById(R.id.txtCellphone);
         TextView nhiNumber = itemView.findViewById(R.id.txtNhiNumber);
         TextView expiredLabel = itemView.findViewById(R.id.txtexpired);
+        TextView decline = itemView.findViewById(R.id.txtDecline);
         Button firstLetter = itemView.findViewById(R.id. btnFirstLetter);
 
 
@@ -131,7 +145,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
-                    listener.onContactSelected(mFilteredList.get(getAdapterPosition()));
+//                    listener.onContactSelected(mFilteredList.get(getAdapterPosition()));
                 }
             });
         }
