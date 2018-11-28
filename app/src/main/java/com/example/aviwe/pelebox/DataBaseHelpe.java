@@ -324,8 +324,8 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     {
         //db = this.getReadableDatabase();
          db = this.getWritableDatabase();
-        String query = "Select * from " + TABLE_USER + " WHERE " +COLUMN_6 +" = '" +email +"' AND " +
-                COLUMN_4 + " = '" + password + "'";
+        String query = "Select *   from " + TABLE_USER + " WHERE " + COLUMN_6 +" like '%" +email +"' AND " +
+                COLUMN_4 + " like '%" + password + "'";
         Cursor c = db.rawQuery(query, null);
 
         UserClient userClient = null ;
