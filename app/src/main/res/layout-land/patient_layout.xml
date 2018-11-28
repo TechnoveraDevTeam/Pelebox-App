@@ -5,21 +5,21 @@
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:layout_marginLeft="5dp"
-
+android:orientation="vertical"
     android:layout_marginRight="5dp"
     app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingRight="15dp"
+            android:paddingRight="5dp"
             android:paddingBottom="5dp">
 
 
@@ -35,7 +35,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="174dp"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="8dp"
@@ -116,25 +116,14 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtexpired"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="end|bottom"
-            android:textColor="@color/colorAccent"
-            android:textSize="20dp"
-            android:paddingRight="15dp"
-            android:textStyle="bold"
-            />
+
 
         <TextView
             android:id="@+id/txtDecline"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end|bottom"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/ic_black_24dp"
             android:paddingRight="10dp"
@@ -157,6 +146,18 @@
     <!--android:textSize="20dp"-->
     <!--android:textStyle="bold"-->
     <!--android:visibility="visible" />-->
+    <TextView
+        android:id="@+id/txtexpired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="end|bottom"
+        android:textColor="@color/colorAccent"
+        android:textSize="10dp"
+        android:paddingRight="15dp"
+        android:textStyle="bold"
+        />
 </android.support.v7.widget.CardView>
 
 
