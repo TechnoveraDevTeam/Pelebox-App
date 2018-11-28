@@ -19,7 +19,7 @@
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav"
-            android:layout_width="275dp"
+            android:layout_width="268dp"
             android:layout_height="match_parent"
 
 
