@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,9 +40,10 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
     EditText Dialogname,Dialogsurname,DialogIdno,DialogCellNumber,DialogDueDate;
     DatePickerDialog.OnDateSetListener dateListener;
     String selectedDate,barcode,formattedDate;
-    int databaseStatus,status,dirtyFlag;
+    int databaseStatus,status,dirtyFlag, generatePin ;
     Button saveData,cancelData,selectDate;
     boolean isValid = true;
+    public static int random;
 
     public ScannedInAdapter(ArrayList<MediPackClient> arrayList,Context mContext) {
         this.mArrayList = arrayList;
@@ -85,8 +87,8 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
             {
                 if (validateTime() == true)
                 {
-//                    if(mFilteredList.get(position).getPatientFisrtName().length() != 0 )
-//                    {
+                    if(mFilteredList.get(position).getPatientFisrtName().length() != 0 )
+                    {
                        // Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                         new AlertDialog.Builder(mContext)
                                 .setMessage("Are you sure you want to accept the parcel?")
@@ -112,16 +114,22 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                                             notifyItemRangeChanged(position, mFilteredList.size());
                                         } else {
                                             helper = new DataBaseHelpe(mContext);
-                                            helper.UpdateParcelStatus(barcode, status, dirtyFlag);
+
+                                            generatePin = generateNumber();
+                                            mediPackClient = new MediPackClient();
+
+                                            mediPackClient.setDeviceId(generatePin);
+                                            helper.addPin(mediPackClient);
+                                            helper.UpdateParcelStatus(barcode, status, dirtyFlag,generatePin);
                                             Toast.makeText(mContext, "Successfully sccanned in ", Toast.LENGTH_LONG).show();
 
                                             //Display and update the current date the medi parecel was scanned in
                                             Calendar c = Calendar.getInstance();
-                                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             formattedDate = df.format(c.getTime());
 
                                             //Calling the update method from the database to update the date
-                                            helper.UpdateParcelDateScannedIn(barcode, formattedDate);
+                                            helper.UpdateParcelDateScannedIn(barcode, formattedDate,MainActivity.userloginid);
 
                                             //Removing the item from the list after scan in successfully
                                             mFilteredList.remove(position);
@@ -130,11 +138,11 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                                         }
                                     }
                                 }).create().show();
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(mContext, "Please fillin the missing information", Toast.LENGTH_SHORT).show();
-//                    }
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext, "Please fillin the missing information", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
@@ -194,6 +202,13 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                             edID = DialogIdno.getText().toString().trim();
                             edDueDate = DialogDueDate.getText().toString().trim();
                             edCellNumber = DialogCellNumber.getText().toString().trim();
+
+                            mFilteredList.get(position).setPatientFisrtName(edName);
+                            mFilteredList.get(position).setPatientLastName(edSurname);
+                            mFilteredList.get(position).setPatientRSA(edID);
+                            mFilteredList.get(position).setPatientCellphone(edCellNumber);
+                            mFilteredList.get(position).setMediPackDueDateTime(edDueDate);
+
 
                             if(isDataValid() == true)
                             {
@@ -477,6 +492,14 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public int generateNumber()
+    {
+         int min = 100000;
+         int max = 999999;
+       // Toast.makeText(mContext, "Random Num,ber is " + " " + random, Toast.LENGTH_SHORT).show();
+        return  random = new Random().nextInt((max - min) + 1) + min;
     }
 }
 
