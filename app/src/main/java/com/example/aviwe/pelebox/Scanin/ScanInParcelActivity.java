@@ -13,10 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.aviwe.pelebox.MainActivity;
-import com.example.aviwe.pelebox.MediPackClientActivity;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
@@ -39,8 +36,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ScanInParcelActivity extends AppCompatActivity
 {
@@ -50,7 +45,7 @@ public class ScanInParcelActivity extends AppCompatActivity
     private ScannedInAdapter scannedInAdapter;
     private RecyclerView mRecyclerView;
     private int status;
-    private Button btnAcceptAll, btnManualScan, btnSearchManual;
+    private Button btnAcceptAll,btnManualScan, btnSearchManual;
     private Timer timer;
     String barcode, changedBarcode;
     ArrayList<MediPackClient> medList;
@@ -66,21 +61,6 @@ public class ScanInParcelActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_testing);
-
-        med = new MediPackClient();
-        helper = new DataBaseHelpe(this);
-        medList = new ArrayList<>();
-
-        context = getBaseContext();
-
-        edBarcode = findViewById(R.id.edtBarcode);
-        mRecyclerView = findViewById(R.id.scanInCycle);
-        btnAcceptAll = findViewById(R.id.bntAcceptAll);
-        btnManualScan = findViewById(R.id.btnManualScan);
-        btnSearchManual = findViewById(R.id.btnSearchManual);
-
-        //Trying something for the edit text
-        edBarcode.setOnEditorActionListener(editorActionListener);
 
         isManual = false;
 
@@ -130,6 +110,18 @@ public class ScanInParcelActivity extends AppCompatActivity
             }
         };
 
+        med = new MediPackClient();
+        helper = new DataBaseHelpe(this);
+        medList = new ArrayList<>();
+
+        context = getBaseContext();
+
+        edBarcode = findViewById(R.id.edtBarcode);
+        mRecyclerView = findViewById(R.id.scanInCycle);
+        btnAcceptAll = findViewById(R.id.bntAcceptAll);
+        btnManualScan = findViewById(R.id.btnManualScan);
+        btnSearchManual = findViewById(R.id.btnSearchManual);
+
         scannedInAdapter = new ScannedInAdapter(medList, ScanInParcelActivity.this);
         scannedInAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(scannedInAdapter);
@@ -141,9 +133,102 @@ public class ScanInParcelActivity extends AppCompatActivity
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = (TextView) holder.findViewById(R.id.customToas_text);
-        
-        edBarcode.addTextChangedListener(scannerWatcher);
 
+//        //Textwatcher barcode scan in functionality
+//        edBarcode.addTextChangedListener(new TextWatcher()
+//        {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (timer != null)
+//                {
+//                    timer.cancel();
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                timer = new Timer();
+//                timer.schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                            }
+//                        });
+//
+//                        try{
+//                            Thread.sleep(100);
+//                        }catch (InterruptedException e){
+//                            e.printStackTrace();
+//                        }
+//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                myBarcode();
+//                                edBarcode.setText("");
+//                            }
+//                        });
+//
+//                    }
+//                }, 400);
+//
+//            }
+//        });
+
+        //Accept all scan in medi pack functionality
+        btnAcceptAll.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (ConstantMethods.validateTime() == true) {
+
+                            status = 2;
+                            int dirtyFlag = 2;
+
+                            //Getting the current date the medi parecel was scanned in
+                            Calendar c = Calendar.getInstance();
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            String formattedDate = df.format(c.getTime());
+
+                            //Getting the method to update the status and date to all the record
+                            for (MediPackClient mec : medList)
+                            {
+                                helper.UpdateAllStatusOfScannedInMediPack(status, formattedDate, dirtyFlag,mec.getMediPackId());
+                                customToast("All Parcel has been successful scanned");
+                                //Toast.makeText(ScanInParcelActivity.this, "All Parcel has been successful scanned", Toast.LENGTH_LONG).show();
+                            }
+
+                            medList.clear();
+                            scannedInAdapter.notifyDataSetChanged();
+                        }
+                        else{
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScanInParcelActivity.this);
+                            builder.setTitle("Timeout Warning !");
+                            builder.setMessage("Your time has expired .Please login again");
+                            builder.setIcon(R.drawable.ic_warning_black_24dp);
+
+                            builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    UserClient userClient= new UserClient();
+                                    userClient.setToken("");
+                                    helper.UpdateUser(userClient);
+                                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            builder.show();
+                        }
+                    }
+
+                });
 
         //Deactivate TextWatcher
         btnManualScan.setOnClickListener(new View.OnClickListener() {
@@ -192,56 +277,6 @@ public class ScanInParcelActivity extends AppCompatActivity
                 }
             }
         });
-
-        //Accept all scan in medi pack functionality
-        btnAcceptAll.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if (ConstantMethods.validateTime() == true) {
-
-                            status = 2;
-                            int dirtyFlag = 2;
-
-                            //Getting the current date the medi parecel was scanned in
-                            Calendar c = Calendar.getInstance();
-                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                            String formattedDate = df.format(c.getTime());
-
-                            //Getting the method to update the status and date to all the record
-                            for (MediPackClient mec : medList)
-                            {
-                                helper.UpdateAllStatusOfScannedInMediPack(status, formattedDate, dirtyFlag,mec.getMediPackId());
-                                customToast("All Parcel has been successful scanned");
-                            }
-
-                            medList.clear();
-                            scannedInAdapter.notifyDataSetChanged();
-                        }
-                        else{
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScanInParcelActivity.this);
-                            builder.setTitle("Timeout Warning !");
-                            builder.setMessage("Your time has expired .Please login again");
-                            builder.setIcon(R.drawable.ic_warning_black_24dp);
-
-                            builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    UserClient userClient= new UserClient();
-                                    userClient.setToken("");
-                                    helper.UpdateUser(userClient);
-                                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                            builder.show();
-                        }
-                    }
-
-                });
-
     }
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
@@ -295,41 +330,37 @@ public class ScanInParcelActivity extends AppCompatActivity
         //This is a NHI that does not start with the * when scanned
         else if(barcode.length() == 12)
         {
-            med = helper.getBarcodeParcel(barcode);
-          //  scanInBarcodeFunctinality(barcode);
-
-           // changedBarcode = barcode.substring(0, 3);
-
-            if(med == null)
+            changedBarcode = barcode.substring(0, 3);
+            if(changedBarcode.equalsIgnoreCase("NHI"))
             {
-                closeKeyboard();
-                customToast(" No such barcode  found, Please try");
+                med = helper.getBarcodeParcel(barcode);
+                scanInBarcodeFunctinality(barcode);
             }
             else
             {
-                scanInBarcodeFunctinality(barcode);
+                closeKeyboard();
+                customToast(" No such barcode  found, Please try");
+                //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
             }
-//            if(changedBarcode.equalsIgnoreCase("NHI"))
-//            {
-//                med = helper.getBarcodeParcel(barcode);
-//                scanInBarcodeFunctinality(barcode);
-//            }
-//            else
-//            {
-//                med = helper.getBarcodeParcel(barcode);
-//                scanInBarcodeFunctinality(barcode);
-//            }
-//            else
-//            {
-//                closeKeyboard();
-//                customToast(" No such barcode  found, Please try");
-//            }
         }
-//
+
         return;
 
     }
 
+    //Validation method for user inputed data/ Edit text
+    public boolean isBarcodeValid()
+    {
+        barcode = edBarcode.getText().toString();
+        if (!barcode.isEmpty()) {
+            valid = true;
+        }
+        else {
+            valid = false;
+            edBarcode.setError("Please enter barcode");
+        }
+        return valid;
+    }
 
     public void scanInBarcodeFunctinality(String scannedNHI)
     {
@@ -358,7 +389,7 @@ public class ScanInParcelActivity extends AppCompatActivity
             }
             else
             {
-                customToast(" Parcel has already being scanned");
+                customToast("Parcel has already being scanned in");
                 //Toast.makeText(ScanInParcelActivity.this, " Parcel has already being scanned", Toast.LENGTH_LONG).show();
             }
         }
@@ -379,7 +410,7 @@ public class ScanInParcelActivity extends AppCompatActivity
             else
             {
                 closeKeyboard();
-                customToast("barcode has already been scanned in for unknowm barcode");
+                customToast("Parcel has already been scanned in");
                 //Toast.makeText(ScanInParcelActivity.this, "barcode has already been scanned in for unknowm barcode", Toast.LENGTH_LONG).show();
             }
 
@@ -393,20 +424,6 @@ public class ScanInParcelActivity extends AppCompatActivity
         scannedInAdapter.notifyDataSetChanged();
     }
 
-    //Validation method for user inputed data/ Edit text
-    public boolean isBarcodeValid()
-    {
-        barcode = edBarcode.getText().toString();
-        if (!barcode.isEmpty()) {
-            valid = true;
-        }
-        else {
-            valid = false;
-            edBarcode.setError("Please enter barcode");
-        }
-        return valid;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -414,27 +431,5 @@ public class ScanInParcelActivity extends AppCompatActivity
         return true;
     }
 
-    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
-        {
-            switch(actionId)
-            {
-                case EditorInfo.IME_ACTION_SEARCH:
-
-                    if(isBarcodeValid() == true)
-                    {
-                       myBarcode();
-                        if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
-                        {
-                            customToast("Incorrect Barcode, Please try again");
-                        }
-                        edBarcode.setText("");
-                        closeKeyboard();
-                    }
-            }
-            return false;
-        }
-    };
 }
 
