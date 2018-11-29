@@ -20,6 +20,10 @@ public class MediPackClient implements Serializable
     public MediPackClient() {
     }
 
+    public MediPackClient(String pin) {
+        Pin = pin;
+    }
+
     public MediPackClient(int mediPackId, String patientFisrtName, String patientLastName, String patientCellphone, String mediPackBarcode, String mediPackDueDateTime) {
         MediPackId = mediPackId;
         PatientFisrtName = patientFisrtName;
