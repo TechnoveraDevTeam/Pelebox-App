@@ -44,6 +44,7 @@ public class MyServices extends android.app.job.JobService
     public static String device_id = "1" ;
     public  String stringValue = "\"Unauthorized access!\"";
     public  String stringVal = "\"Cannot find table 0.\"";
+    public String strValu = "\"ExecuteReader requires an open and available Connection. The connection's current state is open.\"";
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -101,7 +102,7 @@ public class MyServices extends android.app.job.JobService
                     {
                         try
                         {
-                            if(response.equalsIgnoreCase(stringValue) || response.equalsIgnoreCase(stringVal))
+                            if(response.equalsIgnoreCase(stringValue) || response.equalsIgnoreCase(stringVal) || response.equalsIgnoreCase(strValu))
                             {
                                 Toast.makeText(MyServices.this, " Failed To Sync " , Toast.LENGTH_SHORT).show();
                                 ArrayList<UserClient> users = myHelper.getAllUsers();
@@ -110,7 +111,7 @@ public class MyServices extends android.app.job.JobService
                                 {
                                     if (userClients.getUserclientId() == userid )
                                     {
-                                      Toast.makeText(MyServices.this, " There is a user " , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyServices.this, " There is a user " , Toast.LENGTH_SHORT).show();
                                         myHelper.DeleteUser(userid);
                                         Intent dialogIntent = new Intent(MyServices.this, MainActivity.class);
                                         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -231,7 +232,6 @@ public class MyServices extends android.app.job.JobService
                 Map<String, String> params = new HashMap<>();
 
                 params.put("Token", tokenVal);
-                Log.d("token 2",tokenVal);
                 params.put("DeviceId", device_id);
                 params.put("UserId", convertedUserid);
                 params.put("confList ", jsonCartList);
@@ -345,10 +345,11 @@ public class MyServices extends android.app.job.JobService
             e.printStackTrace();
         }
         c.setTime(d);
-        c.add(Calendar.SECOND, 30);
+        c.add(Calendar.MINUTE, 120);
         newTime = df.format(c.getTime());
 
        // Toast.makeText(MyServices.this, " NEW UPDATED SYNC TIME " + " " + newTime , Toast.LENGTH_SHORT).show();
         myHelper.updateTokenTimeout(mainuserid,newTime);
     }
+
 }
