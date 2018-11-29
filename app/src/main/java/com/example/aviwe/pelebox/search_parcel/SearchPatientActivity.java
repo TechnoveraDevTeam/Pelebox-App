@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,15 +27,10 @@ import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.ScanoutByAssistantActivity;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
-import com.example.aviwe.pelebox.pojos.UserClient;
 import com.example.aviwe.pelebox.utils.ConstantMethods;
 import com.example.aviwe.pelebox.utils.RecyclerItemClickListener;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 public class SearchPatientActivity extends AppCompatActivity {
     private RadioGroup searchGroup;
     private DataBaseHelpe helper;
@@ -46,135 +43,50 @@ public class SearchPatientActivity extends AppCompatActivity {
     EditText edtParcelSearch;
     Button btnSearchParcel;
     int radioId1;
-    //for the toast
+
+
     RelativeLayout holder;
     TextView customText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_patient);
+
         adapter = new MediPackClientsAdapter(mediPackList);
         med = new MediPackClient();
+
         edtParcelSearch = findViewById(R.id.input);
+        edtParcelSearch.setOnEditorActionListener(editorActionListener);
         btnSearchParcel = findViewById(R.id.search);
         searchGroup = findViewById(R.id.radioGroup);
-        //Initiatiating the database helper and recycler view
         helper = new DataBaseHelpe(this);
         mRecyclerView = findViewById(R.id.parcel_ready_for_collection);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = (TextView) holder.findViewById(R.id.customToas_text);
+
         //Intitiating the array and getting all the records
         mediPackList = new ArrayList<>();
         mediPackList = helper.getAllMediPackToBeCollected();
         getAdapter(mediPackList);
+
+
+
         radioId1 = searchGroup.getCheckedRadioButtonId();
         radioButton1 = findViewById(radioId1);
+
         //search button function/filtering
         btnSearchParcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                if (ConstantMethods.validateTime() == true)
-                {
-                    strSearch = edtParcelSearch.getText().toString();
-                    if (searchGroup.getCheckedRadioButtonId() == -1)
-                    {
-                        customToast("Please check one of the radio buttons");
-                        //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            if (radioButton1.getText().equals("Surname"))
-                            {
-                                if (TextUtils.isEmpty(strSearch))
-                                {
-                                    edtParcelSearch.setError("Please enter the surname");
-                                    return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchBySurname(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-                            else if (radioButton1.getText().equals("Id Number / Passport"))
-                            {
-                                if (TextUtils.isEmpty(strSearch))
-                                {
-                                    edtParcelSearch.setError("Please enter the identity number / Passport");
-                                    return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchById(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-                            else if (radioButton1.getText().equals("Date of Birth")) {
-                                if (TextUtils.isEmpty(strSearch)) {
-                                    edtParcelSearch.setError("Please enter the date of birth");
-                                    return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    if(strSearch.length() == 6)
-                                    {
-                                        mediPackList = helper.searchBydateofbirth(strSearch);
-                                        getAdapter(mediPackList);
-                                    }
-                                    else {
-                                        edtParcelSearch.setError("Please enter 6 digits to search");
-                                    }
-                                }
-                            }
-                            else if (radioButton1.getText().equals("Cell Number"))
-                            {
-                                if (TextUtils.isEmpty(strSearch)) {
-                                    edtParcelSearch.setError("PLease enter the Cell Number");
-                                    return;
-                                }
-                                else
-                                {
-                                    closeKeyboard();
-                                    mediPackList = helper.searchByCellNumber(strSearch);
-                                    getAdapter(mediPackList);
-                                }
-                            }
-                            edtParcelSearch.setText("");
-                        }
-                        catch (Exception e)
-                        {
-                            closeKeyboard();
-                            customToast("Please select the option given");
-                            //Toast.makeText(getBaseContext(), "Please select the option given", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-                else
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SearchPatientActivity.this);
-                    builder.setTitle("Timeout Warning !");
-                    builder.setMessage("Your time has expired .Please login again");
-                    builder.setIcon(R.drawable.ic_warning_black_24dp);
-                    builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                    builder.show();
-                }
+                searchParcelMethod();
             }
         });
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -235,27 +147,150 @@ public class SearchPatientActivity extends AppCompatActivity {
         radioButton1 = findViewById(radioId1);
         if(radioButton1.getText().equals("Surname"))
         {
+            mediPackList = helper.getAllMediPackToBeCollected();
+            getAdapter(mediPackList);
             edtParcelSearch.setHint("Enter Surname");
             edtParcelSearch.setInputType(InputType.TYPE_CLASS_TEXT);
             edtParcelSearch.setText("");
         }
         else if(radioButton1.getText().equals("Date of Birth"))
         {
+            mediPackList = helper.getAllMediPackToBeCollected();
+            getAdapter(mediPackList);
             edtParcelSearch.setHint("YY-MM-DD");
             edtParcelSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
             edtParcelSearch.setText("");
         }
         else if(radioButton1.getText().equals("Cell Number"))
         {
+            mediPackList = helper.getAllMediPackToBeCollected();
+            getAdapter(mediPackList);
             edtParcelSearch.setHint("Enter Cell number");
             edtParcelSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
             edtParcelSearch.setText("");
         }
         else if(radioButton1.getText().equals("Id Number / Passport"))
         {
+            mediPackList = helper.getAllMediPackToBeCollected();
+            getAdapter(mediPackList);
             edtParcelSearch.setHint("Enter ID Number / Passport");
-            edtParcelSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+            edtParcelSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
             edtParcelSearch.setText("");
+        }
+    }
+
+    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
+        {
+            switch(actionId)
+            {
+                case EditorInfo.IME_ACTION_SEARCH:
+                    searchParcelMethod();
+            }
+            return false;
+        }
+    };
+
+    public void searchParcelMethod()
+    {
+        if (ConstantMethods.validateTime() == true)
+        {
+            strSearch = edtParcelSearch.getText().toString();
+            if (searchGroup.getCheckedRadioButtonId() == -1)
+            {
+                customToast("Please check one of the radio buttons");
+                //Toast.makeText(ScanOoutActivity.this, "Please check one of the radio buttons", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else
+            {
+                try
+                {
+                    if (radioButton1.getText().equals("Surname"))
+                    {
+
+                        if (TextUtils.isEmpty(strSearch))
+                        {
+                            edtParcelSearch.setError("Please enter the surname");
+                            return;
+                        }
+                        else
+                        {
+                            closeKeyboard();
+                            mediPackList = helper.searchBySurname(strSearch);
+                            getAdapter(mediPackList);
+                        }
+                    }
+                    else if (radioButton1.getText().equals("Id Number / Passport"))
+                    {
+                        if (TextUtils.isEmpty(strSearch))
+                        {
+                            edtParcelSearch.setError("Please enter the identity number / Passport");
+                            return;
+                        }
+                        else
+                        {
+                            closeKeyboard();
+                            mediPackList = helper.searchById(strSearch);
+                            getAdapter(mediPackList);
+                        }
+                    }
+                    else if (radioButton1.getText().equals("Date of Birth")) {
+                        if (TextUtils.isEmpty(strSearch)) {
+                            edtParcelSearch.setError("Please enter the date of birth");
+                            return;
+                        }
+                        else
+                        {
+                            closeKeyboard();
+                            if(strSearch.length() == 6)
+                            {
+                                mediPackList = helper.searchBydateofbirth(strSearch);
+                                getAdapter(mediPackList);
+                            }
+                            else {
+                                edtParcelSearch.setError("Please enter 6 digits to search");
+                            }
+                        }
+                    }
+                    else if (radioButton1.getText().equals("Cell Number"))
+                    {
+                        if (TextUtils.isEmpty(strSearch)) {
+                            edtParcelSearch.setError("PLease enter the Cell Number");
+                            return;
+                        }
+                        else
+                        {
+                            closeKeyboard();
+                            mediPackList = helper.searchByCellNumber(strSearch);
+                            getAdapter(mediPackList);
+                        }
+                    }
+                    edtParcelSearch.setText("");
+                }
+                catch (Exception e)
+                {
+                    closeKeyboard();
+                    customToast("Please select the option given");
+                    //Toast.makeText(getBaseContext(), "Please select the option given", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SearchPatientActivity.this);
+            builder.setTitle("Timeout Warning !");
+            builder.setMessage("Your time has expired .Please login again");
+            builder.setIcon(R.drawable.ic_warning_black_24dp);
+            builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.show();
         }
     }
 }
