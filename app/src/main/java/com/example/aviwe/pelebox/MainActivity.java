@@ -218,6 +218,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 FancyToast.makeText(getApplication(), "Entered email or password is not correct", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                             }
                             else {
+                                Toast.makeText(MainActivity.this, " GLOUD", Toast.LENGTH_SHORT).show();
                                 //Login successfully
                                 jsonObject = new JSONObject(response);
 

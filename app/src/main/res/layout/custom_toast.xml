@@ -20,6 +20,7 @@
         android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#ff2400"
+        android:textSize="5dp"
         android:background="@drawable/toast_round_shape"
         android:gravity="center" />
 

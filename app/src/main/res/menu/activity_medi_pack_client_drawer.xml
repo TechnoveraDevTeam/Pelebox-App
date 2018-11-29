@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        >
         <item
             android:id="@+id/Parcel_list"
             android:icon="@drawable/ic_create_new_folder_black_24dp"
-            android:title="Uploaded Parcels " />
+            android:title="Uploaded Parcels" />
         <item
             android:id="@+id/Scan_in"
             android:icon="@drawable/ic_archive_black_24dp"
@@ -20,7 +21,8 @@
         <item
             android:id="@+id/nav_searchparcel"
             android:icon="@drawable/account_search"
-            android:title="Search Patient" />
+            android:title="Search Patient"
+            />
 
         <item
             android:id="@+id/nav_returnparcel"
@@ -57,19 +59,6 @@
             android:title="Logout" />
     </group>
 
-    <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_aboutus"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="About Us" />-->
 
-            <!--<item-->
-                <!--android:id="@+id/nav_contactus"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Contact Us" />-->
-
-        <!--</menu>-->
-    <!--</item>-->
 
 </menu>

@@ -9,6 +9,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+
+    <supports-screens android:resizeable="true"
+    android:smallScreens="true"
+    android:normalScreens="true"
+    android:largeScreens="true"
+    android:xlargeScreens="true"
+    android:anyDensity="true"
+ />
+
     <application
         android:name=".logoutSessions.PeleboxActivity"
         android:allowBackup="true"
@@ -20,31 +29,57 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".MediPackClientActivity"
+            android:name=".Scanout.ScanOutParcel"
             android:icon="@drawable/logo"
-            android:label=" Parcel Information"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label=" Parcel Scan out"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"/>
+        <activity
+        android:name=".MediPackClientActivity"
+        android:icon="@drawable/logo"
+        android:label=" Parcel Information"
+        android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".ReturnParcels.ReturnParcelsActivity"
+            android:icon="@drawable/logo"
+            android:label="Returns "
+            android:parentActivityName=".MediPackClientActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape">
+        <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".MediPackClientActivity"
+        android:screenOrientation="landscape"/>
+        </activity>
+
         <activity
             android:name=".PatientInformationActivity"
             android:label="Parcel Information Details"
-            android:parentActivityName=".report.CollectedParcelActivity">
+            android:parentActivityName=".report.CollectedParcelActivity"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".report.CollectedParcelActivity" />
+                android:value=".report.CollectedParcelActivity"
+                android:screenOrientation="landscape"/>
         </activity>
         <activity
             android:name=".Scanin.ScanInParcelActivity"
             android:label="SCANI IN"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -53,7 +88,8 @@
             android:name=".report.ScanoutReadyCollectionActivity"
             android:label="Parcel Ready For Collection"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -62,7 +98,8 @@
             android:name=".Scanout.ScanOoutActivity"
             android:label="SCAN OUT"
             android:parentActivityName=".MediPackClientActivity"
-            >
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -71,7 +108,8 @@
             android:name=".report.ScanoutExpiredActivity"
             android:label="Expired Parcel"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -80,7 +118,8 @@
             android:name=".search_parcel.SearchPatientActivity"
             android:label="Search Patient"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -89,7 +128,8 @@
             android:name=".ScanoutByAssistantActivity"
             android:label="SCAN OUT"
             android:parentActivityName=".search_parcel.SearchPatientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -99,7 +139,8 @@
             android:name=".report.CollectedParcelActivity"
             android:label="Collected Parcels"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
@@ -115,7 +156,8 @@
             android:name=".forgotPassword.RequestPasswordActivity"
             android:label="Password Reset"
             android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -124,7 +166,8 @@
             android:name=".report.SevenDaysNonCollectionReport"
             android:label="7 Days Over Due Parcels"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -133,30 +176,31 @@
             android:name=".report.TwentyFourHoursNonCollectionReport"
             android:label="24Hours Over Due Parcels"
             android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".ReturnParcels.ReturnParcelsActivity"
-            android:label="Return Parcels"
-            android:parentActivityName=".MediPackClientActivity"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MediPackClientActivity" />
-        </activity>
+        <!--<activity-->
+            <!--android:name=".ReturnParcels.ReturnParcelsActivity"-->
+            <!--android:label="Return Parcels"-->
+            <!--android:parentActivityName=".MediPackClientActivity"-->
+            <!--android:windowSoftInputMode="stateHidden">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".MediPackClientActivity" />-->
+        <!--</activity>-->
 
-        <activity android:name=".Scanout.ScanOutParcel"
-            android:label="Scanout Parcels"
-            android:parentActivityName=".Scanout.ScanOoutActivity"
-            android:windowSoftInputMode="stateHidden">
+        <!--<activity android:name=".Scanout.ScanOutParcel"-->
+            <!--android:label="Scanout Parcels"-->
+            <!--android:parentActivityName=".Scanout.ScanOoutActivity"-->
+            <!--android:windowSoftInputMode="stateHidden">-->
 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MediPackClientActivity" />
-        </activity>
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".MediPackClientActivity" />-->
+        <!--</activity>-->
     </application>
 
 </manifest>

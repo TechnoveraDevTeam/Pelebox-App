@@ -207,6 +207,17 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
 
 
+    public void UpdateCollectStatus( int parcelStatus,String id,String currentDate ,int dirtyFlag,int outUserId)
+    {
+        db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_MED +
+                " SET " + COLUMN_MEDIPACKSTATUSID + " = '" + parcelStatus +
+                "', "+ COLUMN_DIRTY_FLAG + " = '" + dirtyFlag+
+                "', "+ COLUMN_SCANNED_OUT_DATETIME + " = '" + currentDate+
+                "', "+ COLUMN_OUTUSERID + "= " + outUserId + " WHERE " + COLUMN_RSA + " = \"" + id + "\"";
+        db.execSQL(query);
+        db.close();
+    }
 
     //Medipack
     public ArrayList<MediPackClient> getAllMediPack() {
@@ -222,21 +233,24 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-                packs.setMediPackId(cursor.getInt(0));
+
+                packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
                 packs.setPatientCellphone(cursor.getString(3));
                 packs.setMediPackBarcode(cursor.getString(4));
                 packs.setPatientRSA(cursor.getString(5));
                 packs.setManifestNumber(cursor.getString(6));
-                packs.setDeviceId(cursor.getInt(7));
-                packs.setInUserId(cursor.getInt(8));
-                packs.setOutUserId(cursor.getInt(9));
+                packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+                packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+                packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
                 packs.setMediPackDueDateTime(cursor.getString(10));
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(cursor.getInt(14));
+                packs.setPin(cursor.getString(14));
+
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
                 // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
@@ -310,8 +324,8 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
     {
         //db = this.getReadableDatabase();
          db = this.getWritableDatabase();
-        String query = "Select * from " + TABLE_USER + " WHERE " +COLUMN_6 +" = '" +email +"' AND " +
-                COLUMN_4 + " = '" + password + "'";
+        String query = "Select *   from " + TABLE_USER + " WHERE " + COLUMN_6 +" like '%" +email +"' AND " +
+                COLUMN_4 + " like '%" + password + "'";
         Cursor c = db.rawQuery(query, null);
 
         UserClient userClient = null ;
@@ -626,21 +640,25 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            packs.setMediPackId(cursor.getInt(0));
+
+            packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
+            packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
             packs.setPatientFisrtName((cursor.getString(1)));
             packs.setPatientLastName(cursor.getString(2));
             packs.setPatientCellphone(cursor.getString(3));
             packs.setMediPackBarcode(cursor.getString(4));
             packs.setPatientRSA(cursor.getString(5));
             packs.setManifestNumber(cursor.getString(6));
-            packs.setDeviceId(cursor.getInt(7));
-            packs.setInUserId(cursor.getInt(8));
-            packs.setOutUserId(cursor.getInt(9));
+            packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+            packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+            packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
             packs.setMediPackDueDateTime(cursor.getString(10));
             packs.setScannedInDateTime(cursor.getString(11));
             packs.setScannedOutDateTime(cursor.getString(12));
             packs.setMediPackStatusId(cursor.getInt(13));
-            packs.setDirtyFlag(cursor.getInt(14));
+            packs.setPin(cursor.getString(14));
+
+            packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
             cursor.close();
         } else {
             packs = null;
@@ -736,9 +754,10 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
             packs.setMediPackDueDateTime(cursor.getString(10));
             packs.setScannedInDateTime(cursor.getString(11));
             packs.setScannedOutDateTime(cursor.getString(12));
-            packs.setMediPackStatusId(Integer.parseInt(cursor.getString(13)));
-            packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+            packs.setMediPackStatusId(cursor.getInt(13));
+            packs.setPin(cursor.getString(14));
 
+            packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
             pack.add(packs);
         }
         while (cursor.moveToNext());
@@ -758,22 +777,23 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            packs.setMediPackId(cursor.getInt(0));
+            packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
             packs.setPatientFisrtName((cursor.getString(1)));
             packs.setPatientLastName(cursor.getString(2));
             packs.setPatientCellphone(cursor.getString(3));
             packs.setMediPackBarcode(cursor.getString(4));
             packs.setPatientRSA(cursor.getString(5));
             packs.setManifestNumber(cursor.getString(6));
-            packs.setDeviceId(cursor.getInt(7));
-            packs.setInUserId(cursor.getInt(8));
-            packs.setOutUserId(cursor.getInt(9));
+            packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+            packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+            packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
             packs.setMediPackDueDateTime(cursor.getString(10));
             packs.setScannedInDateTime(cursor.getString(11));
             packs.setScannedOutDateTime(cursor.getString(12));
             packs.setMediPackStatusId(cursor.getInt(13));
-            packs.setDirtyFlag(cursor.getInt(14));
-            cursor.close();
+            packs.setPin(cursor.getString(14));
+
+            packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));   cursor.close();
         } else {
             packs = null;
         }
@@ -809,22 +829,23 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            packs.setMediPackId(cursor.getInt(0));
+            packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
             packs.setPatientFisrtName((cursor.getString(1)));
             packs.setPatientLastName(cursor.getString(2));
             packs.setPatientCellphone(cursor.getString(3));
             packs.setMediPackBarcode(cursor.getString(4));
             packs.setPatientRSA(cursor.getString(5));
             packs.setManifestNumber(cursor.getString(6));
-            packs.setDeviceId(cursor.getInt(7));
-            packs.setInUserId(cursor.getInt(8));
-            packs.setOutUserId(cursor.getInt(9));
+            packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+            packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+            packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
             packs.setMediPackDueDateTime(cursor.getString(10));
             packs.setScannedInDateTime(cursor.getString(11));
             packs.setScannedOutDateTime(cursor.getString(12));
             packs.setMediPackStatusId(cursor.getInt(13));
             packs.setPin(cursor.getString(14));
-            packs.setDirtyFlag(cursor.getInt(15));
+
+            packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
             cursor.close();
         } else {
             packs = null;
@@ -860,21 +881,23 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-                packs.setMediPackId(cursor.getInt(0));
+
+                packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
                 packs.setPatientCellphone(cursor.getString(3));
                 packs.setMediPackBarcode(cursor.getString(4));
                 packs.setPatientRSA(cursor.getString(5));
                 packs.setManifestNumber(cursor.getString(6));
-                packs.setDeviceId(cursor.getInt(7));
-                packs.setInUserId(cursor.getInt(8));
-                packs.setOutUserId(cursor.getInt(9));
+                packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+                packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+                packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
                 packs.setMediPackDueDateTime(cursor.getString(10));
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(cursor.getInt(14));
+                packs.setPin(cursor.getString(14));
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
         }
@@ -925,22 +948,24 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-                packs.setMediPackId(cursor.getInt(0));
+
+                packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
                 packs.setPatientCellphone(cursor.getString(3));
                 packs.setMediPackBarcode(cursor.getString(4));
                 packs.setPatientRSA(cursor.getString(5));
                 packs.setManifestNumber(cursor.getString(6));
-                packs.setDeviceId(cursor.getInt(7));
-                packs.setInUserId(cursor.getInt(8));
-                packs.setOutUserId(cursor.getInt(9));
+                packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+                packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+                packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
                 packs.setMediPackDueDateTime(cursor.getString(10));
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(cursor.getInt(14));
-                // Adding contact to list
+                packs.setPin(cursor.getString(14));
+
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));    // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
         }
@@ -960,22 +985,24 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-                packs.setMediPackId(cursor.getInt(0));
+
+                packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
                 packs.setPatientCellphone(cursor.getString(3));
                 packs.setMediPackBarcode(cursor.getString(4));
                 packs.setPatientRSA(cursor.getString(5));
                 packs.setManifestNumber(cursor.getString(6));
-                packs.setDeviceId(cursor.getInt(7));
-                packs.setInUserId(cursor.getInt(8));
-                packs.setOutUserId(cursor.getInt(9));
+                packs.setDeviceId(Integer.parseInt(cursor.getString(7)));
+                packs.setInUserId(Integer.parseInt(cursor.getString(8)));
+                packs.setOutUserId(Integer.parseInt(cursor.getString(9)));
                 packs.setMediPackDueDateTime(cursor.getString(10));
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(cursor.getInt(14));
-                // Adding contact to list
+                packs.setPin(cursor.getString(14));
+
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));                // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
         }
@@ -1148,7 +1175,6 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-
                 packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
@@ -1163,9 +1189,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
 
-                // Adding contact to list
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));         // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
         }
@@ -1184,7 +1210,6 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 MediPackClient packs = new MediPackClient();
-
                 packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
@@ -1199,7 +1224,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
+
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
 
                 // Adding contact to list
                 mediPacks.add(packs);
@@ -1236,8 +1263,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
 
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
                 // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
@@ -1273,8 +1301,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
 
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
                 // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
@@ -1294,6 +1323,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
             do {
                 MediPackClient packs = new MediPackClient();
 
+
                 packs.setMediPackId(Integer.parseInt(cursor.getString(0)));
                 packs.setPatientFisrtName((cursor.getString(1)));
                 packs.setPatientLastName(cursor.getString(2));
@@ -1308,8 +1338,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
 
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
                 // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
@@ -1344,9 +1375,9 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedInDateTime(cursor.getString(11));
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(14)));
+                packs.setPin(cursor.getString(14));
 
-                // Adding contact to list
+                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));   // Adding contact to list
                 mediPacks.add(packs);
             } while (cursor.moveToNext());
         }
