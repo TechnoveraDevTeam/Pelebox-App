@@ -17,6 +17,7 @@ import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 public class ScanoutReadyCollectionActivity extends AppCompatActivity implements MediPackClientsAdapter.MediPackClientsAdapterListener
 {
     private RadioGroup ageRadioGroup,genderRadioGroup;
@@ -43,8 +44,10 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_scanout_ready_collection);
 
         adapter = new MediPackClientsAdapter(this,mediPackList,this);
+
         helper = new DataBaseHelpe(this);
         mRecyclerView = findViewById(R.id.parcel_ready_for_collection);
+
         med = new MediPackClient();
         mediPackList = new ArrayList<>();
         mediPackList = helper.getAllMediPackToBeCollected();
@@ -54,6 +57,7 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
         btnGender = findViewById(R.id.btnSearchGender);
         ageRadioGroup = findViewById(R.id.rgAge);
         genderRadioGroup = findViewById(R.id.rgGender);
+
         radioid = ageRadioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioid);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
