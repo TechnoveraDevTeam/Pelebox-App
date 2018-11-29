@@ -1,5 +1,10 @@
 package com.example.aviwe.pelebox.utils;
 
+import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.MainActivity;
 import java.text.DateFormat;
@@ -30,14 +35,14 @@ public class ConstantMethods
                     Date d = df.parse(timeoutDb);
                     currentDate = df.parse(d1);
                     c.setTime(d);
-                    c.add(Calendar.MINUTE, 60);
 
                     String newTime = df.format(c.getTime());
 
                     d=df.parse(newTime);
 
-                    if (d.getTime() > currentDate.getTime()) {
-
+                    if (d.getTime() > currentDate.getTime())
+                    {
+//                        myHelper.updateTokenTimeout(MainActivity.userloginid,newTime);
                         valid=true;
                     }
                 }
@@ -62,6 +67,5 @@ public class ConstantMethods
         }
         return valid;
     }
-
 
 }
