@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.aviwe.pelebox.Scanout.ScanOoutActivity;
+import com.example.aviwe.pelebox.Scanout.ScanOutParcel;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
 import com.example.aviwe.pelebox.utils.ConstantMethods;
 
@@ -28,6 +31,7 @@ public class ScanoutByAssistantActivity extends AppCompatActivity
     SimpleDateFormat df ;
     Calendar c;
     Button BtnCollect;
+    public String intentBarcode;
 
     //for the toast
     RelativeLayout holder;
@@ -74,6 +78,8 @@ public class ScanoutByAssistantActivity extends AppCompatActivity
         MediPackDueDateTime.setText(med.getMediPackDueDateTime());
         MediPackBarcode.setText(med.getMediPackBarcode());
 
+        intentBarcode = med.getMediPackBarcode();
+
         getMediPackIdStatus();
 
         //Collect button functionality
@@ -81,57 +87,20 @@ public class ScanoutByAssistantActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                int NewStatus,dirtyFlag;
-                String date,idNo;
-
-                if (ConstantMethods.validateTime() == true)
-                {
-                    if (med.getMediPackStatusId() == 2)
-                    {
-                        NewStatus = 4;
-                        dirtyFlag = 2;
-
-                        //Current time
-                        date = df.format(c.getTime());
-                        idNo = med.getPatientRSA();
-
-                        //Calling the helper method to mupdate the medipack id and dirty flag
-                        myHelper.UpdateCollectStatus(NewStatus, idNo, date, dirtyFlag);
-
-                        clearingInputFields();
-                        customToast("Parcel successfully scanned out  ");
-                        //Toast.makeText(ScanoutByAssistantActivity.this, "Parcel successfully scanned out  ", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        clearingInputFields();
-
-                        customToast("Parcel can not be scanned out  ");
-                        //Toast.makeText(ScanoutByAssistantActivity.this, "Parcel can not be scanned out  ", Toast.LENGTH_LONG).show();
-                    }
+                if(med != null ) {
+                    Intent intent1 = new Intent(ScanoutByAssistantActivity.this, ScanOutParcel.class);
+                    intent1.putExtra("medipakid","4");
+                    intent1.putExtra("intentBarcode",intentBarcode);
+                    startActivity(intent1);
                 }
-                else
-                    {
-                    //Timeout alert
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanoutByAssistantActivity.this);
-                    builder.setTitle("Timeout Warning !");
-                    builder.setMessage("Your time has expired .Please login again");
-                    builder.setIcon(R.drawable.ic_warning_black_24dp);
-
-                    builder.setPositiveButton(" OK ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                    builder.show();
+                else {
+                    customToast("No Record found to proceed");
                 }
             }
         });
 
     }
 
-    //for toast
     public void customToast(String message)
     {
         //customText.setText("Unauthorized access!");
