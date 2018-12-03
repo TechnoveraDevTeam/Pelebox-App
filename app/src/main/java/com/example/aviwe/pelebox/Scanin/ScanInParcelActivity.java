@@ -311,6 +311,7 @@ public class ScanInParcelActivity extends AppCompatActivity
             }
 //            if(changedBarcode.equalsIgnoreCase("NHI"))
 //            {
+            //{
 //                med = helper.getBarcodeParcel(barcode);
 //                scanInBarcodeFunctinality(barcode);
 //            }

@@ -20,7 +20,7 @@ android:orientation="vertical"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingRight="5dp"
-            android:paddingBottom="5dp">
+            android:padding="5dp">
 
 
             <Button
@@ -34,13 +34,28 @@ android:orientation="vertical"
                 android:textSize="15sp" />
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="182dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+      >
         <LinearLayout
             android:layout_width="182dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="5dp">
+            android:orientation="horizontal"
+           >
 
+            <TextView
+                android:layout_column="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Surname    :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/txtSurname"
                 android:layout_width="wrap_content"
@@ -49,72 +64,153 @@ android:orientation="vertical"
                 android:textAllCaps="false"
                 android:textColor="#455A64"
                 android:textSize="10dp"
+                android:layout_marginLeft="5dp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
+
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+     >
+            <TextView
+                android:layout_column="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Name          :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
+
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/txtNames"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:hint="Name"
                 android:textAllCaps="false"
                 android:textColor="#455A64"
                 android:textSize="10dp"
+                android:layout_marginLeft="5dp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+           >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Id Number :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/txtID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
                 android:hint="ID NO"
                 android:textColor="#455A64"
                 android:textSize="10dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
+    </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        >
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
-
-            android:orientation="vertical">
-
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Cellphone       :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/txtCellphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:hint="Cellphone Number"
+                android:hint="Cellphone"
                 android:textColor="#455A64"
                 android:textSize="10dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient NHI Number  :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtNhiNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+
                 android:hint="NHI"
                 android:textColor="#455A64"
                 android:textSize="10dp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Due Date         :"
+                android:textAllCaps="false"
+                android:textColor="#455A64"
+                android:textSize="10dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/txtDueDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+
                 android:hint="Due Date"
                 android:textColor="#455A64"
                 android:textSize="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
+    </LinearLayout>
 
 
 
