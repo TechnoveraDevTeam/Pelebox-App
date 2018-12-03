@@ -49,6 +49,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class MediPackClientActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MediPackClientsAdapter.MediPackClientsAdapterListener
@@ -80,8 +81,6 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         context = getBaseContext();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Toast.makeText(MediPackClientActivity.this, "User id " + MainActivity.userloginid  , Toast.LENGTH_SHORT).show();
 
         isDrawerFixed = false;
 
@@ -161,7 +160,6 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-
         myrecyclerview();
 
     }
@@ -249,7 +247,6 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
 
     }
 
-    //Method to close the keyboard
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -322,19 +319,9 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         else if(id == R.id.nav_logout)
         {
             MainActivity.isLogedIn = false;
+
             Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
             startActivity(intent);
-//          if (MainActivity.loginType.equalsIgnoreCase("local"))
-//          {
-//              //Toast.makeText(MediPackClientActivity.this, "logout with local", Toast.LENGTH_SHORT).show();
-//              Intent intent = new Intent(MediPackClientActivity.this,MainActivity.class);
-//              startActivity(intent);
-//          }
-//          else
-//          {
-//              //Toast.makeText(MediPackClientActivity.this, " TOKEN FROM MAIN " + MainActivity.newtoken, Toast.LENGTH_SHORT).show();
-//              LogOUT(MainActivity.newtoken,String.valueOf(MainActivity.userloginid));
-//          }
         }
         else if(id == R.id.nav_searchparcel)
         {
@@ -343,7 +330,6 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
         }
         else if(id == R.id.scannedout_collection)
         {
-//
             Intent i = new Intent(MediPackClientActivity.this, CollectedParcelActivity.class);
             startActivity(i);
         }
@@ -357,7 +343,6 @@ public class MediPackClientActivity extends AppCompatActivity implements Navigat
             Intent i = new Intent(MediPackClientActivity.this, ReturnParcelsActivity.class);
             startActivity(i);
         }
-
 
 //        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);

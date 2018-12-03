@@ -117,12 +117,12 @@
         <activity
             android:name=".search_parcel.SearchPatientActivity"
             android:label="Search Patient"
-            android:parentActivityName=".Scanout.ScanOoutActivity"
+            android:parentActivityName=".MediPackClientActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Scanout.ScanOoutActivity" />
+                android:value=".MediPackClientActivity" />
         </activity>
         <activity
             android:name=".ScanoutByAssistantActivity"

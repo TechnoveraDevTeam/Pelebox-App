@@ -48,35 +48,26 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends Activity implements TextWatcher,CompoundButton.OnCheckedChangeListener
 {
-   // declaration
+    // declaration
     private EditText password,user_email;
     private Button btnLogin;
     private TextView requestPassword;
-    private boolean found = false;
-    String formattedTime ="";
     public static Boolean isLogedIn = false;
-
-    //for the toast
     RelativeLayout holder, holder2;
     TextView customText, customText2;
-
-
     private ProgressDialog dialog;
     static public CheckBox ckRemember;
     DataBaseHelpe myHelper;
-
-    //Object of the pojo
     UserClient userClient;
-
     JSONObject jsonObject;
     String userPassword,userEmail;
     boolean valid = true;
 
     public static String newtoken = null;
     public static String newTimeout = null;
-    public static String user_name,user_surname,uEmail,uPassword,loginType,databaseNewTime;
+    public static String user_name,user_surname,uEmail,uPassword,loginType;
     public static int userloginid;
-    //Shared Preferences for remember me function
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private static final String PREF_NAME = "prefs";
@@ -96,7 +87,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
         connectionDetector=new ConnectionDetector(this);
         myHelper= new DataBaseHelpe(this);
 
-        //Finding the variables
         ckRemember = findViewById(R.id.ckRememberM);
         requestPassword = findViewById(R.id.txtRequestPassword);
         password = findViewById(R.id.edPssword);
@@ -105,7 +95,6 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
         password.setOnEditorActionListener(editorActionListener);
 
-        // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         holder2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast2, (RelativeLayout)findViewById(R.id.customToast2));
 
@@ -218,48 +207,18 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 FancyToast.makeText(getApplication(), "Entered email or password is not correct", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                             }
                             else {
-                                Toast.makeText(MainActivity.this, " GLOUD", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, " CLOUD", Toast.LENGTH_SHORT).show();
                                 //Login successfully
                                 jsonObject = new JSONObject(response);
 
-                                //Getting the current date time and add 60 minutes to it
-//                                String f = "";
-//                                Calendar c = Calendar.getInstance();
-//                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//                                f = df.format(c.getTime());
-//                                Date d = null;
-//                                try
-//                                {
-//                                    d = df.parse(f);
-//                                }
-//                                catch (ParseException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                c.setTime(d);
-//                                c.add(Calendar.MINUTE, 30);
-//                                String newTime = df.format(c.getTime());
-
-
-                               // Inserting user information to the local database
-                                userClient = new UserClient(
-                                        Integer.parseInt(jsonObject.getString("UserId")),
-                                        jsonObject.getString("UserFirstName"),
-                                        jsonObject.getString("UserLastName"),
-                                        jsonObject.getString("UserPassword"),
-                                        Integer.parseInt(jsonObject.getString("UserRoleId")),
-                                        jsonObject.getString("UserEmail"),
-                                        jsonObject.getString("Token"),
-                                        jsonObject.getString("Timeout"));
-
-                                String clousTime = userClient.getTimeout();
+                                String clousTime = jsonObject.getString("Timeout");
                                 String subTokenTimeout = clousTime.substring(0,10) + " " + clousTime.substring(11,19);
-
                                 Date date = new Date();
 
                                 DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 try
                                 {
-                                     date =  parser.parse(subTokenTimeout);
+                                    date =  parser.parse(subTokenTimeout);
                                 }
                                 catch (ParseException e)
                                 {
@@ -267,26 +226,25 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                                 }
 
                                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                userClient.setTimeout(formatter.format(date));
-                                //Toast.makeText(MainActivity.this, "CLOUD TIME " + formatter.format(date), Toast.LENGTH_LONG).show();
+                                //userClient.setTimeout(formatter.format(date));
 
-                                ArrayList<UserClient> users = myHelper.getAllUsers();
 
-                                for (UserClient userClients : users)
-                                {
-                                    if (userClients.getUserclientId() == userClient.getUserclientId())
-                                    {
-                                        found = true;
-                                        userClient.setUserPassword(userPassword);
-                                        myHelper.UpdateUser(userClient);
-                                    }
-                                }
+                                // Inserting user information to the local database
+                                userClient = new UserClient(
+                                        Integer.parseInt(jsonObject.getString("UserId")),
+                                        jsonObject.getString("UserFirstName"),
+                                        jsonObject.getString("UserLastName"),
+                                        //jsonObject.getString("UserPassword"),
+                                        jpassword,
+                                        Integer.parseInt(jsonObject.getString("UserRoleId")),
+                                        jsonObject.getString("UserEmail"),
+                                        jsonObject.getString("Token"),
+                                        //jsonObject.getString("Timeout")
+                                        formatter.format(date)
+                                );
 
-                                if(found == false)
-                                {
-                                    userClient.setUserPassword(userPassword);
-                                    myHelper.addUserFromCloud(userClient);
-                                }
+                                userClient.setUserPassword(userPassword);
+                                myHelper.addUserFromCloud(userClient);
 
                                 user_name = userClient.getUserFirstName();
                                 user_surname = userClient.getUserLastName();
@@ -324,7 +282,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
                 params.put("email",email );
                 params.put("Password",jpassword );
-                params.put("DeviceId", "1");
+                params.put("DeviceId", MyServices.device_id);
                 params.put("Reme", "1");
 
                 return params;
@@ -384,9 +342,9 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
 
     //Method to save key value for password and password if the remember me check box is checked
     private void managePrefs(){
-        if(ckRemember.isChecked()){
+        if(ckRemember.isChecked())
+        {
             editor.putString(KEY_USERNAME, user_email.getText().toString().trim());
-
             editor.putBoolean(KEY_REMEMBER, true);
             editor.apply();
         }else{
@@ -454,7 +412,7 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
             {
                 //Get current date time
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 String d1 = df.format(c.getTime());
                 Date date = null;
                 Date currentDate = null;
@@ -495,11 +453,10 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
                 }
                 else
                 {
+                    myHelper.DeleteUser(userid);
                     if (connectionDetector.isNetworkAvailable())
                     {
-                        myHelper.DeleteUser(userid);
                         LoginFromCloud();
-
 //                                FancyToast.makeText(getApplicationContext(),"Hello World !",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
                     }
                     else
