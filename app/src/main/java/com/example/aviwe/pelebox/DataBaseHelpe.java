@@ -234,7 +234,7 @@ public class DataBaseHelpe extends SQLiteOpenHelper {
                 packs.setScannedOutDateTime(cursor.getString(12));
                 packs.setMediPackStatusId(cursor.getInt(13));
                 packs.setPin(cursor.getString(14));
-                packs.setDirtyFlag(Integer.parseInt(cursor.getString(15)));
+                packs.setDirtyFlag(cursor.getInt(15));
 
                 // Adding contact to list
                 mediPacks.add(packs);

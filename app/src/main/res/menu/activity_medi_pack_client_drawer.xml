@@ -35,7 +35,7 @@
                 <item
                     android:id="@+id/ready_collection"
                     android:icon="@drawable/ic_event_note_black_24dp"
-                    android:title="Parcel Ready For Collection" />
+                    android:title="Parcels To Be Collected" />
                 <item
                     android:id="@+id/expired_collection"
                     android:icon="@drawable/ic_event_note_black_24dp"

@@ -49,22 +49,22 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             nhi  =mFilteredList.get(position).getMediPackBarcode();
             fname  =surname.substring(0,1);
 
-            holder.surname.setText("Patient Surname     : " + surname);
-            holder.name.setText("Patient Name          : " + name);
+            holder.surname.setText(surname);
+            holder.name.setText(name);
 //            holder.expiredLabel.setText("Collected");
 //            holder.expiredLabel.setTextColor(Color.GREEN);
 
             if(id.length() == 13)
             {
-                holder.id.setText("Patient ID Number : " + id);
+                holder.id.setText( id);
             }
             else{
-                holder.id.setText("Patient Passport    : " + id);
+                holder.id.setText(id);
             }
 
-            holder.cellphone.setText("  Patient Cellphone      : " + cellphone);
-            holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
-            holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
+            holder.cellphone.setText(cellphone);
+            holder.nhiNumber.setText(nhi);
+            holder.duedate.setText(dueDateTime);
             holder.firstLetter.setText(fname);
 
         if (mFilteredList.get(position).getMediPackStatusId()> 4)

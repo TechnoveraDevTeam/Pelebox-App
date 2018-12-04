@@ -151,7 +151,7 @@ public class ScanInParcelActivity extends AppCompatActivity
 
                         if (ConstantMethods.validateTime() == true)
                         {
-                            customToast("Total count " + orphanParcelCount);
+                           // customToast("Total count " + orphanParcelCount);
                             if(orphanParcelCount == 0)
                             {
 

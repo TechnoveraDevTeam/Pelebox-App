@@ -669,7 +669,7 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
             }
             else if ( (radioButtonSelected == "AA")) {
 
-                counter++;
+                counter++;  
                 listID.add(med);
 
 
