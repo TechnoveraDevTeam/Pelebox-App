@@ -138,50 +138,7 @@ public class ScanOutParcel extends AppCompatActivity {
         };
 
         edBarcode.addTextChangedListener(scannerWatcher);
-//        edBarcode.addTextChangedListener(new TextWatcher()
-//        {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (timer != null)
-//                {
-//                    timer.cancel();
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                timer = new Timer();
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        ScanOutParcel.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                            }
-//                        });
-//
-//                        try{
-//                            Thread.sleep(100);
-//                        }catch (InterruptedException e){
-//                            e.printStackTrace();
-//                        }
-//                        ScanOutParcel.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                myBarcode();
-//                                edBarcode.setText("");
-//                            }
-//                        });
-//
-//                    }
-//                }, 400);
-//
-//            }
-//        });
+
 
         btnManualScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +147,7 @@ public class ScanOutParcel extends AppCompatActivity {
                     isManual = true;
                     edBarcode.removeTextChangedListener(scannerWatcher);
                     customToast("Auto Scan DeActivated!");
+                    edBarcode.setHint("Enter Barcode");
                     btnSearchManual.setVisibility(View.VISIBLE);
                     btnManualScan.setText("Auto Scan");
                     //isManual = true;
