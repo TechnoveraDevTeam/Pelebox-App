@@ -43,7 +43,13 @@
             android:icon="@drawable/logo"
             android:label=" Parcel Scan out"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape">
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Scanout.ScanOoutActivity" />
+        </activity>
+
         <activity
         android:name=".MediPackClientActivity"
         android:icon="@drawable/logo"
@@ -53,15 +59,13 @@
 
         <activity
             android:name=".ReturnParcels.ReturnParcelsActivity"
-            android:icon="@drawable/logo"
-            android:label="Returns "
+            android:label="Return Parcels"
             android:parentActivityName=".MediPackClientActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="landscape">
-        <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".MediPackClientActivity"
-        android:screenOrientation="landscape"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MediPackClientActivity" />
         </activity>
 
         <activity
@@ -74,6 +78,7 @@
                 android:value=".report.CollectedParcelActivity"
                 android:screenOrientation="landscape"/>
         </activity>
+
         <activity
             android:name=".Scanin.ScanInParcelActivity"
             android:label="SCANI IN"
@@ -84,6 +89,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MediPackClientActivity" />
         </activity>
+
         <activity
             android:name=".report.ScanoutReadyCollectionActivity"
             android:label="Parcel Ready For Collection"
