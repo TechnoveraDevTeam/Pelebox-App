@@ -8,8 +8,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +49,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_parcels);
+
         med = new MediPackClient();
         helper = new DataBaseHelpe(this);
         medList = new ArrayList<>();
@@ -62,6 +65,9 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         btnManualScan = findViewById(R.id.btnManualScan);
         btnSearchManual = findViewById(R.id.btnSearchManual);
         medList = helper.getSevenDaysNonCollectedParcels();
+
+        edBarcode.setOnEditorActionListener(editorActionListener);
+
         for(MediPackClient mediPackClient : medList )
         {
             countinitialList++;
@@ -116,6 +122,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
             }
         };
         edBarcode.addTextChangedListener(scannerWatcher);
+
         btnManualScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,16 +151,7 @@ public class ReturnParcelsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                if(isBarcodeValid() == true)
-                {
-                    myBarcode();
-                    if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
-                    {
-                        customToast("Incorrect Barcode, Please try again");
-                    }
-                    edBarcode.setText("");
-                    closeKeyboard();
-                }
+                scanOutMethod();
             }
         });
         btnAcceptAll.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +211,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
     //for toast
     public void customToast(String message)
     {
-        //customText.setText("Unauthorized access!");
         customText.setText(message);
         customText.setTextSize(25);
         final Toast toast = new Toast(getApplicationContext());
@@ -223,12 +220,6 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         toast.show();
     }
     public void getAdapter(ArrayList arrayList) {
-//        for(MediPackClient mediPackClient : medList )
-//        {
-//            countinitialList++;
-//        }
-//        btnCountList.setText(String.valueOf(countinitialList));
-//        adapter = new ReportAdapter(arrayList);
         returnAdapter = new ReturnPacelsAdapter(arrayList, ReturnParcelsActivity.this);
         returnAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(returnAdapter);
@@ -344,4 +335,32 @@ public class ReturnParcelsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.scan_in, menu);
         return true;
     }
+
+    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
+        {
+            switch(actionId)
+            {
+                case EditorInfo.IME_ACTION_SEARCH:
+                    scanOutMethod();
+            }
+            return false;
+        }
+    };
+
+    public void scanOutMethod()
+    {
+        if(isBarcodeValid() == true)
+        {
+            myBarcode();
+            if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+            {
+                customToast("Incorrect Barcode, Please try again");
+            }
+            edBarcode.setText("");
+            closeKeyboard();
+        }
+    }
+
 }
