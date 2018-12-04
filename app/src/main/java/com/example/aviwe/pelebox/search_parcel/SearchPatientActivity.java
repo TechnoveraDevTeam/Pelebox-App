@@ -58,6 +58,7 @@ public class SearchPatientActivity extends AppCompatActivity {
 
         edtParcelSearch = findViewById(R.id.input);
         edtParcelSearch.setOnEditorActionListener(editorActionListener);
+
         btnSearchParcel = findViewById(R.id.search);
         searchGroup = findViewById(R.id.radioGroup);
         helper = new DataBaseHelpe(this);
