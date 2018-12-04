@@ -13,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
 import com.example.aviwe.pelebox.pojos.UserClient;
 import com.example.aviwe.pelebox.utils.ConstantMethods;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -52,6 +55,7 @@ public class ScanInParcelActivity extends AppCompatActivity
     Context context;
     boolean isavailable;
     Boolean isManual, valid = true;
+    static int orphanParcelCount = 0;
 
     //for the toast
     RelativeLayout holder;
@@ -130,55 +134,14 @@ public class ScanInParcelActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
+        edBarcode.setOnEditorActionListener(editorActionListener);
+
+        edBarcode.addTextChangedListener(scannerWatcher);
+
         // for the toast
         holder = (RelativeLayout) getLayoutInflater().inflate(R.layout.custom_toast, (RelativeLayout)findViewById(R.id.customToast));
         customText = (TextView) holder.findViewById(R.id.customToas_text);
 
-//        //Textwatcher barcode scan in functionality
-//        edBarcode.addTextChangedListener(new TextWatcher()
-//        {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (timer != null)
-//                {
-//                    timer.cancel();
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                timer = new Timer();
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                            }
-//                        });
-//
-//                        try{
-//                            Thread.sleep(100);
-//                        }catch (InterruptedException e){
-//                            e.printStackTrace();
-//                        }
-//                        ScanInParcelActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                myBarcode();
-//                                edBarcode.setText("");
-//                            }
-//                        });
-//
-//                    }
-//                }, 400);
-//
-//            }
-//        });
 
         //Accept all scan in medi pack functionality
         btnAcceptAll.setOnClickListener(
@@ -186,26 +149,34 @@ public class ScanInParcelActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
 
-                        if (ConstantMethods.validateTime() == true) {
-
-                            status = 2;
-                            int dirtyFlag = 2;
-
-                            //Getting the current date the medi parecel was scanned in
-                            Calendar c = Calendar.getInstance();
-                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                            String formattedDate = df.format(c.getTime());
-
-                            //Getting the method to update the status and date to all the record
-                            for (MediPackClient mec : medList)
+                        if (ConstantMethods.validateTime() == true)
+                        {
+                            customToast("Total count " + orphanParcelCount);
+                            if(orphanParcelCount == 0)
                             {
-                                helper.UpdateAllStatusOfScannedInMediPack(status, formattedDate, dirtyFlag,mec.getMediPackId());
-                                customToast("All Parcel has been successful scanned");
-                                //Toast.makeText(ScanInParcelActivity.this, "All Parcel has been successful scanned", Toast.LENGTH_LONG).show();
-                            }
 
-                            medList.clear();
-                            scannedInAdapter.notifyDataSetChanged();
+                                status = 2;
+                                int dirtyFlag = 2;
+
+                                //Getting the current date the medi parecel was scanned in
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                String formattedDate = df.format(c.getTime());
+
+                                //Getting the method to update the status and date to all the record
+                                for (MediPackClient mec : medList) {
+                                    helper.UpdateAllStatusOfScannedInMediPack(status, formattedDate, dirtyFlag, mec.getMediPackId());
+                                    customToast("All Parcel has been successful scanned");
+                                    //Toast.makeText(ScanInParcelActivity.this, "All Parcel has been successful scanned", Toast.LENGTH_LONG).show();
+                                }
+
+                                medList.clear();
+                                scannedInAdapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                FancyToast.makeText(getApplicationContext(),"There is an Orphan parcel",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+                            }
                         }
                         else{
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScanInParcelActivity.this);
@@ -265,16 +236,7 @@ public class ScanInParcelActivity extends AppCompatActivity
             public void onClick(View view)
             {
 
-                if(isBarcodeValid() == true)
-                {
-                    myBarcode();
-                    if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
-                    {
-                        customToast("Incorrect Barcode, Please try again");
-                    }
-                    edBarcode.setText("");
-                    closeKeyboard();
-                }
+                ScanMethod();
             }
         });
     }
@@ -330,17 +292,17 @@ public class ScanInParcelActivity extends AppCompatActivity
         //This is a NHI that does not start with the * when scanned
         else if(barcode.length() == 12)
         {
-            changedBarcode = barcode.substring(0, 3);
-            if(changedBarcode.equalsIgnoreCase("NHI"))
-            {
-                med = helper.getBarcodeParcel(barcode);
-                scanInBarcodeFunctinality(barcode);
-            }
-            else
+
+            med = helper.getBarcodeParcel(barcode);
+
+            if(med == null)
             {
                 closeKeyboard();
                 customToast(" No such barcode  found, Please try");
-                //Toast.makeText(ScanInParcelActivity.this, " No such barcode  found, Please try", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                scanInBarcodeFunctinality(barcode);
             }
         }
 
@@ -406,6 +368,8 @@ public class ScanInParcelActivity extends AppCompatActivity
             {
                 med = new MediPackClient("", "", "", scannedNHI, "", "", 0);
                 medList.add(med);
+                orphanParcelCount = orphanParcelCount + 1;
+               // customToast("Orpan Count " + orphanParcelCount);
             }
             else
             {
@@ -429,6 +393,33 @@ public class ScanInParcelActivity extends AppCompatActivity
     {
         getMenuInflater().inflate(R.menu.scan_in, menu);
         return true;
+    }
+
+    private EditText.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
+        {
+            switch(actionId)
+            {
+                case EditorInfo.IME_ACTION_SEARCH:
+                    ScanMethod();
+            }
+            return false;
+        }
+    };
+
+    public void ScanMethod()
+    {
+        if(isBarcodeValid() == true)
+        {
+            myBarcode();
+            if(barcode.length() > 14 || barcode.length() == 13 || barcode.length() < 12)
+            {
+                customToast("Incorrect Barcode, Please try again");
+            }
+            edBarcode.setText("");
+            closeKeyboard();
+        }
     }
 
 }
