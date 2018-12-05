@@ -288,7 +288,7 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
 
         for (MediPackClient med : mediPackList) {
 
-            if (med.getPatientRSA().length() == 12) {
+            if (med.getPatientRSA().length() == 13) {
 
 
                 patientId = med.getPatientRSA();

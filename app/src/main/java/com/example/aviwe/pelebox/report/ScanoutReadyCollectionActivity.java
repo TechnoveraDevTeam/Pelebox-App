@@ -296,7 +296,7 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
 
         for (MediPackClient med : mediPackList) {
 
-            if ( med.getPatientRSA().length() == 12 ) {
+            if ( med.getPatientRSA().length() == 13 ) {
 
                 patientId = med.getPatientRSA();
                 checkingid = patientId.substring(0, 2);
