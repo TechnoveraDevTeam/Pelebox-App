@@ -29,12 +29,12 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
     private Button btnSearchData, btnCount, btnGender;
     private SearchView searchView;
     private RecyclerView mRecyclerView;
-    ArrayList<MediPackClient> mediPackList,listID,expiredList;
-//    ReportAdapter adapter;
+    ArrayList<MediPackClient> mediPackList, listID, expiredList;
+    //    ReportAdapter adapter;
     MediPackClientsAdapter adapter;
     MediPackClient med;
-    int count,countall ,year,convert,addYear2,patientAge,counter,radioid,convertYear;
-    String patientId,firstNumber,addYear1,mediPackPatientYear,checkingid;
+    int count, countall, year, convert, addYear2, patientAge, counter, radioid, convertYear;
+    String patientId, firstNumber, addYear1, mediPackPatientYear, checkingid;
 
     // filtering by gender and age
     String genderString = "AG";
@@ -101,6 +101,7 @@ public class TwentyFourHoursNonCollectionReport extends AppCompatActivity implem
         } else if (radioButton.getText().equals("Undefined")) {
             genderRadioGroup.clearCheck();
 
+            genderString = "AG";
             ageString = "undefined";
         }
     }
