@@ -45,7 +45,7 @@ public class ScanOoutActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButton;
     int statu, radioId;
-    String intype, pinIntype, passportType;
+    String intype, pinIntype;
     Button search;
     Button collect;
     boolean valid = true;

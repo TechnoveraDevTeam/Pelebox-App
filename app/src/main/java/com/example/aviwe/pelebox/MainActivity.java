@@ -330,7 +330,8 @@ public class MainActivity extends Activity implements TextWatcher,CompoundButton
             user_email.setError(" Please Enter email");
         }
 
-        if (passwordHolder.isEmpty()) {
+        if (passwordHolder.isEmpty())
+        {
             valid = false;
             password.setError(" Please enter password");
             dialog.dismiss();

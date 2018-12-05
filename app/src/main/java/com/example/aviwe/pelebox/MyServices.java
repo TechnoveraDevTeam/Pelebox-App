@@ -65,7 +65,8 @@ public class MyServices extends android.app.job.JobService
                 convertedUserid = String.valueOf(userid);
 
                 refreshRecyclerview();
-                if (MainActivity.isLogedIn == true) {
+                if (MainActivity.isLogedIn == true)
+                {
                     //Toast.makeText(MyServices.this, "is syncing", Toast.LENGTH_SHORT).show();
                     if (tokenVal != null) {
                         if (connectionDetector.isNetworkAvailable()) {
@@ -345,7 +346,7 @@ public class MyServices extends android.app.job.JobService
             e.printStackTrace();
         }
         c.setTime(d);
-        c.add(Calendar.MINUTE, 120);
+        c.add(Calendar.MINUTE, 30);
         newTime = df.format(c.getTime());
 
        // Toast.makeText(MyServices.this, " NEW UPDATED SYNC TIME " + " " + newTime , Toast.LENGTH_SHORT).show();

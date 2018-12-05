@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.aviwe.pelebox.DataBaseHelpe;
@@ -26,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.example.aviwe.pelebox.R;
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 import butterknife.ButterKnife;
 
 public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.ViewHolder>
@@ -141,7 +145,8 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                     }
                     else
                     {
-                        Toast.makeText(mContext, "Please fillin the missing information", Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(mContext.getApplicationContext(),"Please fill in the missing information",FancyToast.LENGTH_LONG,FancyToast.WARNING,false).show();
+                        //Toast.makeText(mContext, "Please fill in the missing information", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -250,7 +255,9 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                                     helper.addDataFromCloud(med);
                                 }
 
-                                Toast.makeText(mContext, "Parcel successfully updated ", Toast.LENGTH_LONG).show();
+                                ScanInParcelActivity.orphanParcelCount = ScanInParcelActivity.orphanParcelCount - 1;
+
+                                Toast.makeText(mContext, "Parcel successfully updated " , Toast.LENGTH_LONG).show();
                                 alertDialog.dismiss();
                             }
                         }
@@ -317,6 +324,7 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
                 mFilteredList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position,mFilteredList.size());
+                ScanInParcelActivity.orphanParcelCount = ScanInParcelActivity.orphanParcelCount - 1;
             }
         });
     }
@@ -335,23 +343,23 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
         try {
             if (timeoutDb != null)
             {
-                if (MainActivity.ckRemember.isChecked())
-                {
-                    Date d = df.parse(timeoutDb);
-                    currentDate = df.parse(d1);
-                    c.setTime(d);
-                    c.add(Calendar.MINUTE, 60);
-
-                    String newTime = df.format(c.getTime());
-                    d=df.parse(newTime);
-
-                    if (d.getTime() > currentDate.getTime())
-                    {
-                        valid=true;
-                    }
-                }
-                else
-                {
+//                if (MainActivity.ckRemember.isChecked())
+//                {
+//                    Date d = df.parse(timeoutDb);
+//                    currentDate = df.parse(d1);
+//                    c.setTime(d);
+//                    c.add(Calendar.MINUTE, 60);
+//
+//                    String newTime = df.format(c.getTime());
+//                    d=df.parse(newTime);
+//
+//                    if (d.getTime() > currentDate.getTime())
+//                    {
+//                        valid=true;
+//                    }
+//                }
+//                else
+//                {
                     Date d= df.parse(timeoutDb);
                     currentDate = df.parse(d1);
 
@@ -359,7 +367,7 @@ public class ScannedInAdapter extends RecyclerView.Adapter<ScannedInAdapter.View
 
                         valid=true;
                     }
-                }
+
             }
             else
             {

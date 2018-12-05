@@ -493,7 +493,10 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
             {
                 counter++;
                 listID.add(med);
+
+
             }
+
         }
         getAdapter(listID);
         btnCount.setText(String.valueOf(counter));

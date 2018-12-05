@@ -83,31 +83,31 @@ public class MediPackClientsAdapter extends RecyclerView.Adapter<MediPackClients
 
             if (d.getTime() < currentDate.getTime())
             {
-                holder.surname.setText("Patient Surname     : " + surname);
-                holder.name.setText("Patient Name          : "  + name);
+                holder.surname.setText(surname);
+                holder.name.setText(name);
                 holder.expiredLabel.setText("Over Due");
                 if (id.length() == 13)
                 {
-                    holder.id.setText("Patient ID Number  : " + id);
+                    holder.id.setText( id);
                 }
                 else{
                     holder.id.setText("Patient Passport    : " + id);
                 }
                 //holder.id.setText("Patient ID Number  : " + id);
-                holder.cellphone.setText("Patient Cellphone      : " + cellphone);
-                holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
-                holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
+                holder.cellphone.setText(cellphone);
+                holder.nhiNumber.setText(nhi);
+                holder.duedate.setText(dueDateTime);
                 holder.firstLetter.setText(fname);
             }
             else if((d.getTime() >= currentDate.getTime()))
             {
-                holder.surname.setText("Patient Surname     : " + surname);
-                holder.name.setText("Patient Name          : "  + name);
+                holder.surname.setText(surname);
+                holder.name.setText(name);
                 holder.expiredLabel.setText("");
-                holder.id.setText("Patient ID Number  : " + id);
-                holder.cellphone.setText("Patient Cellphone      : " + cellphone);
-                holder.nhiNumber.setText("Patient NHI Number  : " + nhi);
-                holder.duedate.setText("Parcel Due Date         : " + dueDateTime);
+                holder.id.setText(id);
+                holder.cellphone.setText(cellphone);
+                holder.nhiNumber.setText(nhi);
+                holder.duedate.setText(dueDateTime);
                 holder.firstLetter.setText(fname);
             }
     }
