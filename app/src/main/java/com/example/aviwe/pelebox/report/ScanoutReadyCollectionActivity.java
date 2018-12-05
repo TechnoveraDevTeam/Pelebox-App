@@ -111,6 +111,7 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
         {
             genderRadioGroup.clearCheck();
 
+            genderString = "AG";
             ageString = "undefined";
         }
     }
