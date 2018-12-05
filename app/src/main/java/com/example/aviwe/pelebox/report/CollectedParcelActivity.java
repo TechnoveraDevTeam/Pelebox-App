@@ -136,6 +136,7 @@ public class CollectedParcelActivity extends AppCompatActivity implements MediPa
         {
             genderRadioGroup.clearCheck();
 
+            genderString = "AG";
             ageString = "undefined";
         }
     }
