@@ -29,7 +29,7 @@ public class SevenDaysNonCollectionReport extends AppCompatActivity implements M
     private RadioGroup ageRadioGroup, genderRadioGroup;
     private RadioButton radioButton;
     private DataBaseHelpe helper;
-    private Button btnSearchData,btnCount,btnGender;
+    private Button btnSearchData, btnCount, btnGender;
     private SearchView searchView;
     private RecyclerView mRecyclerView;
 
@@ -104,6 +104,7 @@ public class SevenDaysNonCollectionReport extends AppCompatActivity implements M
         } else if (radioButton.getText().equals("Undefined")) {
             genderRadioGroup.clearCheck();
 
+            genderString = "AG";
             ageString = "undefined";
         }
     }
