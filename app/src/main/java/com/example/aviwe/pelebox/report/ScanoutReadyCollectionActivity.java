@@ -11,10 +11,14 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
+
 import com.example.aviwe.pelebox.MediPackClientsAdapter;
 import com.example.aviwe.pelebox.R;
 import com.example.aviwe.pelebox.DataBaseHelpe;
 import com.example.aviwe.pelebox.pojos.MediPackClient;
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -72,202 +76,13 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
         btnCount.setText(String.valueOf(countall));
         getAdapter(mediPackList);
 
-//        btnSearchData.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                if(radioButton.getText().equals("0 to 17"))
-//                {
-//                    listID.clear();
-//                    count = 0;
-//                    for(MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        checkingid = patientId.substring(0,2);
-//                        firstNumber = patientId.substring(0,1);
-//                        convert=Integer.parseInt(firstNumber);
-//                        if(convert == 0 || convert == 1 )
-//                        {
-//                            addYear1 = "20";
-//                            mediPackPatientYear = addYear1 + checkingid;
-//                            convertYear = Integer.parseInt(mediPackPatientYear);
-//                            patientAge  = getCurrentYear() - convertYear;
-//                            if(patientAge >=0 || patientAge <= 17)
-//                            {
-//                                count++;
-//                                listID.add(med);
-//                            }
-//                        }
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(count));
-//                }
-//                else if(radioButton.getText().equals("18 to 35"))
-//                {
-//                    listID.clear();
-//                    counter = 0;
-//                    for(MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        checkingid = patientId.substring(0, 2);
-//                        firstNumber = patientId.substring(0, 1);
-//                        convert = Integer.parseInt(firstNumber);
-//                        if (convert == 0 || convert == 1)
-//                        {
-//                            addYear1 = "20";
-//                            mediPackPatientYear = addYear1 + checkingid;
-//                            convertYear = Integer.parseInt(mediPackPatientYear);
-//                            patientAge = getCurrentYear() - convertYear;
-//                            if (patientAge >= 18 && patientAge <= 35)
-//                            {
-//                                counter++;
-//                                listID.add(med);
-//                            }
-//                        }
-//                        else if(convert >=2)
-//                        {
-//                            addYear2 = 19;
-//                            mediPackPatientYear = addYear2 + checkingid;
-//                            convertYear = Integer.parseInt(mediPackPatientYear);
-//                            int patientAge = getCurrentYear() - convertYear;
-//                            if(patientAge >= 18 && patientAge <= 35)
-//                            {
-//                                counter++;
-//                                listID.add(med);
-//                            }
-//                        }
-//                        count = counter;
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(count));
-//                }
-//                else if(radioButton.getText().equals("36 to 65"))
-//                {
-//                    listID.clear();
-//                    counter = 0;
-//                    for (MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        checkingid = patientId.substring(0, 2);
-//                        firstNumber = patientId.substring(0, 1);
-//                        convert = Integer.parseInt(firstNumber);
-//                        if (convert >= 2 )
-//                        {
-//                            addYear1 = "19";
-//                            mediPackPatientYear = addYear1 + checkingid;
-//                            convertYear = Integer.parseInt(mediPackPatientYear);
-//                            patientAge = getCurrentYear() - convertYear;
-//                            if (patientAge >= 36 && patientAge <= 65)
-//                            {
-//                                counter++;
-//                                listID.add(med);
-//                            }
-//                        }
-//                        count = counter;
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(count));
-//                }
-//                else if(radioButton.getText().equals("Above 65"))
-//                {
-//                    listID.clear();
-//                    counter = 0;
-//                    for (MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        //Cutting the is to get the first two numbers
-//                        checkingid = patientId.substring(0, 2);
-//                        firstNumber = patientId.substring(0, 1);
-//                        //Getting the first number from the database
-//                        convert = Integer.parseInt(firstNumber);
-//                        if (convert >= 2 )
-//                        {
-//                            addYear1 = "19";
-//                            mediPackPatientYear = addYear1 + checkingid;
-//                            convertYear = Integer.parseInt(mediPackPatientYear);
-//                            patientAge = getCurrentYear() - convertYear;
-//                            if (patientAge >= 66 )
-//                            {
-//                                counter++;
-//                                listID.add(med);
-//                            }
-//                        }
-//                        count = counter;
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(count));
-//                }
-//                else if(radioButton.getText().equals("All"))
-//                {
-//                    mediPackList.clear();
-//                    counter = 0;
-//                    mediPackList = helper.getAllMediPackToBeCollected();
-//                    for(MediPackClient user : mediPackList)
-//                    {
-//                        counter++;
-//                    }
-//                    btnCount.setText(String.valueOf(counter));
-//                    getAdapter(mediPackList);
-//                }
-//            }
-//        });
-
-
         btnGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
 
                 filtering();
-//                if(radioButton.getText().equals("Female"))
-//                {
-//                    listID.clear();
-//                    counter = 0;
-//                    for (MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        checkingid = patientId.substring(6,7);
-//                        convert = Integer.parseInt(checkingid);
-//                        if (convert >= 0 && convert <= 4)
-//                        {
-//                            counter++;
-//                            listID.add(med);
-//                        }
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(counter));
-//                }
-//                else if(radioButton.getText().equals("Male"))
-//                {
-//                    listID.clear();
-//                    counter = 0;
-//                    for (MediPackClient med : mediPackList)
-//                    {
-//                        patientId = med.getPatientRSA();
-//                        checkingid = patientId.substring(6,7);
-//                        convert = Integer.parseInt(checkingid);
-//                        if (convert >= 5 && convert <= 9)
-//                        {
-//                            counter++;
-//                            listID.add(med);
-//                        }
-//                    }
-//                    getAdapter(listID);
-//                    btnCount.setText(String.valueOf(counter));
-//                }
-//                else if(radioButton.getText().equals("All"))
-//                {
-//                    mediPackList.clear();
-//                    counter = 0;
-//                    mediPackList = helper.getAllMediPackToBeCollected();
-//                    for(MediPackClient user : mediPackList)
-//                    {
-//                        counter++;
-//                    }
-//                    btnCount.setText(String.valueOf(counter));
-//                    getAdapter(mediPackList);
-//                }
+
             }
         });
     }
@@ -289,10 +104,18 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
         else if(radioButton.getText().equals("Above 65")) {
             ageString = "A65";
         }
-        else if(radioButton.getText().equals("All")) {
+        else if(radioButton.getText().equals("All Age")) {
             ageString = "AA";
         }
+        else if (radioButton.getText().equals("Undefined"))
+        {
+            genderRadioGroup.clearCheck();
+
+            genderString = "AG";
+            ageString = "undefined";
+        }
     }
+
     public int getCurrentYear()
     {
         Calendar calendar = Calendar.getInstance();
@@ -360,6 +183,7 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
     public void filtering() {
 
         String selectedRadioButton = null;
+
         if (ageString == "17" && genderString == "M") {
 
             selectedRadioButton = "7M";
@@ -457,6 +281,11 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
             getSelectedFilter(selectedRadioButton);
 
         }
+        else if (ageString == "undefined")
+        {
+            selectedRadioButton = "undefined";
+            getSelectedFilter(selectedRadioButton);
+        }
 
     }
 
@@ -467,209 +296,202 @@ public class ScanoutReadyCollectionActivity extends AppCompatActivity implements
 
         for (MediPackClient med : mediPackList) {
 
-            patientId = med.getPatientRSA();
-            checkingid = patientId.substring(0, 2);
-            firstNumber = patientId.substring(0, 1);
-            convert = Integer.parseInt(firstNumber);
+            if ( med.getPatientRSA().length() == 13 ) {
 
-            String checkingGender = patientId.substring(6, 7);
-            int genderNumber = Integer.parseInt(checkingGender);
+                patientId = med.getPatientRSA();
+                checkingid = patientId.substring(0, 2);
+                firstNumber = patientId.substring(0, 1);
+                convert = Integer.parseInt(firstNumber);
 
-//                if (genderNumber >= 0 && genderNumber <= 4)
-//                {
-//                    counter++;
-//                    listID.add(med);
-//                }
-
-            if ((convert == 0 || convert == 1) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "7M")) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
-
-                if ((patientAge >= 0 || patientAge <= 17 )  ) {
+                String checkingGender = patientId.substring(6, 7);
+                int genderNumber = Integer.parseInt(checkingGender);
 
 
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert == 0 || convert == 1) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "3M")) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                if ((convert == 0 || convert == 1) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "7M")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
-                if (patientAge >= 18 && patientAge <= 35 ) {
+                    if ((patientAge >= 0 || patientAge <= 17)) {
 
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 5 && genderNumber <= 9 ) && (radioButtonSelected == "3M")) {
-                addYear2 = 19;
-                mediPackPatientYear = addYear2 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                int patientAge = getCurrentYear() - convertYear;
 
-                if ( (patientAge >= 18 && patientAge <= 35 ) ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "6M") ) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                        counter++;
+                        listID.add(med);
+                    }
 
-                if ( (patientAge >= 36 && patientAge <= 65 )  ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ( (convert >= 2) && (genderNumber >= 5 && genderNumber <= 9)  && (radioButtonSelected == "A6M")) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                } else if ((convert == 0 || convert == 1) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "3M")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
-                if ( patientAge >= 66  ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ( (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "AM") ) {
+                    if (patientAge >= 18 && patientAge <= 35) {
 
-                counter++;
-                listID.add(med);
+                        counter++;
+                        listID.add(med);
+                    }
 
-            }
-            else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "7F")) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                } else if ((convert >= 2) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "3M")) {
+                    addYear2 = 19;
+                    mediPackPatientYear = addYear2 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    int patientAge = getCurrentYear() - convertYear;
 
-                if ((patientAge >= 0 || patientAge <= 17 )  ) {
+                    if ((patientAge >= 18 && patientAge <= 35)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "6M")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
+                    if ((patientAge >= 36 && patientAge <= 65)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "A6M")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if (patientAge >= 66) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((genderNumber >= 5 && genderNumber <= 9) && (radioButtonSelected == "AM")) {
 
                     counter++;
                     listID.add(med);
-                }
-            }
-            else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "3F")) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
 
-                if (patientAge >= 18 && patientAge <= 35 ) {
+                } else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "7F")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "3F")) {
-                addYear2 = 19;
-                mediPackPatientYear = addYear2 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                int patientAge = getCurrentYear() - convertYear;
+                    if ((patientAge >= 0 || patientAge <= 17)) {
 
-                if ( (patientAge >= 18 && patientAge <= 35 ) ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "6F")) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
 
-                if ( (patientAge >= 36 && patientAge <= 65 )  ) {
-                    counter++;
-                    listID.add(med);
-                }
-            } else if ( (convert >= 2) && (genderNumber >= 0 && genderNumber <= 4)  && (radioButtonSelected == "A6F")) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "3F")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
-                if ( patientAge >= 66  ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ( (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "AF") ) {
+                    if (patientAge >= 18 && patientAge <= 35) {
+
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "3F")) {
+                    addYear2 = 19;
+                    mediPackPatientYear = addYear2 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    int patientAge = getCurrentYear() - convertYear;
+
+                    if ((patientAge >= 18 && patientAge <= 35)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "6F")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if ((patientAge >= 36 && patientAge <= 65)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "A6F")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if (patientAge >= 66) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((genderNumber >= 0 && genderNumber <= 4) && (radioButtonSelected == "AF")) {
 //
-                counter++;
-                listID.add(med);
+                    counter++;
+                    listID.add(med);
 //
-            }
-            if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "7A") ) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
+                }
+                if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "7A")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
 
-                if ((patientAge >= 0 || patientAge <= 17 )  ) {
+                    if ((patientAge >= 0 || patientAge <= 17)) {
 
+
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "3A")) {
+                    addYear1 = "20";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if (patientAge >= 18 && patientAge <= 35) {
+
+
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "3A")) {
+                    addYear2 = 19;
+                    mediPackPatientYear = addYear2 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    int patientAge = getCurrentYear() - convertYear;
+
+                    if ((patientAge >= 18 && patientAge <= 35)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "6A")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if ((patientAge >= 36 && patientAge <= 65)) {
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "A6A")) {
+                    addYear1 = "19";
+                    mediPackPatientYear = addYear1 + checkingid;
+                    convertYear = Integer.parseInt(mediPackPatientYear);
+                    patientAge = getCurrentYear() - convertYear;
+
+                    if (patientAge >= 66) {
+
+                        counter++;
+                        listID.add(med);
+                    }
+                } else if ((radioButtonSelected == "AA")) {
 
                     counter++;
                     listID.add(med);
+
                 }
+
             }
-            else if ((convert == 0 || convert == 1) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "3A")) {
-                addYear1 = "20";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
-
-                if (patientAge >= 18 && patientAge <= 35 ) {
-
-
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "3A") ) {
-                addYear2 = 19;
-                mediPackPatientYear = addYear2 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                int patientAge = getCurrentYear() - convertYear;
-
-                if ( (patientAge >= 18 && patientAge <= 35 ) ) {
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ((convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "6A")) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
-
-                if ( (patientAge >= 36 && patientAge <= 65 )  ) {
-                    counter++;
-                    listID.add(med);
-                }
-            } else if ( (convert >= 2) && (genderNumber >= 0 && genderNumber <= 9) && (radioButtonSelected == "A6A")) {
-                addYear1 = "19";
-                mediPackPatientYear = addYear1 + checkingid;
-                convertYear = Integer.parseInt(mediPackPatientYear);
-                patientAge = getCurrentYear() - convertYear;
-
-                if ( patientAge >= 66  ) {
-
-                    counter++;
-                    listID.add(med);
-                }
-            }
-            else if ( (radioButtonSelected == "AA")) {
-
-                counter++;  
+            else if(radioButtonSelected == "undefined")
+            {
+                counter++;
                 listID.add(med);
 
 
