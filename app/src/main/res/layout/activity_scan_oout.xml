@@ -78,11 +78,11 @@
                         android:layout_width="480dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="11dp"
-                        android:imeOptions="actionSend"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:padding="8dp"
                         android:textAllCaps="true"
                         android:textSize="20dp"
+                        android:imeOptions="actionSearch"
                         android:textStyle="bold" />
                     <!--android:background="@drawable/customedittext2"-->
 
@@ -93,12 +93,11 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="10dp"
-                        android:imeOptions="actionSend"
                         android:inputType="number"
                         android:padding="8dp"
-
                         android:textAllCaps="true"
                         android:textSize="20dp"
+                        android:imeOptions="actionSearch"
                         android:textStyle="bold" />
                     <!--android:background="@drawable/customedittext2"-->
 
@@ -107,11 +106,11 @@
                         android:id="@+id/search"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/button_round_shape"
                         android:padding="5dp"
-                        android:text="SearchNRM"
+                        android:text="Search"
+                        android:layout_gravity="center"
                         android:textAllCaps="true"
                         android:textColor="#ffffff"
                         android:textSize="20dp"

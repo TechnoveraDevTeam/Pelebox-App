@@ -95,7 +95,7 @@
                 android:layout_marginTop="11dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/round"
-                android:imeOptions="actionSend"
+                android:imeOptions="actionSearch"
                 android:padding="5dp" />
 
             <Button

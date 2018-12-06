@@ -41,6 +41,8 @@
                         android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:hint="Scan barcode"
+                        android:inputType="text"
+                        android:imeOptions="actionSearch"
                         android:maxLines="1" />
 
                     <Button

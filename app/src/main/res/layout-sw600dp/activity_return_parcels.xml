@@ -39,6 +39,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
+                        android:inputType="text"
+                        android:imeOptions="actionSearch"
                         android:hint="Scan barcode"
                         android:maxLines="1" />
 

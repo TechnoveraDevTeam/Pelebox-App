@@ -29,8 +29,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:inputType="text"
                 android:gravity="center"
                 android:hint="Scan barcode"
+                android:imeOptions="actionSearch"
                 android:maxLines="1" />
 
             <Button
