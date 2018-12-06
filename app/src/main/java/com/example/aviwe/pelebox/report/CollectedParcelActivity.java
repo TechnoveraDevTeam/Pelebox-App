@@ -129,7 +129,7 @@ public class CollectedParcelActivity extends AppCompatActivity implements MediPa
             ageString = "65";
         } else if (radioButton.getText().equals("Above 65")) {
             ageString = "A65";
-        } else if (radioButton.getText().equals("All")) {
+        } else if (radioButton.getText().equals("All Age")) {
             ageString = "AA";
         }
         else if (radioButton.getText().equals("Undefined"))
