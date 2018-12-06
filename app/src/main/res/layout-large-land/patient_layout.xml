@@ -207,7 +207,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-
                     android:hint="Due Date"
                     android:textColor="#455A64"
                     android:textSize="15dp"
@@ -252,7 +251,7 @@
         android:layout_marginTop="15dp"
         android:layout_gravity="end|bottom"
         android:textColor="@color/colorAccent"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:paddingRight="15dp"
         android:textStyle="bold"
         />
